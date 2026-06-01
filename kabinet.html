@@ -301,7 +301,7 @@ async function doLogin() {
   const err = document.getElementById('loginErr');
   err.style.display = 'none';
   try {
-    const res = await fetch('/api/admin/login.php', {
+    const res = await fetch('/login.php', {
       method: 'POST', headers: {'Content-Type':'application/json'},
       body: JSON.stringify({ password: pass })
     });
@@ -333,7 +333,7 @@ async function showAdmin() {
 }
 
 async function loadOrders() {
-  const res = await fetch('/api/admin/orders.php', {
+  const res = await fetch('/orders.php', {
     headers: { 'Authorization': 'Bearer ' + token }
   });
   allOrders = await res.json();
@@ -414,7 +414,7 @@ function renderTable() {
 
 async function deleteOrder(id) {
   if (!confirm('Удалить этот заказ?')) return;
-  await fetch('/api/admin/orders.php/' + id, {
+  await fetch('/orders.php/' + id, {
     method: 'DELETE',
     headers: { 'Authorization': 'Bearer ' + token }
   });
