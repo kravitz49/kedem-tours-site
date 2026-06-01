@@ -127,7 +127,49 @@
       .logo-sub { display: none; }
     }
     @media (max-width: 480px) {
-      .hdr-social { display: none; }
+      .hdr-social { display: none; } /* на мобиле соцсети — в плавающей панели */
+    }
+
+    /* FLOATING SOCIAL BAR */
+    .social-float {
+      position: fixed; right: 0; top: 50%; transform: translateY(-50%);
+      z-index: 200; display: flex; flex-direction: column; gap: 2px;
+    }
+    .social-float a {
+      display: flex; align-items: center; justify-content: center;
+      width: 42px; height: 42px; color: #fff; text-decoration: none;
+      font-size: 1.1rem; transition: width .25s, padding .25s;
+      border-radius: 8px 0 0 8px;
+    }
+    .social-float a:hover { width: 52px; }
+    .sf-wa       { background: #25d366; }
+    .sf-facebook { background: #1877f2; }
+    .sf-instagram{ background: radial-gradient(circle at 30% 110%, #f09433, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888); }
+    .sf-telegram { background: #229ed9; }
+    .sf-youtube  { background: #ff0000; }
+    .sf-tiktok   { background: #010101; }
+    .sf-phone    { background: var(--accent); }
+
+    /* MOBILE BOTTOM BAR */
+    .mobile-bottom-bar {
+      display: none;
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+      background: var(--dark); padding: 8px 16px;
+      justify-content: space-around; align-items: center;
+      box-shadow: 0 -2px 16px rgba(0,0,0,.3);
+    }
+    .mobile-bottom-bar a {
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+      color: rgba(255,255,255,.75); text-decoration: none; font-size: .6rem;
+      transition: color .2s;
+    }
+    .mobile-bottom-bar a i { font-size: 1.2rem; }
+    .mobile-bottom-bar a:hover, .mobile-bottom-bar a:active { color: var(--gold); }
+    .mobile-bottom-bar a.wa-bar { color: #25d366; }
+    @media (max-width: 640px) {
+      .mobile-bottom-bar { display: flex; }
+      body { padding-bottom: 60px; }
+      .social-float { display: none; }
     }
   </style>
 </head>
@@ -203,6 +245,12 @@
     <p>&copy; 2024 <strong id="footerName">Кедем Турс</strong>. Все права защищены.</p>
   </div>
 </footer>
+
+<!-- FLOATING SOCIAL BAR (десктоп) -->
+<div class="social-float" id="socialFloat"></div>
+
+<!-- MOBILE BOTTOM BAR (телефон) -->
+<div class="mobile-bottom-bar" id="mobileBar"></div>
 
 <!-- REVIEW MODAL -->
 <div class="modal-overlay" id="reviewOverlay">
@@ -293,23 +341,40 @@ function applySettings(s) {
 
   // Соцсети
   const socials = [
-    { key:'facebook',  icon:'fab fa-facebook-f',  label:'Facebook',  base:'https://facebook.com/' },
-    { key:'instagram', icon:'fab fa-instagram',   label:'Instagram',  base:'https://instagram.com/' },
-    { key:'telegram',  icon:'fab fa-telegram-plane', label:'Telegram', base:'https://t.me/' },
-    { key:'youtube',   icon:'fab fa-youtube',     label:'YouTube',   base:'https://youtube.com/' },
-    { key:'tiktok',    icon:'fab fa-tiktok',      label:'TikTok',    base:'https://tiktok.com/@' },
+    { key:'facebook',  icon:'fab fa-facebook-f',     cls:'sf-facebook',  label:'Facebook',  base:'https://facebook.com/' },
+    { key:'instagram', icon:'fab fa-instagram',      cls:'sf-instagram', label:'Instagram', base:'https://instagram.com/' },
+    { key:'telegram',  icon:'fab fa-telegram-plane', cls:'sf-telegram',  label:'Telegram',  base:'https://t.me/' },
+    { key:'youtube',   icon:'fab fa-youtube',        cls:'sf-youtube',   label:'YouTube',   base:'https://youtube.com/' },
+    { key:'tiktok',    icon:'fab fa-tiktok',         cls:'sf-tiktok',    label:'TikTok',    base:'https://tiktok.com/@' },
   ];
-  const hdrSocial   = document.getElementById('hdrSocial');
+  const hdrSocial    = document.getElementById('hdrSocial');
   const footerSocial = document.getElementById('footerSocial');
-  hdrSocial.innerHTML = '';
-  footerSocial.innerHTML = '';
+  const socialFloat  = document.getElementById('socialFloat');
+  const mobileBar    = document.getElementById('mobileBar');
+  hdrSocial.innerHTML = footerSocial.innerHTML = socialFloat.innerHTML = '';
+
+  // Телефон и WhatsApp в мобильной панели
+  const phone = s.phone || '';
+  const wa    = s.whatsapp ? s.whatsapp.replace(/\D/g,'') : '';
+  let mobileHTML = '';
+  if (phone) mobileHTML += `<a href="tel:${phone.replace(/\s|-/g,'')}"><i class="fa fa-phone"></i>Позвонить</a>`;
+  if (wa)    mobileHTML += `<a href="https://wa.me/${wa}" target="_blank" class="wa-bar"><i class="fab fa-whatsapp"></i>WhatsApp</a>`;
+
+  // Плавающая панель — телефон + WhatsApp сверху
+  if (phone) socialFloat.innerHTML += `<a href="tel:${phone.replace(/\s|-/g,'')}" class="sf-phone" title="${phone}"><i class="fa fa-phone"></i></a>`;
+  if (wa)    socialFloat.innerHTML += `<a href="https://wa.me/${wa}" target="_blank" class="sf-wa" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>`;
+
   socials.forEach(soc => {
     const val = s[soc.key];
     if (!val) return;
     const href = val.startsWith('http') ? val : soc.base + val;
-    hdrSocial.innerHTML   += `<a href="${href}" target="_blank" rel="noopener" title="${soc.label}"><i class="${soc.icon}"></i></a>`;
+    hdrSocial.innerHTML    += `<a href="${href}" target="_blank" rel="noopener" title="${soc.label}"><i class="${soc.icon}"></i></a>`;
     footerSocial.innerHTML += `<a href="${href}" target="_blank" rel="noopener" title="${soc.label}"><i class="${soc.icon}"></i></a>`;
+    socialFloat.innerHTML  += `<a href="${href}" target="_blank" rel="noopener" class="${soc.cls}" title="${soc.label}"><i class="${soc.icon}"></i></a>`;
+    mobileHTML             += `<a href="${href}" target="_blank" rel="noopener"><i class="${soc.icon}"></i>${soc.label}</a>`;
   });
+
+  mobileBar.innerHTML = mobileHTML;
 }
 
 // ── EXCURSIONS ───────────────────────────────────────────
