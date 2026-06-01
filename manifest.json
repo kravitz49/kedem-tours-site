@@ -1,8 +1,8 @@
 {
-  "name": "Kedem Tours — Кабинет",
+  "name": "Kedem Tours",
   "short_name": "Kedem Tours",
-  "description": "Панель управления Kedem Tours",
-  "start_url": "/kabinet.html",
+  "description": "Экскурсии по Израилю — Kedem Tours",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
@@ -19,10 +19,10 @@
     { "src": "/icons/icon-384.png", "sizes": "384x384", "type": "image/png", "purpose": "any maskable" },
     { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ],
-"categories": ["business", "productivity"],
+  "categories": ["travel", "business"],
   "shortcuts": [
-    { "name": "Заказы",    "url": "/kabinet.html#orders",    "description": "Просмотр заказов" },
-    { "name": "Отзывы",   "url": "/kabinet.html#reviews",   "description": "Модерация отзывов" },
-    { "name": "Настройки","url": "/kabinet.html#settings",  "description": "Настройки сайта" }
+    { "name": "Экскурсии",  "url": "/",               "icons": [{"src":"/icons/icon-96.png","sizes":"96x96"}] },
+    { "name": "Отзывы",    "url": "/reviews-page.php","icons": [{"src":"/icons/icon-96.png","sizes":"96x96"}] },
+    { "name": "Кабинет",   "url": "/kabinet.html",    "icons": [{"src":"/icons/icon-96.png","sizes":"96x96"}] }
   ]
 }

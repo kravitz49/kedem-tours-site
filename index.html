@@ -2,8 +2,19 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>KEDEM TOURS — Экскурсии по Израилю</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Kedem Tours — Экскурсии по Израилю</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json"/>
+  <meta name="theme-color" content="#c9a84c"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Kedem Tours"/>
+  <link rel="apple-touch-icon" href="/icons/icon-192.png"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png"/>
+
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
@@ -606,6 +617,55 @@ async function loadMarquee() {
     wrap.style.display = 'block';
   } catch(e) {}
 }
+</script>
+
+<!-- PWA: Баннер установки + Service Worker -->
+<div id="pwaBar" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:500;background:var(--dark);padding:12px 16px;display:none;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,.4)">
+  <div style="display:flex;align-items:center;gap:10px">
+    <img src="/icons/icon-72.png" style="width:40px;height:40px;border-radius:10px">
+    <div>
+      <div style="color:#fff;font-family:'Montserrat',sans-serif;font-weight:700;font-size:.85rem">Kedem Tours</div>
+      <div style="color:rgba(255,255,255,.6);font-size:.75rem">Установить как приложение</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;flex-shrink:0">
+    <button onclick="document.getElementById('pwaBar').style.display='none'" style="background:rgba(255,255,255,.15);color:#fff;border:none;padding:7px 12px;border-radius:8px;font-size:.8rem;cursor:pointer">Позже</button>
+    <button onclick="installPWA()" style="background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);border:none;padding:7px 14px;border-radius:8px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer">Установить</button>
+  </div>
+</div>
+
+<script>
+var _pwaPrompt = null;
+
+// Service Worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(function(){});
+}
+
+// Показываем баннер установки
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  _pwaPrompt = e;
+  setTimeout(function() {
+    var bar = document.getElementById('pwaBar');
+    if (bar) bar.style.display = 'flex';
+  }, 3000); // показываем через 3 сек
+});
+
+function installPWA() {
+  if (!_pwaPrompt) return;
+  _pwaPrompt.prompt();
+  _pwaPrompt.userChoice.then(function() {
+    _pwaPrompt = null;
+    document.getElementById('pwaBar').style.display = 'none';
+  });
+}
+
+window.addEventListener('appinstalled', function() {
+  var bar = document.getElementById('pwaBar');
+  if (bar) bar.style.display = 'none';
+  _pwaPrompt = null;
+});
 </script>
 </body>
 </html>
