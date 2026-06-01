@@ -354,8 +354,6 @@ function applySettings(s) {
   hdrSocial.innerHTML = footerSocial.innerHTML = socialFloat.innerHTML = '';
 
   // Телефон и WhatsApp в мобильной панели
-  const phone = s.phone || '';
-  const wa    = s.whatsapp ? s.whatsapp.replace(/\D/g,'') : '';
   let mobileHTML = '';
   if (phone) mobileHTML += `<a href="tel:${phone.replace(/\s|-/g,'')}"><i class="fa fa-phone"></i>Позвонить</a>`;
   if (wa)    mobileHTML += `<a href="https://wa.me/${wa}" target="_blank" class="wa-bar"><i class="fab fa-whatsapp"></i>WhatsApp</a>`;
