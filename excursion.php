@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 header('Content-Type: text/html; charset=utf-8');
 $id   = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 $file = __DIR__ . '/excursions.json';
@@ -20,7 +20,7 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title><?= $title ?> — Кедем Турс</title>
+  <title><?= $title ?> — KEDEM TOURS</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
@@ -101,7 +101,7 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
     <a class="logo" href="/">
       <div class="logo-icon"><i class="fa fa-compass"></i></div>
       <div>
-        <div class="logo-name">КЕДЕМ ТУРС</div>
+        <div class="logo-name">KEDEM TOURS</div>
         <div class="logo-sub">Экскурсии по Израилю</div>
       </div>
     </a>
@@ -164,7 +164,7 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
   </div>
 </div>
 
-<footer><p>&copy; 2024 <strong>Кедем Турс</strong>. Все права защищены.</p></footer>
+<footer><p>&copy; 2024 <strong>KEDEM TOURS</strong>. Все права защищены.</p></footer>
 
 <script>
 const EXCURSION_TITLE = <?= json_encode($exc['title']) ?>;

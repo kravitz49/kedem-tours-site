@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
@@ -29,7 +29,7 @@ function sendReviewEmail($r) {
     <div style="font-family:Arial,sans-serif;max-width:560px">
       <div style="background:linear-gradient(135deg,#0f3460,#1a1a2e);padding:20px 28px;border-radius:12px 12px 0 0">
         <h2 style="color:#c9a84c;margin:0">&#11088; Новый отзыв на сайте</h2>
-        <p style="color:#fff;margin:6px 0 0;font-size:.9rem">Кедем Турс — требует модерации</p>
+        <p style="color:#fff;margin:6px 0 0;font-size:.9rem">KEDEM TOURS — требует модерации</p>
       </div>
       <table style="width:100%;border-collapse:collapse;border:1px solid #e0e0e0;border-top:none">
         <tr><td style="padding:10px 16px;background:#f8f9fa;font-weight:bold;width:35%">Имя</td>
