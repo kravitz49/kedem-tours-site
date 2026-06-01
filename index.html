@@ -150,25 +150,57 @@
     .sf-tiktok   { background: #010101; }
     .sf-phone    { background: var(--accent); }
 
-    /* MOBILE BOTTOM BAR */
-    .mobile-bottom-bar {
+    /* FAB — плавающая кнопка контактов (мобиль) */
+    .fab-wrap {
       display: none;
-      position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
-      background: var(--dark); padding: 8px 16px;
-      justify-content: space-around; align-items: center;
-      box-shadow: 0 -2px 16px rgba(0,0,0,.3);
+      position: fixed; bottom: 24px; right: 20px; z-index: 300;
+      flex-direction: column; align-items: flex-end; gap: 10px;
     }
-    .mobile-bottom-bar a {
-      display: flex; flex-direction: column; align-items: center; gap: 3px;
-      color: rgba(255,255,255,.75); text-decoration: none; font-size: .6rem;
-      transition: color .2s;
+    .fab-menu {
+      display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
+      transition: opacity .25s, transform .25s;
+      opacity: 0; transform: translateY(10px) scale(0.95);
+      pointer-events: none;
     }
-    .mobile-bottom-bar a i { font-size: 1.2rem; }
-    .mobile-bottom-bar a:hover, .mobile-bottom-bar a:active { color: var(--gold); }
-    .mobile-bottom-bar a.wa-bar { color: #25d366; }
+    .fab-menu.open { opacity: 1; transform: none; pointer-events: all; }
+    .fab-item {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; background: var(--white);
+      border-radius: 30px; padding: 9px 16px 9px 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      font-size: .85rem; font-weight: 600; color: var(--dark);
+      transition: transform .15s, box-shadow .15s;
+      white-space: nowrap;
+    }
+    .fab-item:active { transform: scale(0.97); }
+    .fab-item i { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: .95rem; color: #fff; flex-shrink: 0; }
+    .fab-item .fi-phone    { background: var(--accent); }
+    .fab-item .fi-wa       { background: #25d366; }
+    .fab-item .fi-fb       { background: #1877f2; }
+    .fab-item .fi-ig       { background: radial-gradient(circle at 30% 110%, #f09433, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888); }
+    .fab-item .fi-tg       { background: #229ed9; }
+    .fab-item .fi-yt       { background: #ff0000; }
+    .fab-item .fi-tt       { background: #010101; }
+    .fab-btn {
+      width: 58px; height: 58px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border: none; color: var(--dark); font-size: 1.5rem;
+      box-shadow: 0 6px 24px rgba(201,168,76,0.5);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .fab-btn:active { transform: scale(0.93); }
+    .fab-btn .fab-icon-close { display: none; }
+    .fab-btn.open .fab-icon-open  { display: none; }
+    .fab-btn.open .fab-icon-close { display: block; }
+    /* overlay */
+    .fab-overlay {
+      display: none; position: fixed; inset: 0; z-index: 299;
+      background: rgba(0,0,0,0.35);
+    }
+    .fab-overlay.open { display: block; }
     @media (max-width: 640px) {
-      .mobile-bottom-bar { display: flex; }
-      body { padding-bottom: 60px; }
+      .fab-wrap { display: flex; }
       .social-float { display: none; }
     }
   </style>
@@ -249,8 +281,15 @@
 <!-- FLOATING SOCIAL BAR (десктоп) -->
 <div class="social-float" id="socialFloat"></div>
 
-<!-- MOBILE BOTTOM BAR (телефон) -->
-<div class="mobile-bottom-bar" id="mobileBar"></div>
+<!-- FAB — плавающая кнопка (мобиль) -->
+<div class="fab-overlay" id="fabOverlay" onclick="closeFab()"></div>
+<div class="fab-wrap" id="fabWrap">
+  <div class="fab-menu" id="fabMenu"></div>
+  <button class="fab-btn" id="fabBtn" onclick="toggleFab()">
+    <i class="fa fa-share-alt fab-icon-open"></i>
+    <i class="fa fa-times fab-icon-close"></i>
+  </button>
+</div>
 
 <!-- REVIEW MODAL -->
 <div class="modal-overlay" id="reviewOverlay">
@@ -350,29 +389,52 @@ function applySettings(s) {
   const hdrSocial    = document.getElementById('hdrSocial');
   const footerSocial = document.getElementById('footerSocial');
   const socialFloat  = document.getElementById('socialFloat');
-  const mobileBar    = document.getElementById('mobileBar');
-  hdrSocial.innerHTML = footerSocial.innerHTML = socialFloat.innerHTML = '';
+  const fabMenu      = document.getElementById('fabMenu');
+  hdrSocial.innerHTML = footerSocial.innerHTML = socialFloat.innerHTML = fabMenu.innerHTML = '';
 
-  // Телефон и WhatsApp в мобильной панели
-  let mobileHTML = '';
-  if (phone) mobileHTML += `<a href="tel:${phone.replace(/\s|-/g,'')}"><i class="fa fa-phone"></i>Позвонить</a>`;
-  if (wa)    mobileHTML += `<a href="https://wa.me/${wa}" target="_blank" class="wa-bar"><i class="fab fa-whatsapp"></i>WhatsApp</a>`;
+  // FAB — телефон + WhatsApp первыми
+  var telHref = phone ? 'tel:' + phone.replace(/[\s\-]/g,'') : '#';
+  var waHref2 = wa ? 'https://wa.me/' + wa : '#';
+  if (phone) fabMenu.innerHTML +=
+    '<a class="fab-item" href="' + telHref + '">' +
+      '<i class="fi-phone fa fa-phone"></i><span>Позвонить</span></a>';
+  if (wa) fabMenu.innerHTML +=
+    '<a class="fab-item" href="' + waHref2 + '" target="_blank">' +
+      '<i class="fi-wa fab fa-whatsapp"></i><span>WhatsApp</span></a>';
 
-  // Плавающая панель — телефон + WhatsApp сверху
-  if (phone) socialFloat.innerHTML += `<a href="tel:${phone.replace(/\s|-/g,'')}" class="sf-phone" title="${phone}"><i class="fa fa-phone"></i></a>`;
-  if (wa)    socialFloat.innerHTML += `<a href="https://wa.me/${wa}" target="_blank" class="sf-wa" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>`;
+  // Десктопная плавающая панель — телефон + WhatsApp сверху
+  if (phone) socialFloat.innerHTML += '<a href="' + telHref + '" class="sf-phone" title="' + phone + '"><i class="fa fa-phone"></i></a>';
+  if (wa)    socialFloat.innerHTML += '<a href="' + waHref2 + '" target="_blank" class="sf-wa" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>';
 
-  socials.forEach(soc => {
-    const val = s[soc.key];
+  var fabCls = { facebook:'fi-fb', instagram:'fi-ig', telegram:'fi-tg', youtube:'fi-yt', tiktok:'fi-tt' };
+  var fabIco = { facebook:'fab fa-facebook-f', instagram:'fab fa-instagram', telegram:'fab fa-telegram-plane', youtube:'fab fa-youtube', tiktok:'fab fa-tiktok' };
+
+  socials.forEach(function(soc) {
+    var val = s[soc.key];
     if (!val) return;
-    const href = val.startsWith('http') ? val : soc.base + val;
-    hdrSocial.innerHTML    += `<a href="${href}" target="_blank" rel="noopener" title="${soc.label}"><i class="${soc.icon}"></i></a>`;
-    footerSocial.innerHTML += `<a href="${href}" target="_blank" rel="noopener" title="${soc.label}"><i class="${soc.icon}"></i></a>`;
-    socialFloat.innerHTML  += `<a href="${href}" target="_blank" rel="noopener" class="${soc.cls}" title="${soc.label}"><i class="${soc.icon}"></i></a>`;
-    mobileHTML             += `<a href="${href}" target="_blank" rel="noopener"><i class="${soc.icon}"></i>${soc.label}</a>`;
+    var href = val.startsWith('http') ? val : soc.base + val;
+    hdrSocial.innerHTML    += '<a href="' + href + '" target="_blank" rel="noopener" title="' + soc.label + '"><i class="' + soc.icon + '"></i></a>';
+    footerSocial.innerHTML += '<a href="' + href + '" target="_blank" rel="noopener" title="' + soc.label + '"><i class="' + soc.icon + '"></i></a>';
+    socialFloat.innerHTML  += '<a href="' + href + '" target="_blank" rel="noopener" class="' + soc.cls + '" title="' + soc.label + '"><i class="' + soc.icon + '"></i></a>';
+    fabMenu.innerHTML += '<a class="fab-item" href="' + href + '" target="_blank" rel="noopener">' +
+      '<i class="' + (fabCls[soc.key]||'') + ' ' + (fabIco[soc.key]||soc.icon) + '"></i>' +
+      '<span>' + soc.label + '</span></a>';
   });
+}
 
-  mobileBar.innerHTML = mobileHTML;
+// ── FAB controls ─────────────────────────────────────────
+function toggleFab() {
+  var btn  = document.getElementById('fabBtn');
+  var menu = document.getElementById('fabMenu');
+  var ov   = document.getElementById('fabOverlay');
+  var open = menu.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  ov.classList.toggle('open', open);
+}
+function closeFab() {
+  document.getElementById('fabMenu').classList.remove('open');
+  document.getElementById('fabBtn').classList.remove('open');
+  document.getElementById('fabOverlay').classList.remove('open');
 }
 
 // ── EXCURSIONS ───────────────────────────────────────────
