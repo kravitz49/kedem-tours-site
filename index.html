@@ -383,6 +383,7 @@ async function loadExcursions() {
     const res = await fetch('/api/excursions.php');
     const excursions = await res.json();
     const grid = document.getElementById('excGrid');
+    if (!excursions.length) { grid.innerHTML = '<p style="color:#aaa;grid-column:1/-1;text-align:center;padding:20px">Экскурсии скоро появятся</p>'; return; }
     excursions.forEach(exc => {
       const card = document.createElement('div');
       card.className = 'exc-card';
@@ -403,8 +404,8 @@ async function loadExcursions() {
       card.addEventListener('click', e => { if (!e.target.closest('.exc-btn')) window.location.href = '/excursion.php?id=' + exc.id; });
       grid.appendChild(card);
     });
-  } catch(e) {
-    document.getElementById('excGrid').innerHTML = '<p style="color:#888;grid-column:1/-1;text-align:center">Не удалось загрузить экскурсии</p>';
+  } catch(err) {
+    document.getElementById('excGrid').innerHTML = '<p style="color:#e74c3c;grid-column:1/-1;text-align:center;padding:20px">Ошибка: ' + err.message + '</p>';
   }
 }
 
