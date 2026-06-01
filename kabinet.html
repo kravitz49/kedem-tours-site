@@ -198,10 +198,61 @@
     .review-edit-area { width:100%; padding:10px 13px; border:2px solid var(--gold); border-radius:10px; font-family:'Open Sans',sans-serif; font-size:.88rem; resize:vertical; min-height:80px; outline:none; margin-bottom:8px; }
     .btn-save-rev { padding:7px 14px; background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:var(--dark); border:none; border-radius:8px; cursor:pointer; font-weight:700; font-size:.8rem; }
 
-    @media (max-width: 600px) {
-      .admin-header { flex-direction: column; gap: 12px; }
-      .filters { flex-direction: column; }
-      .export-btn { margin-left: 0; width: 100%; }
+    @media (max-width: 640px) {
+
+      /* Header */
+      .admin-header  { padding: 10px 14px; }
+      .admin-logo    { font-size: 0.9rem; gap: 6px; }
+      .admin-logo i  { font-size: 0.9rem; }
+      .logout-btn    { padding: 6px 10px; font-size: 0.75rem; }
+      #installBtn    { padding: 6px 10px !important; font-size: 0.72rem !important; }
+
+      /* Tabs */
+      .tabs          { padding: 10px 10px 0; gap: 3px; overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; }
+      .tabs::-webkit-scrollbar { display: none; }
+      .tab-btn       { padding: 7px 12px; font-size: 0.74rem; white-space: nowrap; flex-shrink: 0; }
+
+      /* Content */
+      .admin-content { padding: 16px 12px; }
+
+      /* Stats */
+      .stats-grid    { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+      .stat-card     { padding: 14px 10px; border-radius: 10px; }
+      .stat-val      { font-size: 1.5rem; }
+      .stat-label    { font-size: 0.72rem; }
+
+      /* Chart */
+      .chart-section { margin-bottom: 20px; }
+      .bar-label     { width: 120px; font-size: 0.74rem; }
+
+      /* Filters */
+      .filters       { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+      .filters input { grid-column: 1 / -1; font-size: 0.82rem; padding: 8px 12px; }
+      .filters select { font-size: 0.82rem; padding: 8px 10px; }
+      .export-btn    { grid-column: 1 / -1; margin-left: 0; padding: 8px; font-size: 0.8rem; }
+
+      /* Table */
+      .table-wrap    { border-radius: 10px; }
+      table          { font-size: 0.78rem; }
+      thead th       { padding: 9px 8px; font-size: 0.72rem; }
+      tbody td       { padding: 8px 8px; }
+
+      /* Excursion editor */
+      .exc-list      { grid-template-columns: 1fr; gap: 12px; }
+      .ef-row        { grid-template-columns: 1fr; gap: 0; }
+      .editor-body   { padding: 16px 14px; }
+      .editor-head   { padding: 14px 16px; }
+
+      /* Reviews */
+      .review-card   { padding: 14px; }
+      .review-actions { gap: 6px; }
+      .btn-approve, .btn-edit-rev, .btn-del-rev, .btn-unpublish { padding: 6px 10px; font-size: 0.76rem; }
+
+      /* Settings */
+      .ef input, .ef textarea, .ef select { font-size: 0.85rem; padding: 9px 11px; }
+
+      /* Login */
+      .login-box { padding: 28px 20px; }
     }
   </style>
 </head>
