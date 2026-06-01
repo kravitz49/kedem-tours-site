@@ -755,8 +755,13 @@ function openEditor(id) {
   document.getElementById('excDuration').value  = exc ? exc.duration     : 'Целый день';
   document.getElementById('excIcon').value      = exc ? exc.icon         : '';
   document.getElementById('excBg').value        = exc ? (exc.bg||'#e8f4f8') : '#e8f4f8';
-  document.getElementById('excImage').value     = exc ? (exc.image||'')  : '';
-  updateImgPreview(exc ? exc.image : '');
+  var imgUrl = exc ? (exc.image||'') : '';
+  document.getElementById('excImage').value = imgUrl;
+  var preview = document.getElementById('excImgPreview');
+  if (preview) {
+    if (imgUrl) { preview.style.display = 'block'; preview.querySelector('img').src = imgUrl; }
+    else { preview.style.display = 'none'; }
+  }
   document.getElementById('editorOverlay').classList.add('active');
 }
 function closeEditor() { document.getElementById('editorOverlay').classList.remove('active'); }
