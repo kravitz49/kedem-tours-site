@@ -96,6 +96,20 @@
     .save-exc-btn:hover { opacity: .88; }
     .img-hint { font-size: .75rem; color: #888; margin-top: 4px; }
 
+    /* IMAGE UPLOAD */
+    .img-field-wrap { display: flex; gap: 8px; align-items: center; }
+    .img-field-wrap input { flex: 1; min-width: 0; }
+    .upload-btn {
+      flex-shrink: 0; padding: 9px 14px; border-radius: 10px; border: 2px solid #e0e0e0;
+      background: #f8f8f8; cursor: pointer; font-size: .82rem; font-weight: 600;
+      color: var(--accent); white-space: nowrap; transition: all .2s; display: flex; align-items: center; gap: 6px;
+    }
+    .upload-btn:hover { border-color: var(--gold); background: #fffbf0; }
+    .upload-btn.loading { opacity: .6; pointer-events: none; }
+    .img-preview-wrap { margin-top: 8px; display: none; }
+    .img-preview-wrap img { max-width: 100%; max-height: 140px; border-radius: 8px; border: 2px solid #e0e0e0; object-fit: cover; }
+    .img-preview-wrap .img-ok { font-size: .75rem; color: #155724; background: #d4edda; padding: 3px 10px; border-radius: 6px; margin-top: 4px; display: inline-block; }
+
     /* ADMIN PANEL */
     .admin-wrap { display: none; }
     .admin-header {
@@ -361,12 +375,32 @@
 
         <div style="background:var(--white);border-radius:14px;padding:28px;box-shadow:0 4px 20px rgba(0,0,0,.08);margin-bottom:20px">
           <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:1rem;color:var(--accent);margin-bottom:20px"><i class="fa fa-image" style="color:var(--gold)"></i> Логотип и герой</div>
-          <div class="ef"><label>Логотип (ссылка на изображение)</label><input type="text" id="s_logo_image" placeholder="https://kedem-tours.com/images/logo.png"/><div class="img-hint">Загрузите логотип в папку /images/ и вставьте ссылку</div></div>
+          <div class="ef">
+            <label>Логотип</label>
+            <div class="img-field-wrap">
+              <input type="text" id="s_logo_image" placeholder="https://... или загрузите →"/>
+              <label class="upload-btn">
+                <i class="fa fa-upload"></i> Загрузить
+                <input type="file" accept="image/*" style="display:none" onchange="uploadImage(this,'s_logo_image','logoImgPreview')"/>
+              </label>
+            </div>
+            <div class="img-preview-wrap" id="logoImgPreview"><img src="" alt=""/><span class="img-ok"><i class="fa fa-check"></i> Загружено</span></div>
+          </div>
           <div class="ef-row">
             <div class="ef"><label>Название сайта</label><input type="text" id="s_logo_text" placeholder="KEDEM TOURS"/></div>
             <div class="ef"><label>Подпись под логотипом</label><input type="text" id="s_logo_sub" placeholder="Экскурсии по Израилю"/></div>
           </div>
-          <div class="ef"><label>Фоновое фото главного баннера (URL)</label><input type="text" id="s_hero_image" placeholder="https://kedem-tours.com/images/hero.jpg"/></div>
+          <div class="ef">
+            <label>Фоновое фото главного баннера</label>
+            <div class="img-field-wrap">
+              <input type="text" id="s_hero_image" placeholder="https://... или загрузите →"/>
+              <label class="upload-btn">
+                <i class="fa fa-upload"></i> Загрузить
+                <input type="file" accept="image/*" style="display:none" onchange="uploadImage(this,'s_hero_image','heroImgPreview')"/>
+              </label>
+            </div>
+            <div class="img-preview-wrap" id="heroImgPreview"><img src="" alt=""/><span class="img-ok"><i class="fa fa-check"></i> Загружено</span></div>
+          </div>
           <div class="ef"><label>Заголовок баннера</label><input type="text" id="s_hero_title" placeholder="Откройте Израиль вместе с нами"/></div>
           <div class="ef"><label>Подзаголовок баннера</label><input type="text" id="s_hero_subtitle" placeholder="Незабываемые экскурсии..."/></div>
         </div>
@@ -437,12 +471,18 @@
         </div>
       </div>
       <div class="ef">
-        <label>Фото (ссылка на изображение)</label>
-        <input type="url" id="excImage" placeholder="https://example.com/photo.jpg"/>
-        <div class="img-hint">Загрузите фото через файловый менеджер Hostia в папку /images/ и укажите ссылку вида https://kedem-tours.com/images/photo.jpg</div>
-      </div>
-      <div id="imgPreviewWrap" style="margin-bottom:14px;display:none">
-        <img id="imgPreview" style="width:100%;height:160px;object-fit:cover;border-radius:10px;border:2px solid #e0e0e0"/>
+        <label>Фото</label>
+        <div class="img-field-wrap">
+          <input type="url" id="excImage" placeholder="https://... или загрузите файл →"/>
+          <label class="upload-btn" id="excUploadBtn" title="Загрузить с устройства">
+            <i class="fa fa-upload"></i> Загрузить
+            <input type="file" accept="image/*" style="display:none" onchange="uploadImage(this,'excImage','excImgPreview')"/>
+          </label>
+        </div>
+        <div class="img-preview-wrap" id="excImgPreview">
+          <img src="" alt="превью"/>
+          <span class="img-ok"><i class="fa fa-check"></i> Загружено</span>
+        </div>
       </div>
       <button class="save-exc-btn" onclick="saveExcursion()"><i class="fa fa-save"></i> Сохранить</button>
     </div>
@@ -620,6 +660,47 @@ async function saveSettings() {
   setTimeout(()=>{ msg.style.display='none'; }, 4000);
 }
 
+// ── UPLOAD IMAGE ─────────────────────────────────────────
+async function uploadImage(input, targetId, previewId) {
+  if (!input.files || !input.files[0]) return;
+  const file = input.files[0];
+  const label = input.closest('.upload-btn');
+
+  label.classList.add('loading');
+  label.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Загрузка...';
+
+  const formData = new FormData();
+  formData.append('image', file);
+
+  try {
+    const res = await fetch('/upload.php', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + token },
+      body: formData
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      // Вставляем URL в поле
+      document.getElementById(targetId).value = data.url;
+
+      // Показываем превью
+      const preview = document.getElementById(previewId);
+      if (preview) {
+        preview.style.display = 'block';
+        preview.querySelector('img').src = data.url;
+      }
+    } else {
+      alert('Ошибка загрузки: ' + (data.error || 'Неизвестная ошибка'));
+    }
+  } catch(e) {
+    alert('Ошибка соединения при загрузке файла');
+  }
+
+  label.classList.remove('loading');
+  label.innerHTML = '<i class="fa fa-upload"></i> Загрузить<input type="file" accept="image/*" style="display:none" onchange="uploadImage(this,\'' + targetId + '\',\'' + previewId + '\')"/>';
+}
+
 // Auto-login from session
 const saved = sessionStorage.getItem('adminToken');
 if (saved) { token = saved; showAdmin(); }
@@ -680,12 +761,14 @@ function openEditor(id) {
 }
 function closeEditor() { document.getElementById('editorOverlay').classList.remove('active'); }
 
-document.getElementById('excImage').addEventListener('input', e => updateImgPreview(e.target.value));
-function updateImgPreview(url) {
-  const wrap = document.getElementById('imgPreviewWrap');
-  const img  = document.getElementById('imgPreview');
-  if (url) { img.src = url; wrap.style.display = 'block'; } else { wrap.style.display = 'none'; }
-}
+document.getElementById('excImage').addEventListener('input', function(e) {
+  var url = e.target.value;
+  var preview = document.getElementById('excImgPreview');
+  if (preview) {
+    if (url) { preview.style.display = 'block'; preview.querySelector('img').src = url; }
+    else { preview.style.display = 'none'; }
+  }
+});
 
 async function saveExcursion() {
   const id = document.getElementById('excId').value;
