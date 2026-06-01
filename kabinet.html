@@ -2,8 +2,19 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>KEDEM TOURS — Администратор</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Kedem Tours — Кабинет</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json"/>
+  <meta name="theme-color" content="#c9a84c"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Kedem Tours"/>
+  <link rel="apple-touch-icon" href="/icons/icon-192.png"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png"/>
+
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
   <style>
@@ -211,8 +222,13 @@
 <!-- ADMIN PANEL -->
 <div class="admin-wrap" id="adminWrap">
   <div class="admin-header">
-    <div class="admin-logo"><i class="fa fa-compass" style="color:var(--gold)"></i> KEDEM TOURS <span>| Панель управления</span></div>
-    <button class="logout-btn" onclick="logout()"><i class="fa fa-sign-out-alt"></i> Выйти</button>
+    <div class="admin-logo"><i class="fa fa-compass" style="color:var(--gold)"></i> KEDEM TOURS <span>| Кабинет</span></div>
+    <div style="display:flex;gap:10px;align-items:center">
+      <button id="installBtn" onclick="installApp()" style="display:none;align-items:center;gap:6px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);border:none;padding:8px 14px;border-radius:8px;font-weight:700;font-size:.8rem;cursor:pointer">
+        <i class="fa fa-download"></i> Установить
+      </button>
+      <button class="logout-btn" onclick="logout()"><i class="fa fa-sign-out-alt"></i> Выйти</button>
+    </div>
   </div>
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('orders',this)"><i class="fa fa-list"></i> Заказы</button>
@@ -737,6 +753,40 @@ async function delExcursion(id) {
   if (!confirm('Удалить эту экскурсию?')) return;
   await fetch('/api/excursions.php/' + id, { method: 'DELETE', headers: { Authorization: 'Bearer ' + token } });
   loadExcList();
+}
+</script>
+
+<script>
+// Регистрация Service Worker (PWA)
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('/sw.js')
+      .then(function(reg) { console.log('SW registered:', reg.scope); })
+      .catch(function(err) { console.log('SW error:', err); });
+  });
+}
+
+// Кнопка "Установить приложение"
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  deferredPrompt = e;
+  // Показываем кнопку установки
+  var installBtn = document.getElementById('installBtn');
+  if (installBtn) installBtn.style.display = 'flex';
+});
+window.addEventListener('appinstalled', function() {
+  deferredPrompt = null;
+  var installBtn = document.getElementById('installBtn');
+  if (installBtn) installBtn.style.display = 'none';
+});
+function installApp() {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function(result) {
+      deferredPrompt = null;
+    });
+  }
 }
 </script>
 </body>
