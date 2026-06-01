@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     checkAuth();
     $parts      = explode('/', trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/'));
     $id         = (int)end($parts);
-    $excursions = array_values(array_filter(loadExcursions($FILE), fn($e) => $e['id'] != $id));
+    $excursions = array_values(array_filter(loadExcursions($FILE), function($e) use ($id) { return $e['id'] != $id; }));
     saveExcursions($FILE, $excursions);
     echo json_encode(['success' => true]);
     exit;
