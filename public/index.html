@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Кедем Турс — Экскурсии по Израилю</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #e8c96a;
+      --dark: #1a1a2e;
+      --dark2: #16213e;
+      --accent: #0f3460;
+      --text: #2d2d2d;
+      --light-bg: #f8f5f0;
+      --white: #ffffff;
+      --radius: 14px;
+      --shadow: 0 8px 32px rgba(0,0,0,0.13);
+    }
+
+    body { font-family: 'Open Sans', sans-serif; color: var(--text); background: var(--light-bg); }
+
+    /* ── HEADER ── */
+    header {
+      background: linear-gradient(135deg, var(--dark) 0%, var(--accent) 100%);
+      padding: 0;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+    .header-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 24px;
+    }
+    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .logo-icon {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; color: var(--dark);
+    }
+    .logo-text { display: flex; flex-direction: column; }
+    .logo-name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.4rem; color: var(--white); letter-spacing: 1px; }
+    .logo-sub { font-size: 0.7rem; color: var(--gold-light); letter-spacing: 2px; text-transform: uppercase; }
+    .header-contact { color: var(--gold-light); font-size: 0.9rem; display: flex; align-items: center; gap: 8px; }
+    .header-contact i { color: var(--gold); }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(rgba(15,52,96,0.72), rgba(26,26,46,0.85)),
+                  url('https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=1400&q=80') center/cover no-repeat;
+      min-height: 440px;
+      display: flex; align-items: center; justify-content: center; text-align: center;
+      padding: 60px 24px;
+    }
+    .hero-content { max-width: 700px; }
+    .hero h1 { font-family: 'Montserrat', sans-serif; font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 800; color: var(--white); line-height: 1.2; margin-bottom: 16px; }
+    .hero h1 span { color: var(--gold); }
+    .hero p { color: rgba(255,255,255,0.85); font-size: 1.1rem; margin-bottom: 28px; }
+    .hero-badge {
+      display: inline-block; background: var(--gold); color: var(--dark);
+      font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.85rem;
+      padding: 8px 20px; border-radius: 30px; letter-spacing: 1px;
+    }
+
+    /* ── SECTION ── */
+    .section { max-width: 1100px; margin: 0 auto; padding: 60px 24px; }
+    .section-title {
+      font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.8rem;
+      color: var(--accent); margin-bottom: 8px;
+    }
+    .section-title span { color: var(--gold); }
+    .section-sub { color: #666; margin-bottom: 36px; font-size: 0.95rem; }
+    .divider { width: 60px; height: 4px; background: var(--gold); border-radius: 2px; margin: 12px 0 28px; }
+
+    /* ── EXCURSION GRID ── */
+    .excursion-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .exc-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform .25s, box-shadow .25s;
+      border: 2px solid transparent;
+    }
+    .exc-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.18);
+      border-color: var(--gold);
+    }
+    .exc-img {
+      width: 100%; height: 200px; object-fit: cover;
+      display: block;
+    }
+    .exc-img-placeholder {
+      width: 100%; height: 200px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+    }
+    .exc-body { padding: 20px; }
+    .exc-tag {
+      display: inline-block; background: #fff3cd; color: #856404;
+      font-size: 0.72rem; font-weight: 600; padding: 3px 10px;
+      border-radius: 20px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .exc-title { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.05rem; color: var(--dark); margin-bottom: 8px; }
+    .exc-desc { font-size: 0.85rem; color: #666; line-height: 1.5; margin-bottom: 16px; }
+    .exc-meta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+    .exc-info { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #888; }
+    .exc-info i { color: var(--gold); }
+    .exc-btn {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--dark); border: none; padding: 8px 18px;
+      border-radius: 30px; font-family: 'Montserrat', sans-serif;
+      font-weight: 700; font-size: 0.82rem; cursor: pointer;
+      transition: opacity .2s; letter-spacing: 0.5px;
+    }
+    .exc-btn:hover { opacity: 0.85; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(15,52,96,0.65); z-index: 1000;
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: var(--white); border-radius: 20px;
+      width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.3);
+      animation: slideUp .3s ease;
+    }
+    @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-header {
+      background: linear-gradient(135deg, var(--accent), var(--dark));
+      padding: 24px 28px; border-radius: 20px 20px 0 0;
+      position: relative;
+    }
+    .modal-title { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--white); margin-bottom: 4px; }
+    .modal-excursion { color: var(--gold-light); font-size: 0.9rem; }
+    .modal-close {
+      position: absolute; top: 16px; right: 20px;
+      background: rgba(255,255,255,0.15); border: none; color: var(--white);
+      width: 32px; height: 32px; border-radius: 50%; font-size: 1rem;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background .2s;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.3); }
+    .modal-body { padding: 28px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-weight: 600; font-size: 0.85rem; color: var(--accent); margin-bottom: 6px; }
+    .form-group input,
+    .form-group select {
+      width: 100%; padding: 11px 14px;
+      border: 2px solid #e0e0e0; border-radius: 10px;
+      font-family: 'Open Sans', sans-serif; font-size: 0.9rem;
+      transition: border-color .2s; outline: none; background: #fafafa;
+    }
+    .form-group input:focus,
+    .form-group select:focus { border-color: var(--gold); background: var(--white); }
+    .form-group input.error, .form-group select.error { border-color: #e74c3c; }
+    .submit-btn {
+      width: 100%; padding: 14px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--dark); border: none; border-radius: 12px;
+      font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1rem;
+      cursor: pointer; transition: opacity .2s, transform .15s;
+      letter-spacing: 0.5px; margin-top: 8px;
+    }
+    .submit-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .form-msg { text-align: center; padding: 12px; border-radius: 10px; font-weight: 600; font-size: 0.9rem; margin-top: 14px; display: none; }
+    .form-msg.success { background: #d4edda; color: #155724; display: block; }
+    .form-msg.error { background: #f8d7da; color: #721c24; display: block; }
+
+    /* ── FEATURES ── */
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; }
+    .feature-card {
+      background: var(--white); border-radius: var(--radius);
+      padding: 28px 20px; text-align: center; box-shadow: var(--shadow);
+    }
+    .feature-icon { font-size: 2.2rem; margin-bottom: 14px; }
+    .feature-title { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1rem; color: var(--accent); margin-bottom: 8px; }
+    .feature-text { font-size: 0.85rem; color: #666; line-height: 1.5; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark); color: rgba(255,255,255,0.7);
+      text-align: center; padding: 32px 24px; font-size: 0.85rem;
+    }
+    footer strong { color: var(--gold); }
+    .footer-link { color: var(--gold-light); text-decoration: none; margin-left: 8px; }
+    .footer-link:hover { text-decoration: underline; }
+
+    @media (max-width: 560px) {
+      .form-row { grid-template-columns: 1fr; }
+      .header-contact { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <a class="logo" href="#">
+      <div class="logo-icon"><i class="fa fa-compass"></i></div>
+      <div class="logo-text">
+        <span class="logo-name">КЕДЕМ ТУРС</span>
+        <span class="logo-sub">Экскурсии по Израилю</span>
+      </div>
+    </a>
+    <div class="header-contact">
+      <i class="fa fa-phone"></i>
+      <span>amtguide@gmail.com</span>
+    </div>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="hero-content">
+    <h1>Откройте <span>Израиль</span><br>вместе с нами</h1>
+    <p>Незабываемые экскурсии с профессиональными гидами.<br>Комфорт, безопасность, яркие впечатления.</p>
+    <span class="hero-badge"><i class="fa fa-star"></i>&nbsp; Более 500 довольных туристов</span>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Наши <span>экскурсии</span></div>
+  <div class="divider"></div>
+  <p class="section-sub">Выберите экскурсию и запишитесь онлайн — это займёт меньше минуты</p>
+
+  <div class="excursion-grid" id="excGrid"></div>
+</div>
+
+<div style="background: var(--white);">
+  <div class="section">
+    <div class="section-title">Почему <span>Кедем Турс?</span></div>
+    <div class="divider"></div>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon">🧭</div><div class="feature-title">Опытные гиды</div><div class="feature-text">Профессиональные лицензированные гиды с многолетним опытом</div></div>
+      <div class="feature-card"><div class="feature-icon">🚌</div><div class="feature-title">Удобные маршруты</div><div class="feature-text">7 мест посадки по всему городу — садитесь рядом с домом</div></div>
+      <div class="feature-card"><div class="feature-icon">⭐</div><div class="feature-title">Малые группы</div><div class="feature-text">Небольшие группы для комфортного путешествия и общения</div></div>
+      <div class="feature-card"><div class="feature-icon">📱</div><div class="feature-title">Онлайн-запись</div><div class="feature-text">Запись за пару минут прямо на сайте без звонков</div></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2024 <strong>Кедем Турс</strong>. Все права защищены.
+    <a class="footer-link" href="/admin.html">Администратор</a>
+  </p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Запись на экскурсию</div>
+      <div class="modal-excursion" id="modalExcName"></div>
+      <button class="modal-close" id="modalClose"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <form id="bookingForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Имя *</label>
+            <input type="text" id="firstName" placeholder="Иван"/>
+          </div>
+          <div class="form-group">
+            <label>Фамилия *</label>
+            <input type="text" id="lastName" placeholder="Иванов"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Телефон *</label>
+            <input type="tel" id="phone" placeholder="+972-50-000-0000"/>
+          </div>
+          <div class="form-group">
+            <label>Количество мест *</label>
+            <input type="number" id="seats" min="1" max="20" placeholder="1"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Место посадки *</label>
+          <select id="pickup">
+            <option value="">— выберите остановку —</option>
+            <option>Каньён Авиа</option>
+            <option>Каньён Шауль Ха-Мелех</option>
+            <option>Гранд Каньёон</option>
+            <option>Неве Зеев-Жаботински</option>
+            <option>Бигудит Вицо</option>
+            <option>Сорока</option>
+            <option>Центр Орен</option>
+          </select>
+        </div>
+        <button type="submit" class="submit-btn" id="submitBtn">
+          <i class="fa fa-check-circle"></i>&nbsp; Записаться
+        </button>
+        <div class="form-msg" id="formMsg"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+const EXCURSIONS = [
+  {
+    title: 'Иерусалим — Вечный город',
+    tag: 'История',
+    desc: 'Старый город, Стена плача, Храм Гроба Господня, Виа Долороса. Полное погружение в тысячелетнюю историю.',
+    duration: 'Целый день',
+    bg: '#e8f4f8',
+    icon: '🕌'
+  },
+  {
+    title: 'Мёртвое море и Масада',
+    tag: 'Природа',
+    desc: 'Восход на Масаду по «Змеиной тропе», крепость царя Ирода и целебные воды Мёртвого моря.',
+    duration: 'Целый день',
+    bg: '#fff8e1',
+    icon: '🏔️'
+  },
+  {
+    title: 'Тель-Авив и Яффо',
+    tag: 'Город',
+    desc: 'Современный Тель-Авив, набережная Тель-Авива, Порт Яффо, блошиный рынок и арабский квартал.',
+    duration: 'Полдня',
+    bg: '#f3e5f5',
+    icon: '🌆'
+  },
+  {
+    title: 'Эйлат и Красное море',
+    tag: 'Пляж',
+    desc: 'Коралловый заповедник, подводный мир Красного моря, Аквариум и панорама трёх государств.',
+    duration: 'Целый день',
+    bg: '#e0f7fa',
+    icon: '🐠'
+  },
+  {
+    title: 'Галилея и Голанские высоты',
+    tag: 'Природа',
+    desc: 'Водопады Тель-Дан, Баниас, крепость Нимрод, смотровая площадка на Сирию и Ливан.',
+    duration: 'Целый день',
+    bg: '#e8f5e9',
+    icon: '🌿'
+  },
+  {
+    title: 'Цфат — город мистиков',
+    tag: 'Культура',
+    desc: 'Центр каббалы, древние синагоги, художественные галереи, улочки средневекового города.',
+    duration: 'Полдня',
+    bg: '#fce4ec',
+    icon: '✡️'
+  },
+  {
+    title: 'Кейсария и Акко',
+    tag: 'История',
+    desc: 'Римский амфитеатр Кейсарии, крепость крестоносцев в Акко, Рыцарский зал и турецкие бани.',
+    duration: 'Целый день',
+    bg: '#fff3e0',
+    icon: '🏛️'
+  },
+  {
+    title: 'Негев — пустыня и кратеры',
+    tag: 'Природа',
+    desc: 'Кратер Рамон — крупнейший эрозионный кратер в мире, пустынные пейзажи и набатейские города.',
+    duration: 'Целый день',
+    bg: '#f9fbe7',
+    icon: '🌵'
+  },
+  {
+    title: 'Хайфа и Бахайские сады',
+    tag: 'Культура',
+    desc: 'Знаменитые террасные сады Бахаи, монастырь Кармель, вид на Хайфский залив.',
+    duration: 'Полдня',
+    bg: '#ede7f6',
+    icon: '🌸'
+  }
+];
+
+const grid = document.getElementById('excGrid');
+const overlay = document.getElementById('modalOverlay');
+const modalClose = document.getElementById('modalClose');
+const modalExcName = document.getElementById('modalExcName');
+const form = document.getElementById('bookingForm');
+const formMsg = document.getElementById('formMsg');
+const submitBtn = document.getElementById('submitBtn');
+let currentExc = '';
+
+EXCURSIONS.forEach(exc => {
+  const card = document.createElement('div');
+  card.className = 'exc-card';
+  card.innerHTML = `
+    <div class="exc-img-placeholder" style="background:${exc.bg}">${exc.icon}</div>
+    <div class="exc-body">
+      <span class="exc-tag">${exc.tag}</span>
+      <div class="exc-title">${exc.title}</div>
+      <div class="exc-desc">${exc.desc}</div>
+      <div class="exc-meta">
+        <span class="exc-info"><i class="fa fa-clock"></i> ${exc.duration}</span>
+        <button class="exc-btn">Записаться →</button>
+      </div>
+    </div>`;
+  card.querySelector('.exc-btn').addEventListener('click', () => openModal(exc.title));
+  card.addEventListener('click', e => { if (!e.target.closest('.exc-btn')) openModal(exc.title); });
+  grid.appendChild(card);
+});
+
+function openModal(title) {
+  currentExc = title;
+  modalExcName.textContent = title;
+  form.reset();
+  formMsg.className = 'form-msg';
+  formMsg.textContent = '';
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+modalClose.addEventListener('click', closeModal);
+overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  const fields = ['firstName','lastName','phone','seats','pickup'];
+  let valid = true;
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    el.classList.remove('error');
+    if (!el.value.trim()) { el.classList.add('error'); valid = false; }
+  });
+  if (!valid) { showMsg('Пожалуйста, заполните все обязательные поля', 'error'); return; }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Отправляем...';
+
+  try {
+    const res = await fetch('/api/order', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        excursion: currentExc,
+        firstName: document.getElementById('firstName').value.trim(),
+        lastName: document.getElementById('lastName').value.trim(),
+        phone: document.getElementById('phone').value.trim(),
+        seats: document.getElementById('seats').value,
+        pickup: document.getElementById('pickup').value
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      showMsg('✅ Вы успешно записаны! Мы свяжемся с вами в ближайшее время.', 'success');
+      form.reset();
+    } else {
+      showMsg(data.error || 'Ошибка. Попробуйте ещё раз.', 'error');
+    }
+  } catch {
+    showMsg('Ошибка соединения. Попробуйте позже.', 'error');
+  }
+
+  submitBtn.disabled = false;
+  submitBtn.innerHTML = '<i class="fa fa-check-circle"></i>&nbsp; Записаться';
+});
+
+function showMsg(text, type) {
+  formMsg.textContent = text;
+  formMsg.className = 'form-msg ' + type;
+}
+</script>
+</body>
+</html>
