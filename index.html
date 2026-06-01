@@ -361,19 +361,21 @@ function applySettings(s) {
     { key:'youtube',   icon:'fab fa-youtube',        cls:'sf-youtube',   label:'YouTube',   base:'https://youtube.com/' },
     { key:'tiktok',    icon:'fab fa-tiktok',         cls:'sf-tiktok',    label:'TikTok',    base:'https://tiktok.com/@' },
   ];
-  const hdrSocial    = document.getElementById('hdrSocial');
-  const footerSocial = document.getElementById('footerSocial');
-  const fabMenu      = document.getElementById('fabMenu');
-  hdrSocial.innerHTML = footerSocial.innerHTML = fabMenu.innerHTML = '';
+  var footerSocial = document.getElementById('footerSocial');
+  var fabMenu      = document.getElementById('fabMenu');
+  if (footerSocial) footerSocial.innerHTML = '';
+  if (fabMenu)      fabMenu.innerHTML = '';
 
   var telHref = phone ? 'tel:' + phone.replace(/[\s\-]/g,'') : '#';
   var waHref2 = wa ? 'https://wa.me/' + wa : '#';
 
   // FAB — телефон + WhatsApp первыми
-  if (phone) fabMenu.innerHTML +=
-    '<a class="fab-item" href="' + telHref + '"><i class="fi-phone fa fa-phone"></i><span>Позвонить</span></a>';
-  if (wa) fabMenu.innerHTML +=
-    '<a class="fab-item" href="' + waHref2 + '" target="_blank"><i class="fi-wa fab fa-whatsapp"></i><span>WhatsApp</span></a>';
+  if (fabMenu) {
+    if (phone) fabMenu.innerHTML +=
+      '<a class="fab-item" href="' + telHref + '"><i class="fi-phone fa fa-phone"></i><span>Позвонить</span></a>';
+    if (wa) fabMenu.innerHTML +=
+      '<a class="fab-item" href="' + waHref2 + '" target="_blank"><i class="fi-wa fab fa-whatsapp"></i><span>WhatsApp</span></a>';
+  }
 
   var fabCls = { facebook:'fi-fb', instagram:'fi-ig', telegram:'fi-tg', youtube:'fi-yt', tiktok:'fi-tt' };
   var fabIco = { facebook:'fab fa-facebook-f', instagram:'fab fa-instagram', telegram:'fab fa-telegram-plane', youtube:'fab fa-youtube', tiktok:'fab fa-tiktok' };
@@ -382,9 +384,8 @@ function applySettings(s) {
     var val = s[soc.key];
     if (!val) return;
     var href = val.startsWith('http') ? val : soc.base + val;
-    hdrSocial.innerHTML    += '<a href="' + href + '" target="_blank" rel="noopener" title="' + soc.label + '"><i class="' + soc.icon + '"></i></a>';
-    footerSocial.innerHTML += '<a href="' + href + '" target="_blank" rel="noopener" title="' + soc.label + '"><i class="' + soc.icon + '"></i></a>';
-    fabMenu.innerHTML += '<a class="fab-item" href="' + href + '" target="_blank" rel="noopener">' +
+    if (footerSocial) footerSocial.innerHTML += '<a href="' + href + '" target="_blank" rel="noopener" title="' + soc.label + '"><i class="' + soc.icon + '"></i></a>';
+    if (fabMenu) fabMenu.innerHTML += '<a class="fab-item" href="' + href + '" target="_blank" rel="noopener">' +
       '<i class="' + (fabCls[soc.key]||'') + ' ' + (fabIco[soc.key]||soc.icon) + '"></i>' +
       '<span>' + soc.label + '</span></a>';
   });
