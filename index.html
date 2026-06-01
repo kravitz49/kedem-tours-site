@@ -133,14 +133,14 @@
     /* FAB — плавающая кнопка контактов (все экраны) */
     .fab-wrap {
       display: flex;
-      position: fixed; bottom: 24px; right: 20px; z-index: 300;
+      position: fixed; top: 14px; right: 20px; z-index: 400;
       flex-direction: column; align-items: flex-end; gap: 10px;
     }
     .fab-menu {
       display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
       transition: opacity .25s, transform .25s;
-      opacity: 0; transform: translateY(10px) scale(0.95);
-      pointer-events: none;
+      opacity: 0; transform: translateY(-10px) scale(0.95);
+      pointer-events: none; order: 2;
     }
     .fab-menu.open { opacity: 1; transform: none; pointer-events: all; }
     .fab-item {
@@ -162,12 +162,13 @@
     .fab-item .fi-yt       { background: #ff0000; }
     .fab-item .fi-tt       { background: #010101; }
     .fab-btn {
-      width: 58px; height: 58px; border-radius: 50%;
+      width: 46px; height: 46px; border-radius: 50%;
       background: linear-gradient(135deg, var(--gold), var(--gold-light));
-      border: none; color: var(--dark); font-size: 1.5rem;
-      box-shadow: 0 6px 24px rgba(201,168,76,0.5);
+      border: none; color: var(--dark); font-size: 1.2rem;
+      box-shadow: 0 4px 18px rgba(201,168,76,0.55);
       cursor: pointer; display: flex; align-items: center; justify-content: center;
       transition: transform .2s, box-shadow .2s;
+      order: 1;
     }
     .fab-btn:active { transform: scale(0.93); }
     .fab-btn .fab-icon-close { display: none; }
