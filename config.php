@@ -1,9 +1,9 @@
 <?php
 // ── База данных ──────────────────────────────────────────
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'ЗАМЕНИТЕ_ИМЯ_БД');       // например: krav071_kedem
-define('DB_USER', 'ЗАМЕНИТЕ_ПОЛЬЗОВАТЕЛЯ');  // например: krav071_user
-define('DB_PASS', 'ЗАМЕНИТЕ_ПАРОЛЬ');
+define('DB_NAME', 'kravi071_Kedem-Tours');       // например: krav071_kedem
+define('DB_USER', 'kravi071_kravitz49');  // например: krav071_user
+define('DB_PASS', 'Mondeomk3!');
 
 // ── Администратор ────────────────────────────────────────
 define('ADMIN_PASSWORD', 'kedem2024admin');
