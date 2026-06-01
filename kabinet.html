@@ -218,6 +218,7 @@
     <button class="tab-btn active" onclick="switchTab('orders',this)"><i class="fa fa-list"></i> Заказы</button>
     <button class="tab-btn" onclick="switchTab('excursions',this)"><i class="fa fa-map-marked-alt"></i> Экскурсии</button>
     <button class="tab-btn" onclick="switchTab('reviews',this)" id="tabReviewsBtn"><i class="fa fa-star"></i> Отзывы <span id="pendingBadge" style="display:none;background:#dc2626;color:#fff;border-radius:20px;padding:1px 7px;font-size:.72rem;margin-left:4px"></span></button>
+    <button class="tab-btn" onclick="switchTab('settings',this)"><i class="fa fa-cog"></i> Настройки сайта</button>
   </div>
 
   <div class="admin-content">
@@ -256,6 +257,53 @@
         <button onclick="setReviewFilter('all')"      id="rf-all"      style="padding:8px 18px;border-radius:8px;border:2px solid #e0e0e0;background:#fff;color:#555;font-weight:600;cursor:pointer;font-size:.85rem">📋 Все</button>
       </div>
       <div id="reviewsList"></div>
+    </div>
+
+    <!-- ── НАСТРОЙКИ САЙТА ── -->
+    <div class="tab-pane" id="tab-settings">
+      <div style="max-width:700px">
+
+        <div style="background:var(--white);border-radius:14px;padding:28px;box-shadow:0 4px 20px rgba(0,0,0,.08);margin-bottom:20px">
+          <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:1rem;color:var(--accent);margin-bottom:20px"><i class="fa fa-phone" style="color:var(--gold)"></i> Контакты</div>
+          <div class="ef"><label>Телефон (для кнопки звонка)</label><input type="text" id="s_phone" placeholder="+972-50-000-0000"/></div>
+          <div class="ef"><label>WhatsApp (только цифры, без +)</label><input type="text" id="s_whatsapp" placeholder="972500000000"/><div class="img-hint">Например: 972501234567 — при нажатии откроется WhatsApp</div></div>
+          <div class="ef"><label>Email</label><input type="email" id="s_email" placeholder="you@gmail.com"/></div>
+        </div>
+
+        <div style="background:var(--white);border-radius:14px;padding:28px;box-shadow:0 4px 20px rgba(0,0,0,.08);margin-bottom:20px">
+          <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:1rem;color:var(--accent);margin-bottom:20px"><i class="fa fa-share-alt" style="color:var(--gold)"></i> Социальные сети</div>
+          <div class="img-hint" style="margin-bottom:16px">Вставьте ссылку целиком (https://...) или только username</div>
+          <div class="ef-row">
+            <div class="ef"><label><i class="fab fa-facebook-f" style="color:#1877f2"></i> Facebook</label><input type="text" id="s_facebook" placeholder="https://facebook.com/yourpage"/></div>
+            <div class="ef"><label><i class="fab fa-instagram" style="color:#e1306c"></i> Instagram</label><input type="text" id="s_instagram" placeholder="https://instagram.com/yourpage"/></div>
+          </div>
+          <div class="ef-row">
+            <div class="ef"><label><i class="fab fa-telegram-plane" style="color:#229ed9"></i> Telegram</label><input type="text" id="s_telegram" placeholder="https://t.me/yourname"/></div>
+            <div class="ef"><label><i class="fab fa-youtube" style="color:#ff0000"></i> YouTube</label><input type="text" id="s_youtube" placeholder="https://youtube.com/yourchannel"/></div>
+          </div>
+          <div class="ef">
+            <label><i class="fab fa-tiktok"></i> TikTok</label>
+            <input type="text" id="s_tiktok" placeholder="https://tiktok.com/@yourname"/>
+          </div>
+        </div>
+
+        <div style="background:var(--white);border-radius:14px;padding:28px;box-shadow:0 4px 20px rgba(0,0,0,.08);margin-bottom:20px">
+          <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:1rem;color:var(--accent);margin-bottom:20px"><i class="fa fa-image" style="color:var(--gold)"></i> Логотип и герой</div>
+          <div class="ef"><label>Логотип (ссылка на изображение)</label><input type="text" id="s_logo_image" placeholder="https://kedem-tours.com/images/logo.png"/><div class="img-hint">Загрузите логотип в папку /images/ и вставьте ссылку</div></div>
+          <div class="ef-row">
+            <div class="ef"><label>Название сайта</label><input type="text" id="s_logo_text" placeholder="КЕДЕМ ТУРС"/></div>
+            <div class="ef"><label>Подпись под логотипом</label><input type="text" id="s_logo_sub" placeholder="Экскурсии по Израилю"/></div>
+          </div>
+          <div class="ef"><label>Фоновое фото главного баннера (URL)</label><input type="text" id="s_hero_image" placeholder="https://kedem-tours.com/images/hero.jpg"/></div>
+          <div class="ef"><label>Заголовок баннера</label><input type="text" id="s_hero_title" placeholder="Откройте Израиль вместе с нами"/></div>
+          <div class="ef"><label>Подзаголовок баннера</label><input type="text" id="s_hero_subtitle" placeholder="Незабываемые экскурсии..."/></div>
+        </div>
+
+        <button onclick="saveSettings()" style="width:100%;padding:14px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);border:none;border-radius:12px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:1rem;cursor:pointer">
+          <i class="fa fa-save"></i> Сохранить все настройки
+        </button>
+        <div id="settingsMsg" style="text-align:center;margin-top:12px;font-weight:600;display:none"></div>
+      </div>
     </div>
 
     <!-- ── ЭКСКУРСИИ ── -->
@@ -473,6 +521,33 @@ function exportCSV() {
   a.click();
 }
 
+// ── SETTINGS ──────────────────────────────────────────────
+async function loadSettingsForm() {
+  const res  = await fetch('/settings.php');
+  const s    = await res.json();
+  const keys = ['phone','whatsapp','email','facebook','instagram','telegram','youtube','tiktok','logo_image','logo_text','logo_sub','hero_image','hero_title','hero_subtitle'];
+  keys.forEach(k => { const el = document.getElementById('s_'+k); if (el && s[k] !== undefined) el.value = s[k]; });
+}
+
+async function saveSettings() {
+  const keys = ['phone','whatsapp','email','facebook','instagram','telegram','youtube','tiktok','logo_image','logo_text','logo_sub','hero_image','hero_title','hero_subtitle'];
+  const data = {};
+  keys.forEach(k => { const el = document.getElementById('s_'+k); if (el) data[k] = el.value.trim(); });
+  const res  = await fetch('/settings.php', {
+    method:'POST', headers:{'Content-Type':'application/json', Authorization:'Bearer '+token},
+    body: JSON.stringify(data)
+  });
+  const result = await res.json();
+  const msg = document.getElementById('settingsMsg');
+  if (result.success) {
+    msg.textContent = '✅ Настройки сохранены! Изменения появятся на сайте сразу.';
+    msg.style.color = '#155724'; msg.style.display = 'block';
+  } else {
+    msg.textContent = '❌ Ошибка сохранения'; msg.style.color='#721c24'; msg.style.display='block';
+  }
+  setTimeout(()=>{ msg.style.display='none'; }, 4000);
+}
+
 // Auto-login from session
 const saved = sessionStorage.getItem('adminToken');
 if (saved) { token = saved; showAdmin(); }
@@ -485,6 +560,7 @@ function switchTab(name, btn) {
   btn.classList.add('active');
   if (name === 'excursions') loadExcList();
   if (name === 'reviews')    loadReviewsAdmin();
+  if (name === 'settings')   loadSettingsForm();
 }
 
 // ── EXCURSIONS MANAGEMENT ─────────────────────────────────
