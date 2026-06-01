@@ -207,10 +207,15 @@
       .logout-btn    { padding: 6px 10px; font-size: 0.75rem; }
       #installBtn    { padding: 6px 10px !important; font-size: 0.72rem !important; }
 
-      /* Tabs */
-      .tabs          { padding: 10px 10px 0; gap: 3px; overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; }
-      .tabs::-webkit-scrollbar { display: none; }
-      .tab-btn       { padding: 7px 12px; font-size: 0.74rem; white-space: nowrap; flex-shrink: 0; }
+      /* Tabs — иконки без текста, 4 кнопки в ряд */
+      .tabs          { padding: 8px 8px 0; gap: 4px; flex-wrap: nowrap; justify-content: space-between; }
+      .tab-btn       { flex: 1; padding: 8px 4px 6px; font-size: 0px; text-align: center; border-radius: 8px 8px 0 0; }
+      .tab-btn i     { font-size: 1.1rem; display: block; margin-bottom: 3px; }
+      .tab-btn::after { font-size: 0.58rem; font-weight: 700; letter-spacing: 0; display: block; line-height: 1; }
+      .tab-btn:nth-child(1)::after { content: 'Заказы'; font-size: 0.58rem; }
+      .tab-btn:nth-child(2)::after { content: 'Тур'; font-size: 0.58rem; }
+      .tab-btn:nth-child(3)::after { content: 'Отзывы'; font-size: 0.58rem; }
+      .tab-btn:nth-child(4)::after { content: 'Настройки'; font-size: 0.56rem; }
 
       /* Content */
       .admin-content { padding: 16px 12px; }
@@ -226,10 +231,10 @@
       .bar-label     { width: 120px; font-size: 0.74rem; }
 
       /* Filters */
-      .filters       { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-      .filters input { grid-column: 1 / -1; font-size: 0.82rem; padding: 8px 12px; }
-      .filters select { font-size: 0.82rem; padding: 8px 10px; }
-      .export-btn    { grid-column: 1 / -1; margin-left: 0; padding: 8px; font-size: 0.8rem; }
+      .filters       { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px; }
+      .filters input { grid-column: 1 / -1; font-size: 0.8rem; padding: 7px 10px; }
+      .filters select { font-size: 0.78rem; padding: 7px 8px; }
+      .export-btn    { grid-column: 1 / -1; margin-left: 0; padding: 7px; font-size: 0.78rem; }
 
       /* Table */
       .table-wrap    { border-radius: 10px; }
