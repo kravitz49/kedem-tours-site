@@ -165,6 +165,28 @@
     .bar-fill { height: 100%; border-radius: 6px; background: linear-gradient(90deg, var(--accent), var(--gold)); min-width: 4px; transition: width .6s ease; }
     .bar-count { width: 40px; text-align: right; font-weight: 600; color: var(--accent); }
 
+    /* REVIEWS */
+    .review-card { background:var(--white); border-radius:14px; padding:20px; box-shadow:0 4px 20px rgba(0,0,0,.08); margin-bottom:14px; border-left:4px solid #e0e0e0; }
+    .review-card.pending   { border-left-color:#f59e0b; }
+    .review-card.published { border-left-color:#10b981; }
+    .review-top { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:10px; }
+    .review-author { font-family:'Montserrat',sans-serif; font-weight:700; font-size:.95rem; color:var(--accent); }
+    .review-stars  { color:#f59e0b; font-size:1rem; }
+    .review-exc    { font-size:.78rem; color:var(--gold); font-weight:600; margin-bottom:6px; }
+    .review-text   { font-size:.88rem; color:#444; line-height:1.6; margin-bottom:12px; }
+    .review-date   { font-size:.75rem; color:#bbb; }
+    .review-status { display:inline-block; padding:3px 10px; border-radius:20px; font-size:.72rem; font-weight:700; }
+    .status-pending   { background:#fff3cd; color:#856404; }
+    .status-published { background:#d1fae5; color:#065f46; }
+    .review-actions { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+    .btn-approve { padding:7px 14px; background:#d1fae5; color:#065f46; border:none; border-radius:8px; cursor:pointer; font-weight:600; font-size:.8rem; transition:background .15s; }
+    .btn-approve:hover { background:#a7f3d0; }
+    .btn-unpublish { padding:7px 14px; background:#fff3cd; color:#856404; border:none; border-radius:8px; cursor:pointer; font-weight:600; font-size:.8rem; }
+    .btn-edit-rev { padding:7px 14px; background:#dbeafe; color:#1d4ed8; border:none; border-radius:8px; cursor:pointer; font-weight:600; font-size:.8rem; }
+    .btn-del-rev { padding:7px 14px; background:#fef2f2; color:#dc2626; border:none; border-radius:8px; cursor:pointer; font-size:.8rem; }
+    .review-edit-area { width:100%; padding:10px 13px; border:2px solid var(--gold); border-radius:10px; font-family:'Open Sans',sans-serif; font-size:.88rem; resize:vertical; min-height:80px; outline:none; margin-bottom:8px; }
+    .btn-save-rev { padding:7px 14px; background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:var(--dark); border:none; border-radius:8px; cursor:pointer; font-weight:700; font-size:.8rem; }
+
     @media (max-width: 600px) {
       .admin-header { flex-direction: column; gap: 12px; }
       .filters { flex-direction: column; }
@@ -195,6 +217,7 @@
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('orders',this)"><i class="fa fa-list"></i> Заказы</button>
     <button class="tab-btn" onclick="switchTab('excursions',this)"><i class="fa fa-map-marked-alt"></i> Экскурсии</button>
+    <button class="tab-btn" onclick="switchTab('reviews',this)" id="tabReviewsBtn"><i class="fa fa-star"></i> Отзывы <span id="pendingBadge" style="display:none;background:#dc2626;color:#fff;border-radius:20px;padding:1px 7px;font-size:.72rem;margin-left:4px"></span></button>
   </div>
 
   <div class="admin-content">
@@ -223,6 +246,16 @@
           <tbody id="ordersBody"></tbody>
         </table>
       </div>
+    </div>
+
+    <!-- ── ОТЗЫВЫ ── -->
+    <div class="tab-pane" id="tab-reviews">
+      <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+        <button onclick="setReviewFilter('pending')"  id="rf-pending"  style="padding:8px 18px;border-radius:8px;border:2px solid var(--accent);background:var(--accent);color:#fff;font-weight:600;cursor:pointer;font-size:.85rem">⏳ Ожидают проверки</button>
+        <button onclick="setReviewFilter('published')" id="rf-published" style="padding:8px 18px;border-radius:8px;border:2px solid #e0e0e0;background:#fff;color:#555;font-weight:600;cursor:pointer;font-size:.85rem">✅ Опубликованные</button>
+        <button onclick="setReviewFilter('all')"      id="rf-all"      style="padding:8px 18px;border-radius:8px;border:2px solid #e0e0e0;background:#fff;color:#555;font-weight:600;cursor:pointer;font-size:.85rem">📋 Все</button>
+      </div>
+      <div id="reviewsList"></div>
     </div>
 
     <!-- ── ЭКСКУРСИИ ── -->
@@ -334,6 +367,7 @@ async function showAdmin() {
   document.getElementById('loginWrap').style.display = 'none';
   document.getElementById('adminWrap').style.display = 'block';
   await loadOrders();
+  checkPendingReviews();
 }
 
 async function loadOrders() {
@@ -450,6 +484,7 @@ function switchTab(name, btn) {
   document.getElementById('tab-' + name).classList.add('active');
   btn.classList.add('active');
   if (name === 'excursions') loadExcList();
+  if (name === 'reviews')    loadReviewsAdmin();
 }
 
 // ── EXCURSIONS MANAGEMENT ─────────────────────────────────
@@ -525,6 +560,101 @@ async function saveExcursion() {
   });
   closeEditor();
   loadExcList();
+}
+
+// ── REVIEWS ADMIN ─────────────────────────────────────────
+let allReviews = [], reviewFilter = 'pending';
+
+async function loadReviewsAdmin() {
+  const res = await fetch('/reviews.php', { headers:{ Authorization:'Bearer '+token } });
+  allReviews = await res.json();
+  const pending = allReviews.filter(r=>r.status==='pending').length;
+  const badge = document.getElementById('pendingBadge');
+  if (pending > 0) { badge.textContent = pending; badge.style.display='inline'; }
+  else { badge.style.display='none'; }
+  renderReviews();
+}
+
+function setReviewFilter(f) {
+  reviewFilter = f;
+  ['pending','published','all'].forEach(k => {
+    const btn = document.getElementById('rf-'+k);
+    btn.style.background = k===f ? 'var(--accent)' : '#fff';
+    btn.style.color      = k===f ? '#fff' : '#555';
+    btn.style.borderColor= k===f ? 'var(--accent)' : '#e0e0e0';
+  });
+  renderReviews();
+}
+
+function renderReviews() {
+  const list = document.getElementById('reviewsList');
+  let filtered = allReviews;
+  if (reviewFilter !== 'all') filtered = allReviews.filter(r=>r.status===reviewFilter);
+  if (!filtered.length) { list.innerHTML='<p style="color:#aaa;padding:20px">Отзывов нет</p>'; return; }
+  list.innerHTML = filtered.map(r => `
+    <div class="review-card ${r.status}" id="rcard-${r.id}">
+      <div class="review-top">
+        <div>
+          <div class="review-author">${r.name} <span class="review-stars">${'⭐'.repeat(r.rating)}</span></div>
+          ${r.excursion ? `<div class="review-exc">${r.excursion}</div>` : ''}
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="review-status status-${r.status}">${r.status==='pending'?'⏳ Ожидает':'✅ Опубликован'}</span>
+          <span class="review-date">${new Date(r.date).toLocaleString('ru-RU',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}</span>
+        </div>
+      </div>
+      <div class="review-text" id="rtext-${r.id}">${r.text}</div>
+      <div id="redit-${r.id}" style="display:none">
+        <textarea class="review-edit-area" id="rtextarea-${r.id}">${r.text}</textarea>
+        <button class="btn-save-rev" onclick="saveReviewText(${r.id})"><i class="fa fa-save"></i> Сохранить</button>
+        <button onclick="cancelEditReview(${r.id})" style="padding:7px 14px;background:#f0f0f0;border:none;border-radius:8px;cursor:pointer;font-size:.8rem;margin-left:6px">Отмена</button>
+      </div>
+      <div class="review-actions">
+        ${r.status==='pending'
+          ? `<button class="btn-approve" onclick="approveReview(${r.id})"><i class="fa fa-check"></i> Опубликовать</button>`
+          : `<button class="btn-unpublish" onclick="unpublishReview(${r.id})"><i class="fa fa-eye-slash"></i> Снять с публикации</button>`}
+        <button class="btn-edit-rev" onclick="editReview(${r.id})"><i class="fa fa-pen"></i> Редактировать</button>
+        <button class="btn-del-rev" onclick="deleteReview(${r.id})"><i class="fa fa-trash"></i> Удалить</button>
+      </div>
+    </div>`).join('');
+}
+
+async function approveReview(id) {
+  await fetch('/reviews.php', { method:'PUT', headers:{'Content-Type':'application/json',Authorization:'Bearer '+token}, body:JSON.stringify({id,status:'published'}) });
+  loadReviewsAdmin();
+}
+async function unpublishReview(id) {
+  await fetch('/reviews.php', { method:'PUT', headers:{'Content-Type':'application/json',Authorization:'Bearer '+token}, body:JSON.stringify({id,status:'pending'}) });
+  loadReviewsAdmin();
+}
+function editReview(id) {
+  document.getElementById('rtext-'+id).style.display='none';
+  document.getElementById('redit-'+id).style.display='block';
+}
+function cancelEditReview(id) {
+  document.getElementById('rtext-'+id).style.display='block';
+  document.getElementById('redit-'+id).style.display='none';
+}
+async function saveReviewText(id) {
+  const text = document.getElementById('rtextarea-'+id).value.trim();
+  await fetch('/reviews.php', { method:'PUT', headers:{'Content-Type':'application/json',Authorization:'Bearer '+token}, body:JSON.stringify({id,text}) });
+  loadReviewsAdmin();
+}
+async function deleteReview(id) {
+  if (!confirm('Удалить этот отзыв?')) return;
+  await fetch('/reviews.php/'+id, { method:'DELETE', headers:{Authorization:'Bearer '+token} });
+  loadReviewsAdmin();
+}
+
+// загружаем badge при входе
+async function checkPendingReviews() {
+  try {
+    const res = await fetch('/reviews.php', { headers:{ Authorization:'Bearer '+token } });
+    const reviews = await res.json();
+    const pending = reviews.filter(r=>r.status==='pending').length;
+    const badge = document.getElementById('pendingBadge');
+    if (pending > 0) { badge.textContent=pending; badge.style.display='inline'; }
+  } catch(e) {}
 }
 
 async function delExcursion(id) {

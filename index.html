@@ -255,9 +255,67 @@
   </div>
 </div>
 
+<!-- REVIEWS SECTION -->
+<div id="reviewsSection" style="background:#fff;">
+  <div class="section">
+    <div class="section-title">Отзывы <span>клиентов</span></div>
+    <div class="divider"></div>
+    <p class="section-sub">Что говорят те, кто уже побывал на наших экскурсиях</p>
+    <div id="reviewsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;margin-bottom:32px"></div>
+    <div style="text-align:center">
+      <button onclick="openReviewModal()" style="background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);border:none;padding:13px 32px;border-radius:30px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:opacity .2s">
+        <i class="fa fa-star"></i>&nbsp; Оставить отзыв
+      </button>
+    </div>
+  </div>
+</div>
+
 <footer>
   <p>&copy; 2024 <strong>Кедем Турс</strong>. Все права защищены.</p>
 </footer>
+
+<!-- REVIEW MODAL -->
+<div class="modal-overlay" id="reviewOverlay">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Оставить отзыв</div>
+      <div class="modal-excursion">Ваше мнение важно для нас</div>
+      <button class="modal-close" onclick="closeReviewModal()"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <form id="reviewForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Ваше имя *</label>
+            <input type="text" id="rName" placeholder="Иван Иванов"/>
+          </div>
+          <div class="form-group">
+            <label>Оценка *</label>
+            <select id="rRating">
+              <option value="5">⭐⭐⭐⭐⭐ Отлично</option>
+              <option value="4">⭐⭐⭐⭐ Хорошо</option>
+              <option value="3">⭐⭐⭐ Нормально</option>
+              <option value="2">⭐⭐ Плохо</option>
+              <option value="1">⭐ Очень плохо</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Экскурсия</label>
+          <select id="rExcursion"><option value="">— не выбрана —</option></select>
+        </div>
+        <div class="form-group">
+          <label>Ваш отзыв *</label>
+          <textarea id="rText" placeholder="Расскажите о вашем впечатлении..." style="width:100%;padding:11px 14px;border:2px solid #e0e0e0;border-radius:10px;font-family:'Open Sans',sans-serif;font-size:.9rem;outline:none;resize:vertical;min-height:100px;background:#fafafa"></textarea>
+        </div>
+        <button type="submit" class="submit-btn" id="reviewSubmitBtn">
+          <i class="fa fa-paper-plane"></i>&nbsp; Отправить отзыв
+        </button>
+        <div class="form-msg" id="reviewMsg"></div>
+      </form>
+    </div>
+  </div>
+</div>
 
 <!-- MODAL -->
 <div class="modal-overlay" id="modalOverlay">
@@ -419,6 +477,71 @@ function showMsg(text, type) {
   formMsg.textContent = text;
   formMsg.className = 'form-msg ' + type;
 }
+
+// ── REVIEWS ──────────────────────────────────────────────
+async function loadReviews() {
+  try {
+    const res = await fetch('/reviews.php');
+    const reviews = await res.json();
+    const grid = document.getElementById('reviewsGrid');
+    if (!reviews.length) {
+      grid.innerHTML = '<p style="color:#aaa;grid-column:1/-1;text-align:center;padding:20px">Отзывов пока нет. Будьте первым!</p>';
+      return;
+    }
+    grid.innerHTML = reviews.map(r => `
+      <div style="background:#fff;border-radius:14px;padding:22px;box-shadow:0 4px 20px rgba(0,0,0,.08);">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <div style="font-family:'Montserrat',sans-serif;font-weight:700;font-size:.95rem;color:var(--accent)">${r.name}</div>
+          <div style="color:#f59e0b;font-size:1rem">${'⭐'.repeat(r.rating)}</div>
+        </div>
+        ${r.excursion ? `<div style="font-size:.75rem;color:var(--gold);font-weight:600;margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px">${r.excursion}</div>` : ''}
+        <div style="font-size:.88rem;color:#555;line-height:1.6">${r.text}</div>
+        <div style="font-size:.75rem;color:#bbb;margin-top:10px">${new Date(r.date).toLocaleDateString('ru-RU')}</div>
+      </div>`).join('');
+  } catch(e) {}
+}
+
+function openReviewModal() {
+  document.getElementById('reviewForm').reset();
+  document.getElementById('reviewMsg').className = 'form-msg';
+  document.getElementById('reviewOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+  // заполняем список экскурсий
+  fetch('/api/excursions.php').then(r=>r.json()).then(list => {
+    const sel = document.getElementById('rExcursion');
+    sel.innerHTML = '<option value="">— не выбрана —</option>' + list.map(e=>`<option>${e.title}</option>`).join('');
+  }).catch(()=>{});
+}
+function closeReviewModal() {
+  document.getElementById('reviewOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.getElementById('reviewOverlay').addEventListener('click', e => { if(e.target===document.getElementById('reviewOverlay')) closeReviewModal(); });
+
+document.getElementById('reviewForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const name = document.getElementById('rName').value.trim();
+  const text = document.getElementById('rText').value.trim();
+  const msg  = document.getElementById('reviewMsg');
+  const btn  = document.getElementById('reviewSubmitBtn');
+  if (!name || !text) { msg.textContent='Заполните имя и текст'; msg.className='form-msg error'; return; }
+  btn.disabled = true; btn.textContent = 'Отправляем...';
+  try {
+    const res = await fetch('/reviews.php', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ name, text, rating: document.getElementById('rRating').value, excursion: document.getElementById('rExcursion').value })
+    });
+    const data = await res.json();
+    if (data.success) {
+      msg.textContent = '✅ Спасибо! Ваш отзыв отправлен на модерацию и появится на сайте после проверки.';
+      msg.className = 'form-msg success';
+      document.getElementById('reviewForm').reset();
+    } else { msg.textContent = data.error||'Ошибка'; msg.className='form-msg error'; }
+  } catch { msg.textContent='Ошибка соединения'; msg.className='form-msg error'; }
+  btn.disabled=false; btn.innerHTML='<i class="fa fa-paper-plane"></i>&nbsp; Отправить отзыв';
+});
+
+loadReviews();
 </script>
 </body>
 </html>
