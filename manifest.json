@@ -2,7 +2,7 @@
   "name": "Kedem Tours — Кабинет",
   "short_name": "Kedem Tours",
   "description": "Панель управления Kedem Tours",
-  "start_url": "/kabinet.php",
+  "start_url": "/kabinet.html",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
@@ -19,13 +19,10 @@
     { "src": "/icons/icon-384.png", "sizes": "384x384", "type": "image/png", "purpose": "any maskable" },
     { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ],
-  "screenshots": [
-    { "src": "/icons/screenshot.png", "sizes": "390x844", "type": "image/png", "form_factor": "narrow" }
-  ],
-  "categories": ["business", "productivity"],
+"categories": ["business", "productivity"],
   "shortcuts": [
-    { "name": "Заказы",    "url": "/kabinet.php#orders",    "description": "Просмотр заказов" },
-    { "name": "Отзывы",   "url": "/kabinet.php#reviews",   "description": "Модерация отзывов" },
-    { "name": "Настройки","url": "/kabinet.php#settings",  "description": "Настройки сайта" }
+    { "name": "Заказы",    "url": "/kabinet.html#orders",    "description": "Просмотр заказов" },
+    { "name": "Отзывы",   "url": "/kabinet.html#reviews",   "description": "Модерация отзывов" },
+    { "name": "Настройки","url": "/kabinet.html#settings",  "description": "Настройки сайта" }
   ]
 }
