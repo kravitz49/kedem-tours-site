@@ -311,83 +311,76 @@ async function loadSettings() {
   } catch(e) {}
 }
 
+function el(id) { return document.getElementById(id); }
+function setEl(id, prop, val) { var e = el(id); if (e) e[prop] = val; }
+
 function applySettings(s) {
   // Логотип
-  if (s.logo_image) {
-    document.getElementById('logoIcon').innerHTML = `<img src="${s.logo_image}" alt="logo">`;
-  }
-  if (s.logo_text) document.getElementById('logoName').textContent = s.logo_text;
-  if (s.logo_sub)  document.getElementById('logoSub').textContent  = s.logo_sub;
-  if (s.logo_text) document.getElementById('footerName').textContent = s.logo_text;
+  if (s.logo_image && el('logoIcon')) el('logoIcon').innerHTML = '<img src="' + s.logo_image + '" alt="logo" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+  setEl('logoName',   'textContent', s.logo_text || '');
+  setEl('logoSub',    'textContent', s.logo_sub  || '');
+  setEl('footerName', 'textContent', s.logo_text || '');
 
   // Телефон
-  const phone = s.phone || '';
-  const phoneHref = 'tel:' + phone.replace(/\s|-/g,'');
-  document.getElementById('hdrPhone').href    = phoneHref;
-  document.getElementById('hdrPhoneText').textContent = phone;
-  document.getElementById('footerPhone').href = phoneHref;
-  document.getElementById('footerPhoneText').textContent = phone;
+  var phone   = s.phone || '';
+  var telHref = phone ? 'tel:' + phone.replace(/[\s\-]/g,'') : '#';
+  setEl('footerPhone',     'href',        telHref);
+  setEl('footerPhoneText', 'textContent', phone);
 
   // WhatsApp
-  const wa = s.whatsapp ? s.whatsapp.replace(/\D/g,'') : '';
-  const waHref = wa ? `https://wa.me/${wa}` : '#';
-  document.getElementById('hdrWa').href     = waHref;
-  document.getElementById('footerWa').href  = waHref;
-  if (!wa) { document.getElementById('hdrWa').style.display='none'; document.getElementById('footerWa').style.display='none'; }
+  var wa     = s.whatsapp ? s.whatsapp.replace(/\D/g,'') : '';
+  var waHref = wa ? 'https://wa.me/' + wa : '#';
+  setEl('footerWa', 'href', waHref);
 
   // Email
-  const email = s.email || '';
-  document.getElementById('footerEmail').href = email ? `mailto:${email}` : '#';
-  document.getElementById('footerEmailText').textContent = email;
+  var email = s.email || '';
+  setEl('footerEmail',     'href',        email ? 'mailto:' + email : '#');
+  setEl('footerEmailText', 'textContent', email);
 
   // Герой
-  if (s.hero_image) {
-    document.getElementById('heroBlock').style.backgroundImage =
-      `linear-gradient(rgba(15,52,96,0.72), rgba(26,26,46,0.85)), url('${s.hero_image}')`;
+  if (s.hero_image && el('heroBlock'))
+    el('heroBlock').style.backgroundImage =
+      'linear-gradient(rgba(15,52,96,0.72),rgba(26,26,46,0.85)),url(' + JSON.stringify(s.hero_image) + ')';
+  if (s.hero_title && el('heroTitle')) {
+    var words = s.hero_title.split(' ');
+    var mid   = Math.ceil(words.length / 2);
+    el('heroTitle').innerHTML = words.slice(0,mid).join(' ') + ' <span>' + words.slice(mid).join(' ') + '</span>';
   }
-  if (s.hero_title) {
-    const words = s.hero_title.split(' ');
-    const mid   = Math.ceil(words.length / 2);
-    document.getElementById('heroTitle').innerHTML =
-      words.slice(0,mid).join(' ') + ' <span>' + words.slice(mid).join(' ') + '</span>';
-  }
-  if (s.hero_subtitle) document.getElementById('heroSubtitle').textContent = s.hero_subtitle;
+  setEl('heroSubtitle', 'textContent', s.hero_subtitle || '');
 
-  // Соцсети
-  const socials = [
-    { key:'facebook',  icon:'fab fa-facebook-f',     cls:'sf-facebook',  label:'Facebook',  base:'https://facebook.com/' },
-    { key:'instagram', icon:'fab fa-instagram',      cls:'sf-instagram', label:'Instagram', base:'https://instagram.com/' },
-    { key:'telegram',  icon:'fab fa-telegram-plane', cls:'sf-telegram',  label:'Telegram',  base:'https://t.me/' },
-    { key:'youtube',   icon:'fab fa-youtube',        cls:'sf-youtube',   label:'YouTube',   base:'https://youtube.com/' },
-    { key:'tiktok',    icon:'fab fa-tiktok',         cls:'sf-tiktok',    label:'TikTok',    base:'https://tiktok.com/@' },
+  // Соцсети + FAB
+  var socials = [
+    { key:'facebook',  icon:'fab fa-facebook-f',     cls:'fi-fb', label:'Facebook',  base:'https://facebook.com/' },
+    { key:'instagram', icon:'fab fa-instagram',      cls:'fi-ig', label:'Instagram', base:'https://instagram.com/' },
+    { key:'telegram',  icon:'fab fa-telegram-plane', cls:'fi-tg', label:'Telegram',  base:'https://t.me/' },
+    { key:'youtube',   icon:'fab fa-youtube',        cls:'fi-yt', label:'YouTube',   base:'https://youtube.com/' },
+    { key:'tiktok',    icon:'fab fa-tiktok',         cls:'fi-tt', label:'TikTok',    base:'https://tiktok.com/@' },
   ];
-  var footerSocial = document.getElementById('footerSocial');
-  var fabMenu      = document.getElementById('fabMenu');
+
+  var footerSocial = el('footerSocial');
+  var fabMenu      = el('fabMenu');
   if (footerSocial) footerSocial.innerHTML = '';
   if (fabMenu)      fabMenu.innerHTML = '';
 
-  var telHref = phone ? 'tel:' + phone.replace(/[\s\-]/g,'') : '#';
-  var waHref2 = wa ? 'https://wa.me/' + wa : '#';
-
-  // FAB — телефон + WhatsApp первыми
+  // FAB: телефон + WhatsApp + email первыми
   if (fabMenu) {
     if (phone) fabMenu.innerHTML +=
-      '<a class="fab-item" href="' + telHref + '"><i class="fi-phone fa fa-phone"></i><span>Позвонить</span></a>';
+      '<a class="fab-item" href="' + telHref + '"><i class="fi-phone fa fa-phone"></i><span>' + phone + '</span></a>';
     if (wa) fabMenu.innerHTML +=
-      '<a class="fab-item" href="' + waHref2 + '" target="_blank"><i class="fi-wa fab fa-whatsapp"></i><span>WhatsApp</span></a>';
+      '<a class="fab-item" href="' + waHref + '" target="_blank"><i class="fi-wa fab fa-whatsapp"></i><span>WhatsApp</span></a>';
+    if (email) fabMenu.innerHTML +=
+      '<a class="fab-item" href="mailto:' + email + '"><i class="fi-email fa fa-envelope" style="background:#c9a84c"></i><span>' + email + '</span></a>';
   }
-
-  var fabCls = { facebook:'fi-fb', instagram:'fi-ig', telegram:'fi-tg', youtube:'fi-yt', tiktok:'fi-tt' };
-  var fabIco = { facebook:'fab fa-facebook-f', instagram:'fab fa-instagram', telegram:'fab fa-telegram-plane', youtube:'fab fa-youtube', tiktok:'fab fa-tiktok' };
 
   socials.forEach(function(soc) {
     var val = s[soc.key];
     if (!val) return;
     var href = val.startsWith('http') ? val : soc.base + val;
-    if (footerSocial) footerSocial.innerHTML += '<a href="' + href + '" target="_blank" rel="noopener" title="' + soc.label + '"><i class="' + soc.icon + '"></i></a>';
-    if (fabMenu) fabMenu.innerHTML += '<a class="fab-item" href="' + href + '" target="_blank" rel="noopener">' +
-      '<i class="' + (fabCls[soc.key]||'') + ' ' + (fabIco[soc.key]||soc.icon) + '"></i>' +
-      '<span>' + soc.label + '</span></a>';
+    if (footerSocial) footerSocial.innerHTML +=
+      '<a href="' + href + '" target="_blank" rel="noopener" title="' + soc.label + '"><i class="' + soc.icon + '"></i></a>';
+    if (fabMenu) fabMenu.innerHTML +=
+      '<a class="fab-item" href="' + href + '" target="_blank" rel="noopener">' +
+      '<i class="' + soc.cls + ' ' + soc.icon + '"></i><span>' + soc.label + '</span></a>';
   });
 }
 
