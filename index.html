@@ -334,6 +334,7 @@ async function loadExcursions() {
 function renderCard(exc) {
   const card = document.createElement('div');
   card.className = 'exc-card';
+  card.style.cursor = 'pointer';
   const preview = exc.image
     ? `<img class="exc-img" src="${exc.image}" alt="${exc.title}" onerror="this.style.display='none';this.nextSibling.style.display='flex'">`
       + `<div class="exc-img-placeholder" style="background:${exc.bg||'#f0f0f0'};display:none">${exc.icon||'🗺️'}</div>`
@@ -346,11 +347,10 @@ function renderCard(exc) {
       <div class="exc-desc">${exc.desc||''}</div>
       <div class="exc-meta">
         <span class="exc-info"><i class="fa fa-clock"></i> ${exc.duration||''}</span>
-        <button class="exc-btn">Записаться →</button>
+        <a class="exc-btn" href="/excursion.php?id=${exc.id}">Подробнее →</a>
       </div>
     </div>`;
-  card.querySelector('.exc-btn').addEventListener('click', () => openModal(exc.title));
-  card.addEventListener('click', e => { if (!e.target.closest('.exc-btn')) openModal(exc.title); });
+  card.addEventListener('click', () => { window.location.href = '/excursion.php?id=' + exc.id; });
   grid.appendChild(card);
 }
 

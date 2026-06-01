@@ -248,8 +248,12 @@
         <input type="text" id="excTitle" placeholder="Иерусалим — Вечный город"/>
       </div>
       <div class="ef">
-        <label>Описание</label>
-        <textarea id="excDesc" placeholder="Краткое описание экскурсии..."></textarea>
+        <label>Краткое описание <span style="color:#888;font-weight:400">(показывается на карточке)</span></label>
+        <textarea id="excDesc" placeholder="1-2 предложения для карточки на главной..." style="min-height:60px"></textarea>
+      </div>
+      <div class="ef">
+        <label>Полное описание <span style="color:#888;font-weight:400">(показывается на странице экскурсии)</span></label>
+        <textarea id="excDescFull" placeholder="Подробный рассказ об экскурсии: что увидите, программа, что включено..." style="min-height:140px"></textarea>
       </div>
       <div class="ef-row">
         <div class="ef">
@@ -479,14 +483,15 @@ function renderExcList() {
 function openEditor(id) {
   const exc = id ? excursions.find(e => e.id === id) : null;
   document.getElementById('editorTitle').textContent = exc ? 'Редактировать экскурсию' : 'Новая экскурсия';
-  document.getElementById('excId').value      = exc ? exc.id : '';
-  document.getElementById('excTitle').value   = exc ? exc.title    : '';
-  document.getElementById('excDesc').value    = exc ? exc.desc     : '';
-  document.getElementById('excTag').value     = exc ? exc.tag      : 'История';
-  document.getElementById('excDuration').value= exc ? exc.duration : 'Целый день';
-  document.getElementById('excIcon').value    = exc ? exc.icon     : '';
-  document.getElementById('excBg').value      = exc ? (exc.bg||'#e8f4f8') : '#e8f4f8';
-  document.getElementById('excImage').value   = exc ? (exc.image||'') : '';
+  document.getElementById('excId').value        = exc ? exc.id : '';
+  document.getElementById('excTitle').value     = exc ? exc.title        : '';
+  document.getElementById('excDesc').value      = exc ? exc.desc         : '';
+  document.getElementById('excDescFull').value  = exc ? (exc.desc_full||'') : '';
+  document.getElementById('excTag').value       = exc ? exc.tag          : 'История';
+  document.getElementById('excDuration').value  = exc ? exc.duration     : 'Целый день';
+  document.getElementById('excIcon').value      = exc ? exc.icon         : '';
+  document.getElementById('excBg').value        = exc ? (exc.bg||'#e8f4f8') : '#e8f4f8';
+  document.getElementById('excImage').value     = exc ? (exc.image||'')  : '';
   updateImgPreview(exc ? exc.image : '');
   document.getElementById('editorOverlay').classList.add('active');
 }
@@ -502,14 +507,15 @@ function updateImgPreview(url) {
 async function saveExcursion() {
   const id = document.getElementById('excId').value;
   const data = {
-    id:       id ? parseInt(id) : null,
-    title:    document.getElementById('excTitle').value.trim(),
-    desc:     document.getElementById('excDesc').value.trim(),
-    tag:      document.getElementById('excTag').value,
-    duration: document.getElementById('excDuration').value,
-    icon:     document.getElementById('excIcon').value.trim(),
-    bg:       document.getElementById('excBg').value,
-    image:    document.getElementById('excImage').value.trim(),
+    id:        id ? parseInt(id) : null,
+    title:     document.getElementById('excTitle').value.trim(),
+    desc:      document.getElementById('excDesc').value.trim(),
+    desc_full: document.getElementById('excDescFull').value.trim(),
+    tag:       document.getElementById('excTag').value,
+    duration:  document.getElementById('excDuration').value,
+    icon:      document.getElementById('excIcon').value.trim(),
+    bg:        document.getElementById('excBg').value,
+    image:     document.getElementById('excImage').value.trim(),
   };
   if (!data.title) { alert('Введите название экскурсии'); return; }
   const method = id ? 'PUT' : 'POST';
