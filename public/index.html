@@ -449,7 +449,7 @@ form.addEventListener('submit', async e => {
   submitBtn.textContent = 'Отправляем...';
 
   try {
-    const res = await fetch('/api/order', {
+    const res = await fetch('/api/order.php', {
       method: 'POST',
       headers: {'Content-Type':'application/json'},
       body: JSON.stringify({
