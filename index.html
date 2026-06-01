@@ -162,13 +162,14 @@
     .fab-item .fi-yt       { background: #ff0000; }
     .fab-item .fi-tt       { background: #010101; }
     .fab-btn {
-      width: 46px; height: 46px; border-radius: 50%;
+      height: 44px; border-radius: 30px; padding: 0 18px 0 14px;
       background: linear-gradient(135deg, var(--gold), var(--gold-light));
-      border: none; color: var(--dark); font-size: 1.2rem;
+      border: none; color: var(--dark); font-size: .88rem;
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
       box-shadow: 0 4px 18px rgba(201,168,76,0.55);
-      cursor: pointer; display: flex; align-items: center; justify-content: center;
-      transition: transform .2s, box-shadow .2s;
-      order: 1;
+      cursor: pointer; display: flex; align-items: center; gap: 8px;
+      transition: transform .2s, box-shadow .2s; white-space: nowrap;
+      order: 1; letter-spacing: .3px;
     }
     .fab-btn:active { transform: scale(0.93); }
     .fab-btn .fab-icon-close { display: none; }
@@ -261,7 +262,8 @@
 <div class="fab-wrap" id="fabWrap">
   <div class="fab-menu" id="fabMenu"></div>
   <button class="fab-btn" id="fabBtn" onclick="toggleFab()">
-    <i class="fa fa-share-alt fab-icon-open"></i>
+    <i class="fa fa-phone fab-icon-open"></i>
+    <span class="fab-icon-open">Свяжитесь с нами</span>
     <i class="fa fa-times fab-icon-close"></i>
   </button>
 </div>
