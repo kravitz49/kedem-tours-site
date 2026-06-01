@@ -40,6 +40,51 @@
     .login-btn:hover { opacity: 0.88; }
     .login-err { color: #c0392b; font-size: 0.85rem; margin-top: 10px; display: none; }
 
+    /* TABS */
+    .tabs { display: flex; gap: 4px; padding: 20px 28px 0; background: linear-gradient(135deg, var(--dark), var(--accent)); }
+    .tab-btn { padding: 10px 22px; border: none; border-radius: 10px 10px 0 0; font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 0.88rem; cursor: pointer; background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.75); transition: all .2s; }
+    .tab-btn.active { background: var(--bg); color: var(--accent); }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* EXCURSION EDITOR */
+    .exc-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin-bottom: 28px; }
+    .exc-edit-card { background: var(--white); border-radius: 14px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden; }
+    .exc-edit-preview { height: 120px; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; position: relative; }
+    .exc-edit-preview img { width: 100%; height: 100%; object-fit: cover; }
+    .exc-edit-body { padding: 14px 16px; }
+    .exc-edit-title { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: .95rem; color: var(--dark); margin-bottom: 4px; }
+    .exc-edit-tag { font-size: .75rem; color: #888; margin-bottom: 12px; }
+    .exc-edit-actions { display: flex; gap: 8px; }
+    .btn-edit { flex: 1; padding: 7px; background: #dbeafe; color: #1d4ed8; border: none; border-radius: 8px; cursor: pointer; font-size: .8rem; font-weight: 600; transition: background .15s; }
+    .btn-edit:hover { background: #bfdbfe; }
+    .btn-del-exc { padding: 7px 12px; background: #fef2f2; color: #dc2626; border: none; border-radius: 8px; cursor: pointer; font-size: .8rem; transition: background .15s; }
+    .btn-del-exc:hover { background: #fee2e2; }
+    .add-exc-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 13px; background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--dark); border: none; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: .95rem; cursor: pointer; margin-bottom: 24px; transition: opacity .2s; }
+    .add-exc-btn:hover { opacity: .88; }
+
+    /* EDITOR MODAL */
+    .editor-overlay { display: none; position: fixed; inset: 0; background: rgba(15,52,96,.65); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
+    .editor-overlay.active { display: flex; }
+    .editor-box { background: var(--white); border-radius: 20px; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 80px rgba(0,0,0,.3); animation: slideUp .25s ease; }
+    @keyframes slideUp { from { transform: translateY(30px); opacity:0 } to { transform: none; opacity:1 } }
+    .editor-head { background: linear-gradient(135deg,var(--accent),var(--dark)); padding: 20px 24px; border-radius: 20px 20px 0 0; display: flex; align-items: center; justify-content: space-between; }
+    .editor-head-title { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.1rem; color: var(--white); }
+    .editor-close { background: rgba(255,255,255,.15); border: none; color: var(--white); width: 32px; height: 32px; border-radius: 50%; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .editor-close:hover { background: rgba(255,255,255,.3); }
+    .editor-body { padding: 24px; }
+    .ef { margin-bottom: 16px; }
+    .ef label { display: block; font-weight: 600; font-size: .85rem; color: var(--accent); margin-bottom: 6px; }
+    .ef input, .ef textarea, .ef select { width: 100%; padding: 10px 13px; border: 2px solid #e0e0e0; border-radius: 10px; font-family: 'Open Sans', sans-serif; font-size: .9rem; outline: none; transition: border-color .2s; background: #fafafa; }
+    .ef input:focus, .ef textarea:focus, .ef select:focus { border-color: var(--gold); background: var(--white); }
+    .ef textarea { resize: vertical; min-height: 80px; }
+    .ef-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .color-preview { width: 36px; height: 36px; border-radius: 8px; border: 2px solid #e0e0e0; flex-shrink: 0; }
+    .ef-color { display: flex; align-items: center; gap: 10px; }
+    .save-exc-btn { width: 100%; padding: 13px; background: linear-gradient(135deg,var(--gold),var(--gold-light)); color: var(--dark); border: none; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: .95rem; cursor: pointer; margin-top: 8px; transition: opacity .2s; }
+    .save-exc-btn:hover { opacity: .88; }
+    .img-hint { font-size: .75rem; color: #888; margin-top: 4px; }
+
     /* ADMIN PANEL */
     .admin-wrap { display: none; }
     .admin-header {
@@ -147,53 +192,102 @@
     <div class="admin-logo"><i class="fa fa-compass" style="color:var(--gold)"></i> КЕДЕМ ТУРС <span>| Панель управления</span></div>
     <button class="logout-btn" onclick="logout()"><i class="fa fa-sign-out-alt"></i> Выйти</button>
   </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('orders',this)"><i class="fa fa-list"></i> Заказы</button>
+    <button class="tab-btn" onclick="switchTab('excursions',this)"><i class="fa fa-map-marked-alt"></i> Экскурсии</button>
+  </div>
 
   <div class="admin-content">
-    <!-- Stats -->
-    <div class="stats-grid" id="statsGrid"></div>
 
-    <!-- Chart -->
-    <div class="chart-section">
-      <div class="chart-title"><i class="fa fa-chart-bar" style="color:var(--gold)"></i> Заказы по экскурсиям</div>
-      <div class="bar-chart" id="barChart"></div>
+    <!-- ── ЗАКАЗЫ ── -->
+    <div class="tab-pane active" id="tab-orders">
+      <div class="stats-grid" id="statsGrid"></div>
+      <div class="chart-section">
+        <div class="chart-title"><i class="fa fa-chart-bar" style="color:var(--gold)"></i> Заказы по экскурсиям</div>
+        <div class="bar-chart" id="barChart"></div>
+      </div>
+      <div class="filters">
+        <input type="text" id="searchInput" placeholder="🔍 Поиск по имени, телефону..." oninput="renderTable()"/>
+        <select id="excFilter" onchange="renderTable()"><option value="">Все экскурсии</option></select>
+        <select id="pickupFilter" onchange="renderTable()">
+          <option value="">Все остановки</option>
+          <option>Каньён Авиа</option><option>Каньён Шауль Ха-Мелех</option>
+          <option>Гранд Каньёон</option><option>Неве Зеев-Жаботински</option>
+          <option>Бигудит Вицо</option><option>Сорока</option><option>Центр Орен</option>
+        </select>
+        <button class="export-btn" onclick="exportCSV()"><i class="fa fa-download"></i> Экспорт CSV</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Дата</th><th>Экскурсия</th><th>Имя</th><th>Фамилия</th><th>Телефон</th><th>Мест</th><th>Посадка</th><th></th></tr></thead>
+          <tbody id="ordersBody"></tbody>
+        </table>
+      </div>
     </div>
 
-    <!-- Filters + Table -->
-    <div class="filters">
-      <input type="text" id="searchInput" placeholder="🔍 Поиск по имени, телефону..." oninput="renderTable()"/>
-      <select id="excFilter" onchange="renderTable()">
-        <option value="">Все экскурсии</option>
-      </select>
-      <select id="pickupFilter" onchange="renderTable()">
-        <option value="">Все остановки</option>
-        <option>Каньён Авиа</option>
-        <option>Каньён Шауль Ха-Мелех</option>
-        <option>Гранд Каньёон</option>
-        <option>Неве Зеев-Жаботински</option>
-        <option>Бигудит Вицо</option>
-        <option>Сорока</option>
-        <option>Центр Орен</option>
-      </select>
-      <button class="export-btn" onclick="exportCSV()"><i class="fa fa-download"></i> Экспорт CSV</button>
+    <!-- ── ЭКСКУРСИИ ── -->
+    <div class="tab-pane" id="tab-excursions">
+      <button class="add-exc-btn" onclick="openEditor(null)"><i class="fa fa-plus-circle"></i> Добавить новую экскурсию</button>
+      <div class="exc-list" id="excList"></div>
     </div>
 
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Дата</th>
-            <th>Экскурсия</th>
-            <th>Имя</th>
-            <th>Фамилия</th>
-            <th>Телефон</th>
-            <th>Мест</th>
-            <th>Посадка</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="ordersBody"></tbody>
-      </table>
+  </div>
+</div>
+
+<!-- EDITOR MODAL -->
+<div class="editor-overlay" id="editorOverlay">
+  <div class="editor-box">
+    <div class="editor-head">
+      <div class="editor-head-title" id="editorTitle">Редактировать экскурсию</div>
+      <button class="editor-close" onclick="closeEditor()"><i class="fa fa-times"></i></button>
+    </div>
+    <div class="editor-body">
+      <input type="hidden" id="excId"/>
+      <div class="ef">
+        <label>Название экскурсии *</label>
+        <input type="text" id="excTitle" placeholder="Иерусалим — Вечный город"/>
+      </div>
+      <div class="ef">
+        <label>Описание</label>
+        <textarea id="excDesc" placeholder="Краткое описание экскурсии..."></textarea>
+      </div>
+      <div class="ef-row">
+        <div class="ef">
+          <label>Категория (тег)</label>
+          <select id="excTag">
+            <option>История</option><option>Природа</option><option>Город</option>
+            <option>Пляж</option><option>Культура</option><option>Религия</option><option>Другое</option>
+          </select>
+        </div>
+        <div class="ef">
+          <label>Длительность</label>
+          <select id="excDuration">
+            <option>Целый день</option><option>Полдня</option><option>2-3 часа</option><option>Несколько дней</option>
+          </select>
+        </div>
+      </div>
+      <div class="ef-row">
+        <div class="ef">
+          <label>Эмодзи (иконка)</label>
+          <input type="text" id="excIcon" placeholder="🕌" maxlength="4"/>
+        </div>
+        <div class="ef">
+          <label>Цвет фона карточки</label>
+          <div class="ef-color">
+            <input type="color" id="excBg" value="#e8f4f8" style="width:60px;height:38px;padding:2px;cursor:pointer"/>
+            <span style="font-size:.8rem;color:#666">Цвет если нет фото</span>
+          </div>
+        </div>
+      </div>
+      <div class="ef">
+        <label>Фото (ссылка на изображение)</label>
+        <input type="url" id="excImage" placeholder="https://example.com/photo.jpg"/>
+        <div class="img-hint">Загрузите фото через файловый менеджер Hostia в папку /images/ и укажите ссылку вида https://kedem-tours.com/images/photo.jpg</div>
+      </div>
+      <div id="imgPreviewWrap" style="margin-bottom:14px;display:none">
+        <img id="imgPreview" style="width:100%;height:160px;object-fit:cover;border-radius:10px;border:2px solid #e0e0e0"/>
+      </div>
+      <button class="save-exc-btn" onclick="saveExcursion()"><i class="fa fa-save"></i> Сохранить</button>
     </div>
   </div>
 </div>
@@ -344,6 +438,94 @@ function exportCSV() {
 // Auto-login from session
 const saved = sessionStorage.getItem('adminToken');
 if (saved) { token = saved; showAdmin(); }
+
+// ── TABS ──────────────────────────────────────────────────
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  btn.classList.add('active');
+  if (name === 'excursions') loadExcList();
+}
+
+// ── EXCURSIONS MANAGEMENT ─────────────────────────────────
+let excursions = [];
+
+async function loadExcList() {
+  const res = await fetch('/api/excursions.php', { headers: { Authorization: 'Bearer ' + token } });
+  excursions = await res.json();
+  renderExcList();
+}
+
+function renderExcList() {
+  const list = document.getElementById('excList');
+  if (!excursions.length) { list.innerHTML = '<p style="color:#aaa">Экскурсий пока нет. Добавьте первую!</p>'; return; }
+  list.innerHTML = excursions.map(e => `
+    <div class="exc-edit-card">
+      <div class="exc-edit-preview" style="background:${e.bg||'#f0f0f0'}">
+        ${e.image ? `<img src="${e.image}" style="width:100%;height:100%;object-fit:cover" onerror="this.style.display='none'">` : e.icon||'🗺️'}
+      </div>
+      <div class="exc-edit-body">
+        <div class="exc-edit-title">${e.title}</div>
+        <div class="exc-edit-tag">${e.tag||''} • ${e.duration||''}</div>
+        <div class="exc-edit-actions">
+          <button class="btn-edit" onclick="openEditor(${e.id})"><i class="fa fa-pen"></i> Редактировать</button>
+          <button class="btn-del-exc" onclick="delExcursion(${e.id})"><i class="fa fa-trash"></i></button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function openEditor(id) {
+  const exc = id ? excursions.find(e => e.id === id) : null;
+  document.getElementById('editorTitle').textContent = exc ? 'Редактировать экскурсию' : 'Новая экскурсия';
+  document.getElementById('excId').value      = exc ? exc.id : '';
+  document.getElementById('excTitle').value   = exc ? exc.title    : '';
+  document.getElementById('excDesc').value    = exc ? exc.desc     : '';
+  document.getElementById('excTag').value     = exc ? exc.tag      : 'История';
+  document.getElementById('excDuration').value= exc ? exc.duration : 'Целый день';
+  document.getElementById('excIcon').value    = exc ? exc.icon     : '';
+  document.getElementById('excBg').value      = exc ? (exc.bg||'#e8f4f8') : '#e8f4f8';
+  document.getElementById('excImage').value   = exc ? (exc.image||'') : '';
+  updateImgPreview(exc ? exc.image : '');
+  document.getElementById('editorOverlay').classList.add('active');
+}
+function closeEditor() { document.getElementById('editorOverlay').classList.remove('active'); }
+
+document.getElementById('excImage').addEventListener('input', e => updateImgPreview(e.target.value));
+function updateImgPreview(url) {
+  const wrap = document.getElementById('imgPreviewWrap');
+  const img  = document.getElementById('imgPreview');
+  if (url) { img.src = url; wrap.style.display = 'block'; } else { wrap.style.display = 'none'; }
+}
+
+async function saveExcursion() {
+  const id = document.getElementById('excId').value;
+  const data = {
+    id:       id ? parseInt(id) : null,
+    title:    document.getElementById('excTitle').value.trim(),
+    desc:     document.getElementById('excDesc').value.trim(),
+    tag:      document.getElementById('excTag').value,
+    duration: document.getElementById('excDuration').value,
+    icon:     document.getElementById('excIcon').value.trim(),
+    bg:       document.getElementById('excBg').value,
+    image:    document.getElementById('excImage').value.trim(),
+  };
+  if (!data.title) { alert('Введите название экскурсии'); return; }
+  const method = id ? 'PUT' : 'POST';
+  await fetch('/api/excursions.php', {
+    method, headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token },
+    body: JSON.stringify(data)
+  });
+  closeEditor();
+  loadExcList();
+}
+
+async function delExcursion(id) {
+  if (!confirm('Удалить эту экскурсию?')) return;
+  await fetch('/api/excursions.php/' + id, { method: 'DELETE', headers: { Authorization: 'Bearer ' + token } });
+  loadExcList();
+}
 </script>
 </body>
 </html>

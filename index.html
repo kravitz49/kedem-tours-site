@@ -312,81 +312,6 @@
 </div>
 
 <script>
-const EXCURSIONS = [
-  {
-    title: 'Иерусалим — Вечный город',
-    tag: 'История',
-    desc: 'Старый город, Стена плача, Храм Гроба Господня, Виа Долороса. Полное погружение в тысячелетнюю историю.',
-    duration: 'Целый день',
-    bg: '#e8f4f8',
-    icon: '🕌'
-  },
-  {
-    title: 'Мёртвое море и Масада',
-    tag: 'Природа',
-    desc: 'Восход на Масаду по «Змеиной тропе», крепость царя Ирода и целебные воды Мёртвого моря.',
-    duration: 'Целый день',
-    bg: '#fff8e1',
-    icon: '🏔️'
-  },
-  {
-    title: 'Тель-Авив и Яффо',
-    tag: 'Город',
-    desc: 'Современный Тель-Авив, набережная Тель-Авива, Порт Яффо, блошиный рынок и арабский квартал.',
-    duration: 'Полдня',
-    bg: '#f3e5f5',
-    icon: '🌆'
-  },
-  {
-    title: 'Эйлат и Красное море',
-    tag: 'Пляж',
-    desc: 'Коралловый заповедник, подводный мир Красного моря, Аквариум и панорама трёх государств.',
-    duration: 'Целый день',
-    bg: '#e0f7fa',
-    icon: '🐠'
-  },
-  {
-    title: 'Галилея и Голанские высоты',
-    tag: 'Природа',
-    desc: 'Водопады Тель-Дан, Баниас, крепость Нимрод, смотровая площадка на Сирию и Ливан.',
-    duration: 'Целый день',
-    bg: '#e8f5e9',
-    icon: '🌿'
-  },
-  {
-    title: 'Цфат — город мистиков',
-    tag: 'Культура',
-    desc: 'Центр каббалы, древние синагоги, художественные галереи, улочки средневекового города.',
-    duration: 'Полдня',
-    bg: '#fce4ec',
-    icon: '✡️'
-  },
-  {
-    title: 'Кейсария и Акко',
-    tag: 'История',
-    desc: 'Римский амфитеатр Кейсарии, крепость крестоносцев в Акко, Рыцарский зал и турецкие бани.',
-    duration: 'Целый день',
-    bg: '#fff3e0',
-    icon: '🏛️'
-  },
-  {
-    title: 'Негев — пустыня и кратеры',
-    tag: 'Природа',
-    desc: 'Кратер Рамон — крупнейший эрозионный кратер в мире, пустынные пейзажи и набатейские города.',
-    duration: 'Целый день',
-    bg: '#f9fbe7',
-    icon: '🌵'
-  },
-  {
-    title: 'Хайфа и Бахайские сады',
-    tag: 'Культура',
-    desc: 'Знаменитые террасные сады Бахаи, монастырь Кармель, вид на Хайфский залив.',
-    duration: 'Полдня',
-    bg: '#ede7f6',
-    icon: '🌸'
-  }
-];
-
 const grid = document.getElementById('excGrid');
 const overlay = document.getElementById('modalOverlay');
 const modalClose = document.getElementById('modalClose');
@@ -396,24 +321,40 @@ const formMsg = document.getElementById('formMsg');
 const submitBtn = document.getElementById('submitBtn');
 let currentExc = '';
 
-EXCURSIONS.forEach(exc => {
+async function loadExcursions() {
+  try {
+    const res = await fetch('/api/excursions.php');
+    const excursions = await res.json();
+    excursions.forEach(exc => renderCard(exc));
+  } catch {
+    grid.innerHTML = '<p style="color:#888;grid-column:1/-1;text-align:center">Не удалось загрузить экскурсии</p>';
+  }
+}
+
+function renderCard(exc) {
   const card = document.createElement('div');
   card.className = 'exc-card';
+  const preview = exc.image
+    ? `<img class="exc-img" src="${exc.image}" alt="${exc.title}" onerror="this.style.display='none';this.nextSibling.style.display='flex'">`
+      + `<div class="exc-img-placeholder" style="background:${exc.bg||'#f0f0f0'};display:none">${exc.icon||'🗺️'}</div>`
+    : `<div class="exc-img-placeholder" style="background:${exc.bg||'#f0f0f0'}">${exc.icon||'🗺️'}</div>`;
   card.innerHTML = `
-    <div class="exc-img-placeholder" style="background:${exc.bg}">${exc.icon}</div>
+    ${preview}
     <div class="exc-body">
-      <span class="exc-tag">${exc.tag}</span>
+      <span class="exc-tag">${exc.tag||''}</span>
       <div class="exc-title">${exc.title}</div>
-      <div class="exc-desc">${exc.desc}</div>
+      <div class="exc-desc">${exc.desc||''}</div>
       <div class="exc-meta">
-        <span class="exc-info"><i class="fa fa-clock"></i> ${exc.duration}</span>
+        <span class="exc-info"><i class="fa fa-clock"></i> ${exc.duration||''}</span>
         <button class="exc-btn">Записаться →</button>
       </div>
     </div>`;
   card.querySelector('.exc-btn').addEventListener('click', () => openModal(exc.title));
   card.addEventListener('click', e => { if (!e.target.closest('.exc-btn')) openModal(exc.title); });
   grid.appendChild(card);
-});
+}
+
+loadExcursions();
 
 function openModal(title) {
   currentExc = title;
