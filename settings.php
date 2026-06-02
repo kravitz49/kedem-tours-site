@@ -5,7 +5,6 @@ header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Authorization, Content-Type');
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(204); exit; }
 
-require_once __DIR__ . '/config.php';
 $FILE = __DIR__ . '/settings.json';
 
 function loadSettings($f) {
@@ -13,7 +12,7 @@ function loadSettings($f) {
     return json_decode(file_get_contents($f), true) ?: [];
 }
 
-// GET — публичный, без авторизации
+// GET — публичный, config.php не нужен
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     echo json_encode(loadSettings($FILE), JSON_UNESCAPED_UNICODE);
     exit;
@@ -21,8 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
 // POST — сохранение (только admin)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $cfg = __DIR__ . '/config.php';
+    if (file_exists($cfg)) require_once $cfg;
+    $password = defined('ADMIN_PASSWORD') ? ADMIN_PASSWORD : 'kedem2024admin';
     $auth = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
-    if ($auth !== 'Bearer ' . base64_encode(ADMIN_PASSWORD)) {
+    if ($auth !== 'Bearer ' . base64_encode($password)) {
         http_response_code(401); echo json_encode(['error'=>'Unauthorized']); exit;
     }
     $data = json_decode(file_get_contents('php://input'), true);

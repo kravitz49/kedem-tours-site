@@ -5,9 +5,12 @@ header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Authorization, Content-Type');
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') { http_response_code(204); exit; }
 
-require_once __DIR__ . '/config.php';
-
 $FILE = __DIR__ . '/reviews.json';
+
+// Загружаем config.php только если существует (нужен для авторизации)
+$_cfg = __DIR__ . '/config.php';
+if (file_exists($_cfg)) require_once $_cfg;
+if (!defined('ADMIN_PASSWORD')) define('ADMIN_PASSWORD', 'kedem2024admin');
 
 function loadReviews($f) {
     if (!file_exists($f)) return [];
