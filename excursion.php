@@ -211,14 +211,22 @@ form.addEventListener('submit', async e => {
         pickup:    document.getElementById('pickup').value
       })
     });
-    const data = await res.json();
+    const text = await res.text();
+    let data;
+    try { data = JSON.parse(text); } catch(e) {
+      console.error('order.php response:', text);
+      showMsg('Ошибка сервера. Попробуйте позже.', 'error');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fa fa-check-circle"></i>&nbsp; Записаться';
+      return;
+    }
     if (data.success) {
       showMsg('✅ Вы успешно записаны! Мы свяжемся с вами в ближайшее время.', 'success');
       form.reset();
     } else {
       showMsg(data.error || 'Ошибка. Попробуйте ещё раз.', 'error');
     }
-  } catch { showMsg('Ошибка соединения. Попробуйте позже.', 'error'); }
+  } catch(e) { console.error(e); showMsg('Ошибка соединения. Попробуйте позже.', 'error'); }
   submitBtn.disabled = false;
   submitBtn.innerHTML = '<i class="fa fa-check-circle"></i>&nbsp; Записаться';
 });
