@@ -99,10 +99,10 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
 <header>
   <div class="header-inner">
     <a class="logo" href="/">
-      <div class="logo-icon"><i class="fa fa-compass"></i></div>
+      <div class="logo-icon" id="logoIcon"><i class="fa fa-compass"></i></div>
       <div>
-        <div class="logo-name">KEDEM TOURS</div>
-        <div class="logo-sub">Экскурсии по Израилю</div>
+        <div class="logo-name" id="logoName">KEDEM TOURS</div>
+        <div class="logo-sub" id="logoSub">Экскурсии по Израилю</div>
       </div>
     </a>
     <a class="back-btn" href="/"><i class="fa fa-arrow-left"></i> Все экскурсии</a>
@@ -209,6 +209,29 @@ form.addEventListener('submit', async e => {
 });
 
 function showMsg(text, type) { formMsg.textContent = text; formMsg.className = 'form-msg ' + type; }
+
+// ── SETTINGS ─────────────────────────────────────────────
+(function applyHeaderSettings(s) {
+  if (!s) return;
+  var logoIcon = document.getElementById('logoIcon');
+  if (s.logo_image && logoIcon)
+    logoIcon.innerHTML = '<img src="' + s.logo_image + '" alt="logo" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+  var logoName = document.getElementById('logoName');
+  if (logoName && s.logo_text) logoName.textContent = s.logo_text;
+  var logoSub = document.getElementById('logoSub');
+  if (logoSub && s.logo_sub) logoSub.textContent = s.logo_sub;
+})(JSON.parse(localStorage.getItem('site_settings') || 'null'));
+
+fetch('/settings.php').then(r => r.json()).then(function(s) {
+  localStorage.setItem('site_settings', JSON.stringify(s));
+  var logoIcon = document.getElementById('logoIcon');
+  if (s.logo_image && logoIcon)
+    logoIcon.innerHTML = '<img src="' + s.logo_image + '" alt="logo" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+  var logoName = document.getElementById('logoName');
+  if (logoName && s.logo_text) logoName.textContent = s.logo_text;
+  var logoSub = document.getElementById('logoSub');
+  if (logoSub && s.logo_sub) logoSub.textContent = s.logo_sub;
+}).catch(function(){});
 </script>
 </body>
 </html>
