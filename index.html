@@ -65,19 +65,19 @@
     .divider { width: 60px; height: 4px; background: var(--gold); border-radius: 2px; margin: 12px 0 28px; }
 
     /* EXCURSION GRID */
-    .excursion-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
-    .exc-card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); cursor: pointer; transition: transform .25s, box-shadow .25s; border: 2px solid transparent; }
-    .exc-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,0,0,0.18); border-color: var(--gold); }
-    .exc-img { width: 100%; height: 200px; object-fit: cover; display: block; }
-    .exc-img-placeholder { width: 100%; height: 200px; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
-    .exc-body { padding: 20px; }
-    .exc-tag { display: inline-block; background: #fff3cd; color: #856404; font-size: 0.72rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .exc-title { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.05rem; color: var(--dark); margin-bottom: 8px; }
-    .exc-desc { font-size: 0.85rem; color: #666; line-height: 1.5; margin-bottom: 16px; }
-    .exc-meta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
-    .exc-info { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #595959; }
-    .exc-info i { color: var(--gold); }
-    .exc-btn { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--dark); text-decoration: none; padding: 8px 18px; border-radius: 30px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.82rem; cursor: pointer; transition: opacity .2s; letter-spacing: 0.5px; display: inline-block; }
+    .excursion-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+    .exc-card { background: var(--white); border-radius: 10px; overflow: hidden; box-shadow: var(--shadow); cursor: pointer; transition: transform .2s, box-shadow .2s; border: 2px solid transparent; display: flex; flex-direction: column; }
+    .exc-card:hover { transform: translateY(-4px); box-shadow: 0 10px 32px rgba(0,0,0,0.16); border-color: var(--gold); }
+    .exc-img { width: 100%; height: 130px; object-fit: cover; display: block; }
+    .exc-img-placeholder { width: 100%; height: 130px; display: flex; align-items: center; justify-content: center; font-size: 2.2rem; }
+    .exc-body { padding: 12px 14px 14px; display: flex; flex-direction: column; flex: 1; }
+    .exc-tag { display: inline-block; background: #fff3cd; color: #856404; font-size: 0.65rem; font-weight: 600; padding: 2px 8px; border-radius: 20px; margin-bottom: 7px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .exc-title { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.88rem; color: var(--dark); margin-bottom: 10px; line-height: 1.35; flex: 1; }
+    .exc-desc { display: none; }
+    .exc-meta { display: flex; align-items: center; justify-content: space-between; gap: 6px; flex-wrap: nowrap; }
+    .exc-info { display: flex; align-items: center; gap: 4px; font-size: 0.72rem; color: #595959; white-space: nowrap; }
+    .exc-info i { color: var(--gold); font-size: 0.7rem; }
+    .exc-btn { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--dark); text-decoration: none; padding: 5px 12px; border-radius: 20px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.72rem; cursor: pointer; transition: opacity .2s; white-space: nowrap; display: inline-block; }
     .exc-btn:hover { opacity: 0.85; }
 
     /* MODAL */
@@ -172,15 +172,14 @@
       .section-sub   { font-size: 0.85rem; margin-bottom: 22px; }
       .divider       { margin: 8px 0 20px; }
 
-      /* Excursion cards */
-      .excursion-grid { grid-template-columns: 1fr; gap: 16px; }
-      .exc-img        { height: 180px; }
-      .exc-img-placeholder { height: 160px; font-size: 2.5rem; }
-      .exc-body       { padding: 14px; }
-      .exc-title      { font-size: 0.95rem; }
-      .exc-desc       { font-size: 0.8rem; margin-bottom: 12px; }
-      .exc-meta       { flex-direction: column; align-items: stretch; gap: 10px; }
-      .exc-btn        { text-align: center; padding: 10px 18px; }
+      /* Excursion cards — 2 колонки на мобильном */
+      .excursion-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .exc-img        { height: 100px; }
+      .exc-img-placeholder { height: 100px; font-size: 1.8rem; }
+      .exc-body       { padding: 8px 10px 10px; }
+      .exc-title      { font-size: 0.78rem; margin-bottom: 8px; }
+      .exc-info       { font-size: 0.65rem; }
+      .exc-btn        { font-size: 0.65rem; padding: 4px 8px; }
 
       /* Features */
       .features-grid  { grid-template-columns: 1fr 1fr; gap: 12px; }
