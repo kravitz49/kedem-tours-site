@@ -19,7 +19,7 @@
     :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
 
     /* HEADER */
-    header { background: linear-gradient(135deg, var(--dark) 0%, var(--accent) 100%); padding: 14px 24px; box-shadow: 0 2px 20px rgba(0,0,0,.3); }
+    header { background: linear-gradient(135deg, var(--dark) 0%, var(--accent) 100%); box-shadow: 0 2px 20px rgba(0,0,0,.3); position: sticky; top: 0; z-index: 100; }
     .header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; gap: 12px; }
     .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
     .logo-icon { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-light)); display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--dark); overflow: hidden; flex-shrink: 0; }
@@ -105,6 +105,18 @@
     <a class="back-link" href="/"><i class="fa fa-arrow-left" aria-hidden="true"></i> На главную</a>
   </div>
 </header>
+<script>
+(function(){
+  try {
+    var s=JSON.parse(localStorage.getItem('siteSettings')||'null');
+    if(!s) return;
+    var li=document.getElementById('logoIcon');
+    if(li&&s.logo_image) li.innerHTML='<img src="'+s.logo_image+'" alt="'+(s.logo_text||'Логотип')+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+    var ln=document.getElementById('logoName'); if(ln&&s.logo_text) ln.textContent=s.logo_text;
+    var ls=document.getElementById('logoSub');  if(ls&&s.logo_sub)  ls.textContent=s.logo_sub;
+  } catch(e){}
+})();
+</script>
 
 <div class="page-hero">
   <h1>Декларация доступности</h1>

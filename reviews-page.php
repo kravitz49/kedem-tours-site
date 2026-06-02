@@ -116,6 +116,18 @@
     <a class="back-btn" href="/"><i class="fa fa-arrow-left"></i> На главную</a>
   </div>
 </header>
+<script>
+(function(){
+  try {
+    var s=JSON.parse(localStorage.getItem('siteSettings')||'null');
+    if(!s) return;
+    var li=document.getElementById('logoIcon');
+    if(li&&s.logo_image) li.innerHTML='<img src="'+s.logo_image+'" alt="'+(s.logo_text||'Логотип')+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+    var ln=document.getElementById('logoName'); if(ln&&s.logo_text) ln.textContent=s.logo_text;
+    var ls=document.getElementById('logoSub');  if(ls&&s.logo_sub)  ls.textContent=s.logo_sub;
+  } catch(e){}
+})();
+</script>
 
 <div class="reviews-hero">
   <h1>Отзывы <span>наших клиентов</span></h1>
