@@ -1,4 +1,4 @@
-const CACHE = 'kedem-v3';
+const CACHE = 'kedem-v4';
 
 const STATIC = [
   '/',
