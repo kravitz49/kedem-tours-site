@@ -30,12 +30,12 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
 
     /* HEADER */
     header { background: linear-gradient(135deg,var(--dark),var(--accent)); padding: 0; box-shadow: 0 2px 20px rgba(0,0,0,.3); }
-    .header-inner { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:16px 24px; }
-    .logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
-    .logo-icon { width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,var(--gold),var(--gold-light)); display:flex; align-items:center; justify-content:center; font-size:22px; color:var(--dark); }
-    .logo-name { font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.4rem; color:var(--white); letter-spacing:1px; }
-    .logo-sub { font-size:.7rem; color:var(--gold-light); letter-spacing:2px; text-transform:uppercase; }
-    .back-btn { background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:var(--dark); text-decoration:none; font-size:.78rem; font-family:'Montserrat',sans-serif; font-weight:700; padding:8px 16px; border-radius:20px; display:flex; align-items:center; gap:6px; transition:opacity .2s; white-space:nowrap; }
+    .header-inner { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:16px 24px; gap:12px; }
+    .logo { display:flex; align-items:center; gap:12px; text-decoration:none; flex-shrink:0; }
+    .logo-icon { width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,var(--gold),var(--gold-light)); display:flex; align-items:center; justify-content:center; font-size:22px; color:var(--dark); flex-shrink:0; }
+    .logo-name { font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.4rem; color:var(--white); letter-spacing:1px; white-space:nowrap; }
+    .logo-sub { font-size:.7rem; color:var(--gold-light); letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
+    .back-btn { background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:var(--dark); text-decoration:none; font-size:.72rem; font-family:'Montserrat',sans-serif; font-weight:700; padding:6px 12px; border-radius:20px; display:flex; align-items:center; gap:5px; transition:opacity .2s; white-space:nowrap; flex-shrink:0; }
     .back-btn:hover { opacity:.85; }
 
     /* HERO IMAGE */
