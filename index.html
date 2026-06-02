@@ -203,12 +203,16 @@
       footer          { padding: 24px 16px; }
       .footer-contacts { gap: 12px; font-size: 0.8rem; }
 
-      /* FAB */
-      .fab-wrap       { top: auto; bottom: 20px; right: 16px; }
+      /* FAB — на мобильном: компактная круглая кнопка */
+      .fab-wrap       { top: auto; bottom: 16px; right: 14px; }
       .fab-menu       { order: 1; }
-      .fab-btn        { order: 2; height: 42px; font-size: 0.82rem; padding: 0 14px 0 12px; }
+      .fab-btn        { order: 2; width: 48px; height: 48px; border-radius: 50%; padding: 0; justify-content: center; }
+      .fab-btn .fab-icon-open + span { display: none; } /* скрыть текст */
       .fab-item       { font-size: 0.82rem; padding: 8px 14px 8px 10px; }
       .fab-item i     { width: 24px; height: 24px; font-size: 0.85rem; }
+
+      /* Отступ снизу чтобы FAB не перекрывал контент */
+      body            { padding-bottom: 72px; }
     }
 
     @media (max-width: 380px) {
