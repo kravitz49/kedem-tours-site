@@ -75,7 +75,7 @@
     .exc-title { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.05rem; color: var(--dark); margin-bottom: 8px; }
     .exc-desc { font-size: 0.85rem; color: #666; line-height: 1.5; margin-bottom: 16px; }
     .exc-meta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
-    .exc-info { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #888; }
+    .exc-info { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #595959; }
     .exc-info i { color: var(--gold); }
     .exc-btn { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--dark); text-decoration: none; padding: 8px 18px; border-radius: 30px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.82rem; cursor: pointer; transition: opacity .2s; letter-spacing: 0.5px; display: inline-block; }
     .exc-btn:hover { opacity: 0.85; }
@@ -109,7 +109,7 @@
     .feature-card { background: var(--white); border-radius: var(--radius); padding: 28px 20px; text-align: center; box-shadow: var(--shadow); }
     .feature-icon { font-size: 2.2rem; margin-bottom: 14px; }
     .feature-title { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1rem; color: var(--accent); margin-bottom: 8px; }
-    .feature-text { font-size: 0.76rem; color: #888; line-height: 1.5; }
+    .feature-text { font-size: 0.76rem; color: #595959; line-height: 1.5; }
 
     /* MARQUEE */
     .marquee-wrap {
@@ -137,7 +137,7 @@
     .review-stars { color: #f59e0b; }
     .review-exc-label { font-size: .75rem; color: var(--gold); font-weight: 600; margin: 4px 0 8px; text-transform: uppercase; letter-spacing: .5px; }
     .review-body { font-size: .88rem; color: #555; line-height: 1.6; }
-    .review-dt { font-size: .75rem; color: #bbb; margin-top: 10px; }
+    .review-dt { font-size: .75rem; color: #767676; margin-top: 10px; }
 
     /* FOOTER */
     footer { background: var(--dark); color: rgba(255,255,255,0.7); padding: 36px 24px; font-size: 0.85rem; }
@@ -216,6 +216,102 @@
       .logo-name      { font-size: 0.95rem; }
     }
 
+    /* ══ ДОСТУПНОСТЬ ═══════════════════════════════════════ */
+
+    /* Skip-link */
+    .skip-link {
+      position: absolute; top: -100%; left: 0;
+      background: var(--gold); color: var(--dark);
+      padding: 10px 18px; font-weight: 700; font-size: 0.95rem;
+      z-index: 9999; border-radius: 0 0 8px 0;
+      text-decoration: none;
+    }
+    .skip-link:focus { top: 0; }
+
+    /* Focus-visible — видимый фокус для клавиатуры */
+    :focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* Reduced motion — уважаем системные настройки */
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-track { animation: none; }
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* ── Кнопка доступности ─────────────────────────────── */
+    .a11y-btn {
+      position: fixed; bottom: 80px; left: 16px; z-index: 600;
+      width: 48px; height: 48px; border-radius: 50%;
+      background: var(--accent); color: #fff;
+      border: 2px solid var(--gold-light);
+      font-size: 1.35rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.35);
+      transition: transform .2s;
+    }
+    .a11y-btn:hover { transform: scale(1.1); }
+
+    /* ── Панель доступности ─────────────────────────────── */
+    .a11y-panel {
+      position: fixed; bottom: 136px; left: 16px; z-index: 600;
+      background: #fff; border-radius: 14px;
+      padding: 18px 16px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.22);
+      min-width: 230px;
+      border: 1px solid #ddd;
+      display: none;
+    }
+    .a11y-panel.open { display: block; }
+    .a11y-panel h3 {
+      font-family: 'Montserrat', sans-serif; font-size: 0.88rem;
+      color: var(--accent); margin-bottom: 12px; font-weight: 700;
+      border-bottom: 2px solid var(--gold); padding-bottom: 8px;
+    }
+    .a11y-action {
+      width: 100%; text-align: right; direction: rtl;
+      background: none; border: 1px solid #e0e0e0;
+      border-radius: 8px; padding: 9px 12px;
+      margin-bottom: 8px; cursor: pointer;
+      font-size: 0.85rem; display: flex; align-items: center; gap: 8px;
+      color: var(--text); font-family: 'Open Sans', sans-serif;
+    }
+    .a11y-action:hover { background: var(--light-bg); }
+    .a11y-action.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .a11y-font-row { display: flex; gap: 8px; margin-bottom: 8px; }
+    .a11y-font-row button {
+      flex: 1; padding: 8px 4px; border: 1px solid #e0e0e0;
+      border-radius: 8px; background: none; cursor: pointer;
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      color: var(--accent);
+    }
+    .a11y-font-row button:hover { background: var(--light-bg); }
+    .a11y-decl-link {
+      display: block; text-align: center; margin-top: 10px;
+      font-size: 0.82rem; color: var(--accent);
+      text-decoration: underline;
+    }
+
+    /* ── Режим высокого контраста ───────────────────────── */
+    body.hc-mode {
+      --text: #000; --light-bg: #fff; --white: #fff;
+      --accent: #00008b; --gold: #b8860b; --gold-light: #b8860b;
+      --dark: #000;
+    }
+    body.hc-mode .exc-card,
+    body.hc-mode .feature-card,
+    body.hc-mode .review-card-pub {
+      border: 2px solid #000;
+    }
+    body.hc-mode .exc-desc,
+    body.hc-mode .exc-info,
+    body.hc-mode .feature-text { color: #000; }
+
     /* FAB — плавающая кнопка контактов (все экраны) */
     .fab-wrap {
       display: flex;
@@ -278,7 +374,9 @@
 </head>
 <body>
 
-<header>
+<a class="skip-link" href="#main-content">Перейти к содержимому / דלג לתוכן</a>
+
+<header role="banner">
   <div class="header-inner">
     <a class="logo" href="/" id="logoLink">
       <div class="logo-icon" id="logoIcon"><i class="fa fa-compass"></i></div>
@@ -293,7 +391,7 @@
   </div>
 </header>
 
-<div class="hero" id="heroBlock">
+<div class="hero" id="heroBlock" role="img" aria-label="Фоновое изображение — Израиль">
   <div class="hero-content">
     <h1 id="heroTitle">Откройте <span>Израиль</span><br>вместе с нами</h1>
     <p id="heroSubtitle">Незабываемые экскурсии с профессиональными гидами.<br>Комфорт, безопасность, яркие впечатления.</p>
@@ -305,11 +403,11 @@
   <div class="marquee-track" id="marqueeTrack"></div>
 </div>
 
-<div class="section">
+<div class="section" id="main-content" role="main">
   <div class="section-title">Наши <span>экскурсии</span></div>
-  <div class="divider"></div>
+  <div class="divider" role="presentation"></div>
   <p class="section-sub">Выберите экскурсию и запишитесь онлайн — это займёт меньше минуты</p>
-  <div class="excursion-grid" id="excGrid"></div>
+  <div class="excursion-grid" id="excGrid" aria-label="Список экскурсий" aria-live="polite"></div>
 </div>
 
 <div style="background: var(--white);">
@@ -332,22 +430,23 @@
     <div class="divider"></div>
     <div class="reviews-grid" id="reviewsGrid"></div>
     <div style="text-align:center">
-      <button onclick="openReviewModal()" style="background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);border:none;padding:13px 32px;border-radius:30px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:1rem;cursor:pointer">
-        <i class="fa fa-star"></i>&nbsp; Оставить отзыв
+      <button onclick="openReviewModal()" aria-haspopup="dialog" style="background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);border:none;padding:13px 32px;border-radius:30px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:1rem;cursor:pointer">
+        <i class="fa fa-star" aria-hidden="true"></i>&nbsp; Оставить отзыв
       </button>
     </div>
   </div>
 </div>
 
-<footer>
+<footer role="contentinfo">
   <div class="footer-inner">
-    <div class="footer-social" id="footerSocial"></div>
+    <div class="footer-social" id="footerSocial" aria-label="Социальные сети"></div>
     <div class="footer-contacts">
-      <a id="footerPhone" href="#"><i class="fa fa-phone"></i><span id="footerPhoneText"></span></a>
-      <a id="footerWa" href="#" target="_blank"><i class="fab fa-whatsapp" style="color:#25d366"></i> WhatsApp</a>
-      <a id="footerEmail" href="#"><i class="fa fa-envelope"></i><span id="footerEmailText"></span></a>
+      <a id="footerPhone" href="#"><i class="fa fa-phone" aria-hidden="true"></i><span id="footerPhoneText"></span></a>
+      <a id="footerWa" href="#" target="_blank" rel="noopener" aria-label="Написать в WhatsApp"><i class="fab fa-whatsapp" style="color:#25d366" aria-hidden="true"></i> WhatsApp</a>
+      <a id="footerEmail" href="#"><i class="fa fa-envelope" aria-hidden="true"></i><span id="footerEmailText"></span></a>
     </div>
     <p>&copy; 2024 <strong id="footerName">KEDEM TOURS</strong>. Все права защищены.</p>
+    <p><a href="/accessibility.html" style="color:var(--gold-light);font-size:0.82rem;text-decoration:underline">הצהרת נגישות / Декларация доступности</a></p>
   </div>
 </footer>
 
@@ -355,27 +454,36 @@
 <div class="fab-overlay" id="fabOverlay" onclick="closeFab()"></div>
 <div class="fab-wrap" id="fabWrap">
   <div class="fab-menu" id="fabMenu"></div>
-  <button class="fab-btn" id="fabBtn" onclick="toggleFab()">
-    <i class="fa fa-phone fab-icon-open"></i>
+  <button class="fab-btn" id="fabBtn" onclick="toggleFab()"
+          aria-expanded="false" aria-controls="fabMenu"
+          aria-label="Свяжитесь с нами">
+    <i class="fa fa-phone fab-icon-open" aria-hidden="true"></i>
     <span class="fab-icon-open">Свяжитесь с нами</span>
-    <i class="fa fa-times fab-icon-close"></i>
+    <i class="fa fa-times fab-icon-close" aria-hidden="true"></i>
   </button>
 </div>
 
 <!-- REVIEW MODAL -->
-<div class="modal-overlay" id="reviewOverlay">
-  <div class="modal">
+<div class="modal-overlay" id="reviewOverlay" role="presentation">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="reviewModalTitle">
     <div class="modal-header">
-      <div class="modal-title">Оставить отзыв</div>
+      <div class="modal-title" id="reviewModalTitle">Оставить отзыв</div>
       <div class="modal-excursion">Ваше мнение важно для нас</div>
-      <button class="modal-close" onclick="closeReviewModal()"><i class="fa fa-times"></i></button>
+      <button class="modal-close" onclick="closeReviewModal()" aria-label="Закрыть форму отзыва">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </button>
     </div>
     <div class="modal-body">
       <form id="reviewForm" novalidate>
         <div class="form-row">
-          <div class="form-group"><label>Ваше имя *</label><input type="text" id="rName" placeholder="Иван Иванов"/></div>
-          <div class="form-group"><label>Оценка *</label>
-            <select id="rRating">
+          <div class="form-group">
+            <label for="rName">Ваше имя *</label>
+            <input type="text" id="rName" name="name" placeholder="Иван Иванов"
+                   autocomplete="name" required aria-required="true"/>
+          </div>
+          <div class="form-group">
+            <label for="rRating">Оценка *</label>
+            <select id="rRating" name="rating" required aria-required="true">
               <option value="5">⭐⭐⭐⭐⭐ Отлично</option>
               <option value="4">⭐⭐⭐⭐ Хорошо</option>
               <option value="3">⭐⭐⭐ Нормально</option>
@@ -384,12 +492,20 @@
             </select>
           </div>
         </div>
-        <div class="form-group"><label>Экскурсия</label><select id="rExcursion"><option value="">— не выбрана —</option></select></div>
-        <div class="form-group"><label>Ваш отзыв *</label>
-          <textarea id="rText" rows="4" placeholder="Расскажите о вашем впечатлении..."></textarea>
+        <div class="form-group">
+          <label for="rExcursion">Экскурсия</label>
+          <select id="rExcursion" name="excursion"><option value="">— не выбрана —</option></select>
         </div>
-        <button type="submit" class="submit-btn" id="reviewSubmitBtn"><i class="fa fa-paper-plane"></i>&nbsp; Отправить отзыв</button>
-        <div class="form-msg" id="reviewMsg"></div>
+        <div class="form-group">
+          <label for="rText">Ваш отзыв *</label>
+          <textarea id="rText" name="text" rows="4"
+                    placeholder="Расскажите о вашем впечатлении..."
+                    required aria-required="true"></textarea>
+        </div>
+        <button type="submit" class="submit-btn" id="reviewSubmitBtn">
+          <i class="fa fa-paper-plane" aria-hidden="true"></i>&nbsp; Отправить отзыв
+        </button>
+        <div class="form-msg" id="reviewMsg" role="alert" aria-live="assertive"></div>
       </form>
     </div>
   </div>
@@ -412,7 +528,7 @@ function setEl(id, prop, val) { var e = el(id); if (e) e[prop] = val; }
 
 function applySettings(s) {
   // Логотип
-  if (s.logo_image && el('logoIcon')) el('logoIcon').innerHTML = '<img src="' + s.logo_image + '" alt="logo" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+  if (s.logo_image && el('logoIcon')) el('logoIcon').innerHTML = '<img src="' + s.logo_image + '" alt="' + (s.logo_text || 'Логотип') + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
   setEl('logoName',   'textContent', s.logo_text || '');
   setEl('logoSub',    'textContent', s.logo_sub  || '');
   setEl('footerName', 'textContent', s.logo_text || '');
@@ -487,13 +603,29 @@ function toggleFab() {
   var ov   = document.getElementById('fabOverlay');
   var open = menu.classList.toggle('open');
   btn.classList.toggle('open', open);
+  btn.setAttribute('aria-expanded', open ? 'true' : 'false');
   ov.classList.toggle('open', open);
+  if (open) {
+    var first = menu.querySelector('a');
+    if (first) first.focus();
+  }
 }
 function closeFab() {
   document.getElementById('fabMenu').classList.remove('open');
-  document.getElementById('fabBtn').classList.remove('open');
+  var btn = document.getElementById('fabBtn');
+  btn.classList.remove('open');
+  btn.setAttribute('aria-expanded', 'false');
   document.getElementById('fabOverlay').classList.remove('open');
 }
+
+// Закрытие FAB по Escape
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    closeFab();
+    closeReviewModal();
+    closeA11yPanel();
+  }
+});
 
 // ── EXCURSIONS ───────────────────────────────────────────
 async function loadExcursions() {
@@ -550,11 +682,17 @@ async function loadReviews() {
   } catch(e) {}
 }
 
+var _reviewOpener = null;
 function openReviewModal() {
+  _reviewOpener = document.activeElement;
   document.getElementById('reviewForm').reset();
   document.getElementById('reviewMsg').className = 'form-msg';
   document.getElementById('reviewOverlay').classList.add('active');
   document.body.style.overflow = 'hidden';
+  setTimeout(function() {
+    var first = document.getElementById('rName');
+    if (first) first.focus();
+  }, 50);
   fetch('/api/excursions.php').then(r=>r.json()).then(list => {
     const sel = document.getElementById('rExcursion');
     sel.innerHTML = '<option value="">— не выбрана —</option>' + list.map(e=>`<option>${e.title}</option>`).join('');
@@ -563,6 +701,7 @@ function openReviewModal() {
 function closeReviewModal() {
   document.getElementById('reviewOverlay').classList.remove('active');
   document.body.style.overflow = '';
+  if (_reviewOpener) { _reviewOpener.focus(); _reviewOpener = null; }
 }
 document.getElementById('reviewOverlay').addEventListener('click', e => { if(e.target===document.getElementById('reviewOverlay')) closeReviewModal(); });
 
@@ -619,18 +758,141 @@ async function loadMarquee() {
 }
 </script>
 
+<!-- ══ ВИДЖЕТ ДОСТУПНОСТИ ══════════════════════════════════ -->
+<button class="a11y-btn" id="a11yBtn"
+        onclick="toggleA11yPanel()"
+        aria-expanded="false"
+        aria-controls="a11yPanel"
+        aria-label="נגישות — Параметры доступности">♿</button>
+
+<div class="a11y-panel" id="a11yPanel" role="dialog"
+     aria-modal="false" aria-label="Параметры доступности">
+  <h3>נגישות / Доступность</h3>
+
+  <div class="a11y-font-row" aria-label="Размер текста">
+    <button onclick="a11yFontSize(1)" aria-label="Увеличить текст">A+</button>
+    <button onclick="a11yFontSize(0)" aria-label="Сбросить размер текста">A</button>
+    <button onclick="a11yFontSize(-1)" aria-label="Уменьшить текст">A−</button>
+  </div>
+
+  <button class="a11y-action" id="a11yContrastBtn"
+          onclick="a11yToggleContrast()"
+          aria-pressed="false">
+    🌗 ניגודיות גבוהה / Высокий контраст
+  </button>
+
+  <button class="a11y-action" id="a11yMotionBtn"
+          onclick="a11yToggleMotion()"
+          aria-pressed="false">
+    ⏸ עצור אנימציות / Стоп анимация
+  </button>
+
+  <button class="a11y-action" id="a11yLinksBtn"
+          onclick="a11yToggleLinks()"
+          aria-pressed="false">
+    🔗 הדגשת קישורים / Выделить ссылки
+  </button>
+
+  <a class="a11y-decl-link" href="/accessibility.html">
+    📄 הצהרת נגישות / Декларация доступности
+  </a>
+</div>
+
+<script>
+/* ── Виджет доступности ─────────────────────────────────── */
+var _a11yFontLevel = 0;
+
+function toggleA11yPanel() {
+  var panel = document.getElementById('a11yPanel');
+  var btn   = document.getElementById('a11yBtn');
+  var open  = panel.classList.toggle('open');
+  btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  if (open) panel.querySelector('button, a').focus();
+}
+function closeA11yPanel() {
+  var panel = document.getElementById('a11yPanel');
+  panel.classList.remove('open');
+  document.getElementById('a11yBtn').setAttribute('aria-expanded', 'false');
+}
+
+function a11yFontSize(dir) {
+  if (dir === 0) { _a11yFontLevel = 0; }
+  else { _a11yFontLevel = Math.max(-2, Math.min(4, _a11yFontLevel + dir)); }
+  document.documentElement.style.fontSize = (100 + _a11yFontLevel * 10) + '%';
+  try { localStorage.setItem('a11y_font', _a11yFontLevel); } catch(e){}
+}
+
+function a11yToggleContrast() {
+  var on = document.body.classList.toggle('hc-mode');
+  var btn = document.getElementById('a11yContrastBtn');
+  btn.classList.toggle('active', on);
+  btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  try { localStorage.setItem('a11y_contrast', on ? '1' : '0'); } catch(e){}
+}
+
+function a11yToggleMotion() {
+  var on = document.body.classList.toggle('no-motion');
+  var btn = document.getElementById('a11yMotionBtn');
+  btn.classList.toggle('active', on);
+  btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  var style = document.getElementById('a11yMotionStyle');
+  if (!style) {
+    style = document.createElement('style');
+    style.id = 'a11yMotionStyle';
+    document.head.appendChild(style);
+  }
+  style.textContent = on
+    ? '*, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }'
+    : '';
+  try { localStorage.setItem('a11y_motion', on ? '1' : '0'); } catch(e){}
+}
+
+function a11yToggleLinks() {
+  var on = document.body.classList.toggle('a11y-links');
+  var btn = document.getElementById('a11yLinksBtn');
+  btn.classList.toggle('active', on);
+  btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  var style = document.getElementById('a11yLinksStyle');
+  if (!style) {
+    style = document.createElement('style');
+    style.id = 'a11yLinksStyle';
+    document.head.appendChild(style);
+  }
+  style.textContent = on
+    ? 'a { text-decoration: underline !important; outline: 2px dashed currentColor; outline-offset: 2px; }'
+    : '';
+  try { localStorage.setItem('a11y_links', on ? '1' : '0'); } catch(e){}
+}
+
+// Восстанавливаем настройки из localStorage
+(function() {
+  try {
+    var font = parseInt(localStorage.getItem('a11y_font') || '0');
+    if (font) { _a11yFontLevel = font; document.documentElement.style.fontSize = (100 + font * 10) + '%'; }
+    if (localStorage.getItem('a11y_contrast') === '1') {
+      document.body.classList.add('hc-mode');
+      var b = document.getElementById('a11yContrastBtn');
+      if (b) { b.classList.add('active'); b.setAttribute('aria-pressed','true'); }
+    }
+    if (localStorage.getItem('a11y_motion') === '1') { a11yToggleMotion(); }
+    if (localStorage.getItem('a11y_links') === '1') { a11yToggleLinks(); }
+  } catch(e){}
+})();
+</script>
+
 <!-- PWA: Баннер установки + Service Worker -->
-<div id="pwaBar" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:500;background:var(--dark);padding:12px 16px;display:none;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,.4)">
+<div id="pwaBar" role="banner" aria-label="Установить приложение Kedem Tours"
+     style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:500;background:var(--dark);padding:12px 16px;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,.4)">
   <div style="display:flex;align-items:center;gap:10px">
-    <img src="/icons/icon-72.png" style="width:40px;height:40px;border-radius:10px">
+    <img src="/icons/icon-72.png" alt="Kedem Tours" style="width:40px;height:40px;border-radius:10px">
     <div>
       <div style="color:#fff;font-family:'Montserrat',sans-serif;font-weight:700;font-size:.85rem">Kedem Tours</div>
       <div style="color:rgba(255,255,255,.6);font-size:.75rem">Установить как приложение</div>
     </div>
   </div>
   <div style="display:flex;gap:8px;flex-shrink:0">
-    <button onclick="document.getElementById('pwaBar').style.display='none'" style="background:rgba(255,255,255,.15);color:#fff;border:none;padding:7px 12px;border-radius:8px;font-size:.8rem;cursor:pointer">Позже</button>
-    <button onclick="installPWA()" style="background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);border:none;padding:7px 14px;border-radius:8px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer">Установить</button>
+    <button onclick="document.getElementById('pwaBar').style.display='none'" aria-label="Установить позже" style="background:rgba(255,255,255,.15);color:#fff;border:none;padding:7px 12px;border-radius:8px;font-size:.8rem;cursor:pointer">Позже</button>
+    <button onclick="installPWA()" aria-label="Установить приложение" style="background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);border:none;padding:7px 14px;border-radius:8px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer">Установить</button>
   </div>
 </div>
 
