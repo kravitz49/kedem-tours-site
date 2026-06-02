@@ -35,8 +35,8 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
     .logo-icon { width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,var(--gold),var(--gold-light)); display:flex; align-items:center; justify-content:center; font-size:22px; color:var(--dark); }
     .logo-name { font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.4rem; color:var(--white); letter-spacing:1px; }
     .logo-sub { font-size:.7rem; color:var(--gold-light); letter-spacing:2px; text-transform:uppercase; }
-    .back-btn { color:var(--gold-light); text-decoration:none; font-size:.9rem; display:flex; align-items:center; gap:8px; transition:color .2s; }
-    .back-btn:hover { color:var(--gold); }
+    .back-btn { background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:var(--dark); text-decoration:none; font-size:.78rem; font-family:'Montserrat',sans-serif; font-weight:700; padding:8px 16px; border-radius:20px; display:flex; align-items:center; gap:6px; transition:opacity .2s; white-space:nowrap; }
+    .back-btn:hover { opacity:.85; }
 
     /* HERO IMAGE */
     .exc-hero {
