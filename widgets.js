@@ -16,6 +16,7 @@
   .fab-wrap {
     display:flex; position:fixed; top:82px; right:16px; z-index:400;
     flex-direction:column; align-items:flex-end; gap:10px;
+    pointer-events:none;
   }
   .fab-menu {
     display:flex; flex-direction:column; align-items:flex-end; gap:8px;
@@ -50,6 +51,7 @@
     box-shadow:0 4px 18px rgba(201,168,76,.55);
     cursor:pointer; display:flex; align-items:center; gap:8px;
     transition:transform .2s; white-space:nowrap; order:1;
+    pointer-events:auto;
   }
   .fab-btn:active { transform:scale(.93); }
   .fab-btn .fab-icon-close { display:none; }
