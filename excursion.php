@@ -94,10 +94,34 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
     footer { background:var(--dark); color:rgba(255,255,255,.7); text-align:center; padding:24px; font-size:.85rem; margin-top:60px; }
     footer strong { color:var(--gold); }
 
-    @media (max-width:560px) {
-      .form-row { grid-template-columns:1fr; }
-      .exc-hero { height:280px; }
-      .exc-hero-placeholder { font-size:5rem; }
+    @media (max-width:640px) {
+      /* Hero */
+      .exc-hero            { height: 220px; }
+      .exc-hero-placeholder{ font-size: 4rem; }
+      .exc-hero-text       { padding: 16px; }
+      .exc-hero-text h1    { font-size: 1.25rem; line-height: 1.25; margin-bottom: 8px; }
+      .exc-hero-text .tag  { font-size: .68rem; padding: 3px 10px; margin-bottom: 8px; }
+      .exc-hero-text .meta { gap: 10px; }
+      .exc-meta-item       { font-size: .78rem; }
+
+      /* Content */
+      .exc-content         { padding: 20px 16px; }
+      .exc-desc-short      { font-size: .9rem; line-height: 1.6; margin-bottom: 18px; padding-bottom: 18px; }
+      .exc-desc-full       { font-size: .85rem; line-height: 1.7; }
+
+      /* Form block */
+      .book-block          { padding: 18px 14px; border-radius: 14px; margin-top: 24px; }
+      .book-title          { font-size: 1rem; margin-bottom: 4px; }
+      .book-sub            { font-size: .8rem; margin-bottom: 18px; }
+      .form-row            { grid-template-columns: 1fr; gap: 0; }
+      .form-group          { margin-bottom: 12px; }
+      .form-group label    { font-size: .78rem; margin-bottom: 4px; }
+      .form-group input,
+      .form-group select   { padding: 9px 11px; font-size: .85rem; border-radius: 8px; }
+      .submit-btn          { padding: 11px; font-size: .9rem; border-radius: 10px; }
+      .form-msg            { font-size: .82rem; padding: 10px; }
+
+      footer               { padding: 18px 16px; font-size: .8rem; }
     }
   </style>
 </head>
