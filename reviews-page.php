@@ -10,7 +10,7 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root { --gold:#c9a84c; --gold-light:#e8c96a; --dark:#1a1a2e; --accent:#0f3460; --white:#fff; --bg:#f8f5f0; --shadow:0 4px 20px rgba(0,0,0,.09); }
-    body { font-family: 'Open Sans', sans-serif; background: var(--bg); color: #2d2d2d; }
+    body { font-family: 'Open Sans', sans-serif; background: var(--bg); color: #2d2d2d; display:flex; flex-direction:column; min-height:100vh; }
 
     header { background: linear-gradient(135deg,var(--dark),var(--accent)); box-shadow: 0 2px 20px rgba(0,0,0,.3); }
     .header-inner { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:12px 20px; }
@@ -27,7 +27,7 @@
     .reviews-hero h1 span { color:var(--gold); }
     .reviews-hero p { color:rgba(255,255,255,.75); font-size:.8rem; }
 
-    .section { max-width:1000px; margin:0 auto; padding:20px 16px 100px; }
+    .section { max-width:1000px; margin:0 auto; padding:20px 16px 100px; flex:1; width:100%; }
 
     /* STATS */
     .stats-row { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:20px; }
