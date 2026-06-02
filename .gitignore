@@ -1,5 +1,4 @@
-data/orders.json
+.claude/
+Новая папка/
+*.log
 __pycache__/
-*.pyc
-.env
-node_modules/
