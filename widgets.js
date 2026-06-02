@@ -329,10 +329,25 @@
   }
   window._widgetBuildFab = buildFab;
 
+  /* Apply logo/header settings to any page with standard logo IDs */
+  function applyHeaderSettings(s) {
+    var logoIcon = document.getElementById('logoIcon');
+    var logoName = document.getElementById('logoName');
+    var logoSub  = document.getElementById('logoSub');
+    var footerName = document.getElementById('footerName');
+    if (logoIcon && s.logo_image) {
+      logoIcon.innerHTML = '<img src="' + s.logo_image + '" alt="' + (s.logo_text || 'Логотип') + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+    }
+    if (logoName && s.logo_text) logoName.textContent = s.logo_text;
+    if (logoSub  && s.logo_sub)  logoSub.textContent  = s.logo_sub;
+    if (footerName && s.logo_text) footerName.textContent = s.logo_text;
+  }
+
   function loadFabSettings() {
-    try { var c = localStorage.getItem('siteSettings'); if (c) buildFab(JSON.parse(c)); } catch(e) {}
+    try { var c = localStorage.getItem('siteSettings'); if (c) { buildFab(JSON.parse(c)); applyHeaderSettings(JSON.parse(c)); } } catch(e) {}
     fetch('/settings.php').then(function(r){ return r.json(); }).then(function(s){
       buildFab(s);
+      applyHeaderSettings(s);
       try { localStorage.setItem('siteSettings', JSON.stringify(s)); } catch(e) {}
     }).catch(function(){});
   }

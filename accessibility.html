@@ -20,11 +20,20 @@
 
     /* HEADER */
     header { background: linear-gradient(135deg, var(--dark) 0%, var(--accent) 100%); padding: 14px 24px; box-shadow: 0 2px 20px rgba(0,0,0,.3); }
-    .header-inner { max-width: 860px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
-    .back-link { color: rgba(255,255,255,.85); text-decoration: none; font-size: .9rem; display: flex; align-items: center; gap: 6px; transition: color .2s; }
+    .header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; gap: 12px; }
+    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
+    .logo-icon { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-light)); display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--dark); overflow: hidden; flex-shrink: 0; }
+    .logo-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .logo-name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.3rem; color: var(--white); letter-spacing: 1px; }
+    .logo-sub { font-size: .65rem; color: var(--gold-light); letter-spacing: 2px; text-transform: uppercase; }
+    .back-link { color: rgba(255,255,255,.85); text-decoration: none; font-size: .9rem; display: flex; align-items: center; gap: 6px; transition: color .2s; white-space: nowrap; }
     .back-link:hover { color: var(--gold-light); }
-    .header-logo { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--white); letter-spacing: 1px; }
-    .header-logo span { color: var(--gold); }
+    @media (max-width: 640px) {
+      .header-inner { padding: 10px 16px; }
+      .logo-icon { width: 36px; height: 36px; font-size: 16px; }
+      .logo-name { font-size: 1.1rem; }
+      .logo-sub { display: none; }
+    }
 
     /* HERO-полоска */
     .page-hero { background: linear-gradient(135deg, var(--accent), var(--dark)); padding: 36px 24px 32px; text-align: center; }
@@ -75,7 +84,6 @@
       .page-hero h1 { font-size: 1.4rem; }
       main { padding: 32px 16px 56px; }
       .contact-card { padding: 18px 16px; }
-      .header-inner { flex-direction: row; }
     }
   </style>
 </head>
@@ -87,8 +95,14 @@
 
 <header role="banner">
   <div class="header-inner">
-    <a class="back-link" href="/"><i class="fa fa-arrow-left" aria-hidden="true"></i> Вернуться на сайт</a>
-    <div class="header-logo">KEDEM <span>TOURS</span></div>
+    <a class="logo" href="/" id="logoLink">
+      <div class="logo-icon" id="logoIcon"><i class="fa fa-compass" aria-hidden="true"></i></div>
+      <div>
+        <div class="logo-name" id="logoName">KEDEM TOURS</div>
+        <div class="logo-sub" id="logoSub">Экскурсии по Израилю</div>
+      </div>
+    </a>
+    <a class="back-link" href="/"><i class="fa fa-arrow-left" aria-hidden="true"></i> На главную</a>
   </div>
 </header>
 

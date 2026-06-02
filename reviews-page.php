@@ -12,15 +12,21 @@
     :root { --gold:#c9a84c; --gold-light:#e8c96a; --dark:#1a1a2e; --accent:#0f3460; --white:#fff; --bg:#f8f5f0; --shadow:0 4px 20px rgba(0,0,0,.09); }
     body { font-family: 'Open Sans', sans-serif; background: var(--bg); color: #2d2d2d; }
 
-    header { background: linear-gradient(135deg,var(--dark),var(--accent)); box-shadow: 0 2px 20px rgba(0,0,0,.3); }
-    .header-inner { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:14px 24px; }
-    .logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
-    .logo-icon { width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg,var(--gold),var(--gold-light)); display:flex; align-items:center; justify-content:center; font-size:20px; color:var(--dark); overflow:hidden; }
+    header { background: linear-gradient(135deg,var(--dark),var(--accent)); position:sticky; top:0; z-index:100; box-shadow: 0 2px 20px rgba(0,0,0,.3); }
+    .header-inner { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:12px 24px; gap:12px; }
+    .logo { display:flex; align-items:center; gap:12px; text-decoration:none; flex-shrink:0; }
+    .logo-icon { width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg,var(--gold),var(--gold-light)); display:flex; align-items:center; justify-content:center; font-size:20px; color:var(--dark); overflow:hidden; flex-shrink:0; }
     .logo-icon img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
     .logo-name { font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.3rem; color:var(--white); letter-spacing:1px; }
     .logo-sub  { font-size:.65rem; color:var(--gold-light); letter-spacing:2px; text-transform:uppercase; }
-    .back-btn  { color:var(--gold-light); text-decoration:none; font-size:.9rem; display:flex; align-items:center; gap:6px; }
+    .back-btn  { color:var(--gold-light); text-decoration:none; font-size:.9rem; display:flex; align-items:center; gap:8px; white-space:nowrap; }
     .back-btn:hover { color:var(--gold); }
+    @media (max-width:640px) {
+      .header-inner { padding:10px 16px; }
+      .logo-icon { width:36px; height:36px; font-size:16px; }
+      .logo-name { font-size:1.1rem; }
+      .logo-sub { display:none; }
+    }
 
     /* HERO */
     .reviews-hero {
@@ -184,13 +190,6 @@ function setStar(n) {
     document.getElementById('s' + i).classList.toggle('active', i <= n);
   }
 }
-
-// Загрузка настроек сайта
-fetch('/settings.php').then(function(r){ return r.json(); }).then(function(s) {
-  if (s.logo_image) document.getElementById('logoIcon').innerHTML = '<img src="' + s.logo_image + '" alt="logo">';
-  if (s.logo_text)  { document.getElementById('logoName').textContent = s.logo_text; document.getElementById('footerName').textContent = s.logo_text; }
-  if (s.logo_sub)   document.getElementById('logoSub').textContent = s.logo_sub;
-}).catch(function(){});
 
 // Загрузка экскурсий в select
 fetch('/api/excursions.php').then(function(r){ return r.json(); }).then(function(list) {

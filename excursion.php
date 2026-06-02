@@ -29,14 +29,21 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
     body { font-family: 'Open Sans', sans-serif; background: var(--bg); color: #2d2d2d; }
 
     /* HEADER */
-    header { background: linear-gradient(135deg,var(--dark),var(--accent)); padding: 0; box-shadow: 0 2px 20px rgba(0,0,0,.3); }
-    .header-inner { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:16px 24px; }
-    .logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
-    .logo-icon { width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,var(--gold),var(--gold-light)); display:flex; align-items:center; justify-content:center; font-size:22px; color:var(--dark); }
-    .logo-name { font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.4rem; color:var(--white); letter-spacing:1px; }
-    .logo-sub { font-size:.7rem; color:var(--gold-light); letter-spacing:2px; text-transform:uppercase; }
-    .back-btn { color:var(--gold-light); text-decoration:none; font-size:.9rem; display:flex; align-items:center; gap:8px; transition:color .2s; }
+    header { background: linear-gradient(135deg,var(--dark),var(--accent)); position:sticky; top:0; z-index:100; box-shadow: 0 2px 20px rgba(0,0,0,.3); }
+    .header-inner { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:12px 24px; gap:12px; }
+    .logo { display:flex; align-items:center; gap:12px; text-decoration:none; flex-shrink:0; }
+    .logo-icon { width:44px; height:44px; border-radius:50%; background:linear-gradient(135deg,var(--gold),var(--gold-light)); display:flex; align-items:center; justify-content:center; font-size:20px; color:var(--dark); overflow:hidden; flex-shrink:0; }
+    .logo-icon img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
+    .logo-name { font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.3rem; color:var(--white); letter-spacing:1px; }
+    .logo-sub { font-size:.65rem; color:var(--gold-light); letter-spacing:2px; text-transform:uppercase; }
+    .back-btn { color:var(--gold-light); text-decoration:none; font-size:.9rem; display:flex; align-items:center; gap:8px; transition:color .2s; white-space:nowrap; }
     .back-btn:hover { color:var(--gold); }
+    @media (max-width:640px) {
+      .header-inner { padding:10px 16px; }
+      .logo-icon { width:36px; height:36px; font-size:16px; }
+      .logo-name { font-size:1.1rem; }
+      .logo-sub { display:none; }
+    }
 
     /* HERO IMAGE */
     .exc-hero {
@@ -96,16 +103,16 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
 </head>
 <body>
 
-<header>
+<header role="banner">
   <div class="header-inner">
-    <a class="logo" href="/">
-      <div class="logo-icon"><i class="fa fa-compass"></i></div>
+    <a class="logo" href="/" id="logoLink">
+      <div class="logo-icon" id="logoIcon"><i class="fa fa-compass" aria-hidden="true"></i></div>
       <div>
-        <div class="logo-name">KEDEM TOURS</div>
-        <div class="logo-sub">Экскурсии по Израилю</div>
+        <div class="logo-name" id="logoName">KEDEM TOURS</div>
+        <div class="logo-sub" id="logoSub">Экскурсии по Израилю</div>
       </div>
     </a>
-    <a class="back-btn" href="/"><i class="fa fa-arrow-left"></i> Все экскурсии</a>
+    <a class="back-btn" href="/"><i class="fa fa-arrow-left" aria-hidden="true"></i> Все экскурсии</a>
   </div>
 </header>
 
