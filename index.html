@@ -293,6 +293,17 @@
   </div>
 </header>
 
+<script>
+  (function(){
+    var img = localStorage.getItem('hero_image');
+    if (img) {
+      document.addEventListener('DOMContentLoaded', function(){
+        var h = document.getElementById('heroBlock');
+        if (h) h.style.backgroundImage = 'linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.35)),url('+JSON.stringify(img)+')';
+      });
+    }
+  })();
+</script>
 <div class="hero" id="heroBlock">
   <div class="hero-content">
     <h1 id="heroTitle">Откройте <span>Израиль</span><br>вместе с нами</h1>
@@ -435,6 +446,7 @@ function applySettings(s) {
 
   // Герой
   const heroImg = s.hero_image || 'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=1400&q=80';
+  localStorage.setItem('hero_image', heroImg);
   if (el('heroBlock'))
     el('heroBlock').style.backgroundImage =
       'linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.35)),url(' + JSON.stringify(heroImg) + ')';
