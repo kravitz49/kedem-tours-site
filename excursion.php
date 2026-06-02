@@ -30,13 +30,13 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
 
     /* HEADER */
     header { background: linear-gradient(135deg,var(--dark),var(--accent)); padding: 0; box-shadow: 0 2px 20px rgba(0,0,0,.3); }
-    .header-inner { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:16px 24px; gap:12px; }
-    .logo { display:flex; align-items:center; gap:12px; text-decoration:none; flex-shrink:0; }
+    .header-inner { max-width:1100px; margin:0 auto; display:flex; align-items:center; padding:14px 24px; gap:14px; }
+    .logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
     .logo-icon { width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,var(--gold),var(--gold-light)); display:flex; align-items:center; justify-content:center; font-size:22px; color:var(--dark); flex-shrink:0; }
-    .logo-name { font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.4rem; color:var(--white); letter-spacing:1px; white-space:nowrap; }
-    .logo-sub { font-size:.7rem; color:var(--gold-light); letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
-    .back-btn { background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:var(--dark); text-decoration:none; font-size:.72rem; font-family:'Montserrat',sans-serif; font-weight:700; padding:6px 12px; border-radius:20px; display:flex; align-items:center; gap:5px; transition:opacity .2s; white-space:nowrap; flex-shrink:0; }
-    .back-btn:hover { opacity:.85; }
+    .logo-name { font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.4rem; color:var(--white); letter-spacing:1px; }
+    .logo-sub { font-size:.7rem; color:var(--gold-light); letter-spacing:2px; text-transform:uppercase; margin-bottom:6px; }
+    .back-btn { display:inline-flex; align-items:center; gap:5px; background:transparent; border:1.5px solid var(--gold-light); color:var(--gold-light); text-decoration:none; font-size:.68rem; font-family:'Montserrat',sans-serif; font-weight:600; padding:3px 10px; border-radius:20px; transition:opacity .2s; white-space:nowrap; }
+    .back-btn:hover { opacity:.75; }
 
     /* HERO IMAGE */
     .exc-hero {
@@ -98,14 +98,12 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
 
 <header>
   <div class="header-inner">
-    <a class="logo" href="/">
-      <div class="logo-icon" id="logoIcon"><i class="fa fa-compass"></i></div>
-      <div>
-        <div class="logo-name" id="logoName">KEDEM TOURS</div>
-        <div class="logo-sub" id="logoSub">Экскурсии по Израилю</div>
-      </div>
-    </a>
-    <a class="back-btn" href="/"><i class="fa fa-arrow-left"></i> Все экскурсии</a>
+    <div class="logo-icon" id="logoIcon"><i class="fa fa-compass"></i></div>
+    <div>
+      <div class="logo-name" id="logoName">KEDEM TOURS</div>
+      <div class="logo-sub" id="logoSub">Экскурсии по Израилю</div>
+      <a class="back-btn" href="/"><i class="fa fa-arrow-left"></i> Все экскурсии</a>
+    </div>
   </div>
 </header>
 
