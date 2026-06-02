@@ -572,11 +572,20 @@
 let siteSettings = {};
 
 // ── SETTINGS ─────────────────────────────────────────────
+// Немедленно применяем закешированные настройки — нет мигания при обновлении
+(function() {
+  try {
+    var c = localStorage.getItem('siteSettings');
+    if (c) applySettings(JSON.parse(c));
+  } catch(e) {}
+})();
+
 async function loadSettings() {
   try {
     const res = await fetch('/settings.php');
     siteSettings = await res.json();
     applySettings(siteSettings);
+    try { localStorage.setItem('siteSettings', JSON.stringify(siteSettings)); } catch(e) {}
   } catch(e) {}
 }
 
