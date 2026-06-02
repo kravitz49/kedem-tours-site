@@ -51,7 +51,7 @@
     .hdr-reviews-btn:hover { opacity: 0.88; }
 
     /* HERO */
-    .hero { background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.35)), url('https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=1400&q=80') center/cover no-repeat; min-height: 420px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 60px 24px; }
+    .hero { background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.35)) center/cover no-repeat; background-color: var(--dark); min-height: 420px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 60px 24px; }
     .hero-content { max-width: 700px; }
     .hero h1 { font-family: 'Montserrat', sans-serif; font-size: clamp(1.3rem, 3.5vw, 2rem); font-weight: 800; color: var(--white); line-height: 1.25; margin-bottom: 12px; text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
     .hero h1 span { color: var(--gold); }
@@ -434,9 +434,10 @@ function applySettings(s) {
   setEl('footerEmailText', 'textContent', email);
 
   // Герой
-  if (s.hero_image && el('heroBlock'))
+  const heroImg = s.hero_image || 'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=1400&q=80';
+  if (el('heroBlock'))
     el('heroBlock').style.backgroundImage =
-      'linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.35)),url(' + JSON.stringify(s.hero_image) + ')';
+      'linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.35)),url(' + JSON.stringify(heroImg) + ')';
   if (s.hero_title && el('heroTitle')) {
     var words = s.hero_title.split(' ');
     var mid   = Math.ceil(words.length / 2);
