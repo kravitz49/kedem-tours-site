@@ -77,7 +77,7 @@
     .exc-meta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
     .exc-info { display: flex; align-items: center; gap: 6px; font-size: 0.8rem; color: #888; }
     .exc-info i { color: var(--gold); }
-    .exc-btn { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--dark); text-decoration: none; padding: 8px 18px; border-radius: 30px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.82rem; cursor: pointer; transition: opacity .2s; letter-spacing: 0.5px; display: inline-block; pointer-events: none; }
+    .exc-btn { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--dark); text-decoration: none; padding: 8px 18px; border-radius: 30px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.82rem; cursor: pointer; transition: opacity .2s; letter-spacing: 0.5px; display: inline-block; }
     .exc-btn:hover { opacity: 0.85; }
 
     /* MODAL */
@@ -509,9 +509,9 @@ async function loadExcursions() {
     const grid = document.getElementById('excGrid');
     if (!excursions.length) { grid.innerHTML = '<p style="color:#aaa;grid-column:1/-1;text-align:center;padding:20px">Экскурсии скоро появятся</p>'; return; }
     excursions.forEach(exc => {
-      const card = document.createElement('a');
+      const url = '/excursion.php?id=' + exc.id;
+      const card = document.createElement('div');
       card.className = 'exc-card';
-      card.href = '/excursion.php?id=' + exc.id;
       const preview = exc.image
         ? `<img class="exc-img" src="${exc.image}" alt="${exc.title}" onerror="this.style.display='none';this.nextSibling.style.display='flex'">
            <div class="exc-img-placeholder" style="background:${exc.bg||'#f0f0f0'};display:none">${exc.icon||'🗺️'}</div>`
@@ -523,9 +523,10 @@ async function loadExcursions() {
           <div class="exc-desc">${exc.desc||''}</div>
           <div class="exc-meta">
             <span class="exc-info"><i class="fa fa-clock"></i> ${exc.duration||''}</span>
-            <span class="exc-btn">Подробнее →</span>
+            <a class="exc-btn" href="${url}">Подробнее →</a>
           </div>
         </div>`;
+      card.addEventListener('click', () => { window.location.href = url; });
       grid.appendChild(card);
     });
   } catch(err) {
