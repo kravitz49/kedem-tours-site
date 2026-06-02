@@ -63,12 +63,19 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
     .exc-desc-full { font-size:1rem; color:#555; line-height:1.5; }
     .exc-desc-full p { margin-bottom:8px; }
 
-    /* BOOK BLOCK */
-    .book-block {
-      background:var(--white); border-radius:16px; padding:20px;
-      box-shadow:0 8px 32px rgba(0,0,0,.1); margin-top:32px;
-      border-top:3px solid var(--gold);
-    }
+    /* FAB ЗАПИСАТЬСЯ */
+    .book-fab { position:fixed; bottom:24px; right:20px; z-index:300; background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:var(--dark); border:none; border-radius:30px; padding:13px 22px; font-family:'Montserrat',sans-serif; font-weight:800; font-size:.95rem; cursor:pointer; box-shadow:0 4px 20px rgba(201,168,76,.5); display:flex; align-items:center; gap:8px; transition:transform .2s,box-shadow .2s; }
+    .book-fab:active { transform:scale(0.95); }
+
+    /* OVERLAY */
+    .book-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:400; }
+    .book-overlay.open { display:block; }
+
+    /* BOTTOM SHEET */
+    .book-sheet { position:fixed; bottom:0; left:0; right:0; z-index:401; background:var(--white); border-radius:20px 20px 0 0; padding:24px 20px 32px; max-height:92vh; overflow-y:auto; transform:translateY(100%); transition:transform .35s cubic-bezier(.32,1,.23,1); box-shadow:0 -8px 40px rgba(0,0,0,.2); }
+    .book-sheet.open { transform:translateY(0); }
+    .sheet-handle { width:40px; height:4px; background:#ddd; border-radius:4px; margin:0 auto 20px; }
+    .sheet-close { position:absolute; top:16px; right:16px; background:rgba(0,0,0,.07); border:none; border-radius:50%; width:30px; height:30px; font-size:1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#555; }
     .book-title { font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.1rem; color:var(--accent); margin-bottom:4px; }
     .book-sub { color:#888; font-size:.8rem; margin-bottom:16px; }
     .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
@@ -83,8 +90,9 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
     .form-msg { text-align:center; padding:10px; border-radius:8px; font-weight:600; font-size:.85rem; margin-top:10px; display:none; }
     .form-msg.success { background:#d4edda; color:#155724; display:block; }
     .form-msg.error { background:#f8d7da; color:#721c24; display:block; }
+    @media (max-width:560px) { .form-row { grid-template-columns:1fr; } }
 
-    footer { background:var(--dark); color:rgba(255,255,255,.7); text-align:center; padding:24px; font-size:.85rem; margin-top:60px; }
+    footer { background:var(--dark); color:rgba(255,255,255,.7); text-align:center; padding:24px; font-size:.85rem; margin-top:40px; padding-bottom:90px; }
     footer strong { color:var(--gold); }
 
     @media (max-width:560px) {
@@ -130,39 +138,48 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
   <?php if ($desc): ?><div class="exc-desc-short"><?= $desc ?></div><?php endif; ?>
   <?php if ($descFull): ?><div class="exc-desc-full"><?= $descFull ?></div><?php endif; ?>
 
-  <!-- BOOKING FORM -->
-  <div class="book-block">
-    <div class="book-title">Записаться на экскурсию</div>
-    <div class="book-sub">Заполните форму — мы свяжемся с вами для подтверждения</div>
-    <form id="bookingForm" novalidate>
-      <div class="form-row">
-        <div class="form-group"><label>Имя *</label><input type="text" id="firstName" placeholder="Иван"/></div>
-        <div class="form-group"><label>Фамилия *</label><input type="text" id="lastName" placeholder="Иванов"/></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>Телефон *</label><input type="tel" id="phone" placeholder="+972-50-000-0000"/></div>
-        <div class="form-group"><label>Количество мест *</label><input type="number" id="seats" min="1" max="20" placeholder="1"/></div>
-      </div>
-      <div class="form-group">
-        <label>Место посадки *</label>
-        <select id="pickup">
-          <option value="">— выберите остановку —</option>
-          <option>Каньён Авиа</option>
-          <option>Каньён Шауль Ха-Мелех</option>
-          <option>Гранд Каньёон</option>
-          <option>Неве Зеев-Жаботински</option>
-          <option>Бигудит Вицо</option>
-          <option>Сорока</option>
-          <option>Центр Орен</option>
-        </select>
-      </div>
-      <button type="submit" class="submit-btn" id="submitBtn"><i class="fa fa-check-circle"></i>&nbsp; Записаться</button>
-      <div class="form-msg" id="formMsg"></div>
-    </form>
-  </div>
 </div>
 
 <footer><p>&copy; 2024 <strong>KEDEM TOURS</strong>. Все права защищены.</p></footer>
+
+<!-- FAB -->
+<button class="book-fab" onclick="openSheet()"><i class="fa fa-pen"></i> Записаться</button>
+
+<!-- OVERLAY -->
+<div class="book-overlay" id="bookOverlay" onclick="closeSheet()"></div>
+
+<!-- BOTTOM SHEET -->
+<div class="book-sheet" id="bookSheet">
+  <div class="sheet-handle"></div>
+  <button class="sheet-close" onclick="closeSheet()"><i class="fa fa-times"></i></button>
+  <div class="book-title">Записаться на экскурсию</div>
+  <div class="book-sub">Заполните форму — мы свяжемся с вами для подтверждения</div>
+  <form id="bookingForm" novalidate>
+    <div class="form-row">
+      <div class="form-group"><label>Имя *</label><input type="text" id="firstName" placeholder="Иван"/></div>
+      <div class="form-group"><label>Фамилия *</label><input type="text" id="lastName" placeholder="Иванов"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Телефон *</label><input type="tel" id="phone" placeholder="+972-50-000-0000"/></div>
+      <div class="form-group"><label>Количество мест *</label><input type="number" id="seats" min="1" max="20" placeholder="1"/></div>
+    </div>
+    <div class="form-group">
+      <label>Место посадки *</label>
+      <select id="pickup">
+        <option value="">— выберите остановку —</option>
+        <option>Каньён Авиа</option>
+        <option>Каньён Шауль Ха-Мелех</option>
+        <option>Гранд Каньёон</option>
+        <option>Неве Зеев-Жаботински</option>
+        <option>Бигудит Вицо</option>
+        <option>Сорока</option>
+        <option>Центр Орен</option>
+      </select>
+    </div>
+    <button type="submit" class="submit-btn" id="submitBtn"><i class="fa fa-check-circle"></i>&nbsp; Записаться</button>
+    <div class="form-msg" id="formMsg"></div>
+  </form>
+</div>
 
 <script>
 const EXCURSION_TITLE = <?= json_encode($exc['title']) ?>;
@@ -207,6 +224,17 @@ form.addEventListener('submit', async e => {
 });
 
 function showMsg(text, type) { formMsg.textContent = text; formMsg.className = 'form-msg ' + type; }
+
+function openSheet() {
+  document.getElementById('bookSheet').classList.add('open');
+  document.getElementById('bookOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeSheet() {
+  document.getElementById('bookSheet').classList.remove('open');
+  document.getElementById('bookOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
 
 // ── SETTINGS ─────────────────────────────────────────────
 (function applyHeaderSettings(s) {
