@@ -30,13 +30,13 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
 
     /* HEADER */
     header { background: linear-gradient(135deg,var(--dark),var(--accent)); padding: 0; box-shadow: 0 2px 20px rgba(0,0,0,.3); }
-    .header-inner { max-width:1100px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:16px 24px; }
+    .header-inner { max-width:1100px; margin:0 auto; display:flex; align-items:center; padding:14px 24px; gap:14px; }
     .logo { display:flex; align-items:center; gap:12px; text-decoration:none; }
-    .logo-icon { width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,var(--gold),var(--gold-light)); display:flex; align-items:center; justify-content:center; font-size:22px; color:var(--dark); }
+    .logo-icon { width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,var(--gold),var(--gold-light)); display:flex; align-items:center; justify-content:center; font-size:22px; color:var(--dark); flex-shrink:0; }
     .logo-name { font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.4rem; color:var(--white); letter-spacing:1px; }
-    .logo-sub { font-size:.7rem; color:var(--gold-light); letter-spacing:2px; text-transform:uppercase; }
-    .back-btn { color:var(--gold-light); text-decoration:none; font-size:.9rem; display:flex; align-items:center; gap:8px; transition:color .2s; }
-    .back-btn:hover { color:var(--gold); }
+    .logo-sub { font-size:.7rem; color:var(--gold-light); letter-spacing:2px; text-transform:uppercase; margin-bottom:6px; }
+    .back-btn { display:inline-flex; align-items:center; gap:5px; background:transparent; border:1.5px solid var(--gold-light); color:var(--gold-light); text-decoration:none; font-size:.68rem; font-family:'Montserrat',sans-serif; font-weight:600; padding:3px 10px; border-radius:20px; transition:opacity .2s; white-space:nowrap; }
+    .back-btn:hover { opacity:.75; }
 
     /* HERO IMAGE */
     .exc-hero {
@@ -59,32 +59,40 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
 
     /* CONTENT */
     .exc-content { max-width:800px; margin:0 auto; padding:48px 24px; }
-    .exc-desc-short { font-size:1.1rem; color:#444; line-height:1.7; margin-bottom:28px; padding-bottom:28px; border-bottom:2px solid #e8e0d0; font-weight:600; }
-    .exc-desc-full { font-size:1rem; color:#555; line-height:1.85; white-space:pre-line; }
-    .exc-desc-full p { margin-bottom:16px; }
+    .exc-desc-short { font-size:1.1rem; color:#444; line-height:1.5; margin-bottom:20px; padding-bottom:20px; border-bottom:2px solid #e8e0d0; font-weight:600; }
+    .exc-desc-full { font-size:1rem; color:#555; line-height:1.5; }
+    .exc-desc-full p { margin-bottom:8px; }
 
-    /* BOOK BLOCK */
-    .book-block {
-      background:var(--white); border-radius:20px; padding:32px;
-      box-shadow:0 8px 32px rgba(0,0,0,.1); margin-top:48px;
-      border-top:4px solid var(--gold);
-    }
-    .book-title { font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.3rem; color:var(--accent); margin-bottom:6px; }
-    .book-sub { color:#888; font-size:.9rem; margin-bottom:24px; }
-    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-    .form-group { margin-bottom:18px; }
-    .form-group label { display:block; font-weight:600; font-size:.85rem; color:var(--accent); margin-bottom:6px; }
-    .form-group input, .form-group select { width:100%; padding:11px 14px; border:2px solid #e0e0e0; border-radius:10px; font-family:'Open Sans',sans-serif; font-size:.9rem; transition:border-color .2s; outline:none; background:#fafafa; }
+    /* FAB ЗАПИСАТЬСЯ */
+    .book-fab { position:fixed; bottom:24px; right:20px; z-index:300; background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:var(--dark); border:none; border-radius:30px; padding:13px 22px; font-family:'Montserrat',sans-serif; font-weight:800; font-size:.95rem; cursor:pointer; box-shadow:0 4px 20px rgba(201,168,76,.5); display:flex; align-items:center; gap:8px; transition:transform .2s,box-shadow .2s; }
+    .book-fab:active { transform:scale(0.95); }
+
+    /* OVERLAY */
+    .book-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.5); z-index:400; }
+    .book-overlay.open { display:block; }
+
+    /* BOTTOM SHEET */
+    .book-sheet { position:fixed; bottom:0; left:0; right:0; z-index:401; background:var(--white); border-radius:20px 20px 0 0; padding:24px 20px 32px; max-height:92vh; overflow-y:auto; transform:translateY(100%); transition:transform .35s cubic-bezier(.32,1,.23,1); box-shadow:0 -8px 40px rgba(0,0,0,.2); }
+    .book-sheet.open { transform:translateY(0); }
+    .sheet-handle { width:40px; height:4px; background:#ddd; border-radius:4px; margin:0 auto 20px; }
+    .sheet-close { position:absolute; top:16px; right:16px; background:rgba(0,0,0,.07); border:none; border-radius:50%; width:30px; height:30px; font-size:1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#555; }
+    .book-title { font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.1rem; color:var(--accent); margin-bottom:4px; }
+    .book-sub { color:#888; font-size:.8rem; margin-bottom:16px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .form-group { margin-bottom:12px; }
+    .form-group label { display:block; font-weight:600; font-size:.78rem; color:var(--accent); margin-bottom:4px; }
+    .form-group input, .form-group select { width:100%; padding:8px 11px; border:2px solid #e0e0e0; border-radius:8px; font-family:'Open Sans',sans-serif; font-size:.85rem; transition:border-color .2s; outline:none; background:#fafafa; }
     .form-group input:focus, .form-group select:focus { border-color:var(--gold); background:var(--white); }
     .form-group input.error, .form-group select.error { border-color:#e74c3c; }
-    .submit-btn { width:100%; padding:14px; background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:var(--dark); border:none; border-radius:12px; font-family:'Montserrat',sans-serif; font-weight:700; font-size:1rem; cursor:pointer; transition:opacity .2s,transform .15s; margin-top:8px; }
+    .submit-btn { width:100%; padding:11px; background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:var(--dark); border:none; border-radius:10px; font-family:'Montserrat',sans-serif; font-weight:700; font-size:.95rem; cursor:pointer; transition:opacity .2s,transform .15s; margin-top:6px; }
     .submit-btn:hover { opacity:.9; transform:translateY(-1px); }
     .submit-btn:disabled { opacity:.6; cursor:not-allowed; transform:none; }
-    .form-msg { text-align:center; padding:12px; border-radius:10px; font-weight:600; font-size:.9rem; margin-top:14px; display:none; }
+    .form-msg { text-align:center; padding:10px; border-radius:8px; font-weight:600; font-size:.85rem; margin-top:10px; display:none; }
     .form-msg.success { background:#d4edda; color:#155724; display:block; }
     .form-msg.error { background:#f8d7da; color:#721c24; display:block; }
+    @media (max-width:560px) { .form-row { grid-template-columns:1fr; } }
 
-    footer { background:var(--dark); color:rgba(255,255,255,.7); text-align:center; padding:24px; font-size:.85rem; margin-top:60px; }
+    footer { background:var(--dark); color:rgba(255,255,255,.7); text-align:center; padding:24px; font-size:.85rem; margin-top:40px; padding-bottom:90px; }
     footer strong { color:var(--gold); }
 
     @media (max-width:560px) {
@@ -98,14 +106,12 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
 
 <header>
   <div class="header-inner">
-    <a class="logo" href="/">
-      <div class="logo-icon"><i class="fa fa-compass"></i></div>
-      <div>
-        <div class="logo-name">KEDEM TOURS</div>
-        <div class="logo-sub">Экскурсии по Израилю</div>
-      </div>
-    </a>
-    <a class="back-btn" href="/"><i class="fa fa-arrow-left"></i> Все экскурсии</a>
+    <div class="logo-icon" id="logoIcon"><i class="fa fa-compass"></i></div>
+    <div>
+      <div class="logo-name" id="logoName">KEDEM TOURS</div>
+      <div class="logo-sub" id="logoSub">Экскурсии по Израилю</div>
+      <a class="back-btn" href="/"><i class="fa fa-arrow-left"></i> Все экскурсии</a>
+    </div>
   </div>
 </header>
 
@@ -132,39 +138,48 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
   <?php if ($desc): ?><div class="exc-desc-short"><?= $desc ?></div><?php endif; ?>
   <?php if ($descFull): ?><div class="exc-desc-full"><?= $descFull ?></div><?php endif; ?>
 
-  <!-- BOOKING FORM -->
-  <div class="book-block">
-    <div class="book-title">Записаться на экскурсию</div>
-    <div class="book-sub">Заполните форму — мы свяжемся с вами для подтверждения</div>
-    <form id="bookingForm" novalidate>
-      <div class="form-row">
-        <div class="form-group"><label>Имя *</label><input type="text" id="firstName" placeholder="Иван"/></div>
-        <div class="form-group"><label>Фамилия *</label><input type="text" id="lastName" placeholder="Иванов"/></div>
-      </div>
-      <div class="form-row">
-        <div class="form-group"><label>Телефон *</label><input type="tel" id="phone" placeholder="+972-50-000-0000"/></div>
-        <div class="form-group"><label>Количество мест *</label><input type="number" id="seats" min="1" max="20" placeholder="1"/></div>
-      </div>
-      <div class="form-group">
-        <label>Место посадки *</label>
-        <select id="pickup">
-          <option value="">— выберите остановку —</option>
-          <option>Каньён Авиа</option>
-          <option>Каньён Шауль Ха-Мелех</option>
-          <option>Гранд Каньёон</option>
-          <option>Неве Зеев-Жаботински</option>
-          <option>Бигудит Вицо</option>
-          <option>Сорока</option>
-          <option>Центр Орен</option>
-        </select>
-      </div>
-      <button type="submit" class="submit-btn" id="submitBtn"><i class="fa fa-check-circle"></i>&nbsp; Записаться</button>
-      <div class="form-msg" id="formMsg"></div>
-    </form>
-  </div>
 </div>
 
 <footer><p>&copy; 2024 <strong>KEDEM TOURS</strong>. Все права защищены.</p></footer>
+
+<!-- FAB -->
+<button class="book-fab" onclick="openSheet()"><i class="fa fa-pen"></i> Записаться</button>
+
+<!-- OVERLAY -->
+<div class="book-overlay" id="bookOverlay" onclick="closeSheet()"></div>
+
+<!-- BOTTOM SHEET -->
+<div class="book-sheet" id="bookSheet">
+  <div class="sheet-handle"></div>
+  <button class="sheet-close" onclick="closeSheet()"><i class="fa fa-times"></i></button>
+  <div class="book-title">Записаться на экскурсию</div>
+  <div class="book-sub">Заполните форму — мы свяжемся с вами для подтверждения</div>
+  <form id="bookingForm" novalidate>
+    <div class="form-row">
+      <div class="form-group"><label>Имя *</label><input type="text" id="firstName" placeholder="Иван"/></div>
+      <div class="form-group"><label>Фамилия *</label><input type="text" id="lastName" placeholder="Иванов"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Телефон *</label><input type="tel" id="phone" placeholder="+972-50-000-0000"/></div>
+      <div class="form-group"><label>Количество мест *</label><input type="number" id="seats" min="1" max="20" placeholder="1"/></div>
+    </div>
+    <div class="form-group">
+      <label>Место посадки *</label>
+      <select id="pickup">
+        <option value="">— выберите остановку —</option>
+        <option>Каньён Авиа</option>
+        <option>Каньён Шауль Ха-Мелех</option>
+        <option>Гранд Каньёон</option>
+        <option>Неве Зеев-Жаботински</option>
+        <option>Бигудит Вицо</option>
+        <option>Сорока</option>
+        <option>Центр Орен</option>
+      </select>
+    </div>
+    <button type="submit" class="submit-btn" id="submitBtn"><i class="fa fa-check-circle"></i>&nbsp; Записаться</button>
+    <div class="form-msg" id="formMsg"></div>
+  </form>
+</div>
 
 <script>
 const EXCURSION_TITLE = <?= json_encode($exc['title']) ?>;
@@ -196,19 +211,61 @@ form.addEventListener('submit', async e => {
         pickup:    document.getElementById('pickup').value
       })
     });
-    const data = await res.json();
+    const text = await res.text();
+    let data;
+    try { data = JSON.parse(text); } catch(e) {
+      console.error('order.php response:', text);
+      showMsg('Ошибка сервера. Попробуйте позже.', 'error');
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fa fa-check-circle"></i>&nbsp; Записаться';
+      return;
+    }
     if (data.success) {
       showMsg('✅ Вы успешно записаны! Мы свяжемся с вами в ближайшее время.', 'success');
       form.reset();
     } else {
       showMsg(data.error || 'Ошибка. Попробуйте ещё раз.', 'error');
     }
-  } catch { showMsg('Ошибка соединения. Попробуйте позже.', 'error'); }
+  } catch(e) { console.error(e); showMsg('Ошибка соединения. Попробуйте позже.', 'error'); }
   submitBtn.disabled = false;
   submitBtn.innerHTML = '<i class="fa fa-check-circle"></i>&nbsp; Записаться';
 });
 
 function showMsg(text, type) { formMsg.textContent = text; formMsg.className = 'form-msg ' + type; }
+
+function openSheet() {
+  document.getElementById('bookSheet').classList.add('open');
+  document.getElementById('bookOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeSheet() {
+  document.getElementById('bookSheet').classList.remove('open');
+  document.getElementById('bookOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── SETTINGS ─────────────────────────────────────────────
+(function applyHeaderSettings(s) {
+  if (!s) return;
+  var logoIcon = document.getElementById('logoIcon');
+  if (s.logo_image && logoIcon)
+    logoIcon.innerHTML = '<img src="' + s.logo_image + '" alt="logo" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+  var logoName = document.getElementById('logoName');
+  if (logoName && s.logo_text) logoName.textContent = s.logo_text;
+  var logoSub = document.getElementById('logoSub');
+  if (logoSub && s.logo_sub) logoSub.textContent = s.logo_sub;
+})(JSON.parse(localStorage.getItem('site_settings') || 'null'));
+
+fetch('/settings.php').then(r => r.json()).then(function(s) {
+  localStorage.setItem('site_settings', JSON.stringify(s));
+  var logoIcon = document.getElementById('logoIcon');
+  if (s.logo_image && logoIcon)
+    logoIcon.innerHTML = '<img src="' + s.logo_image + '" alt="logo" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+  var logoName = document.getElementById('logoName');
+  if (logoName && s.logo_text) logoName.textContent = s.logo_text;
+  var logoSub = document.getElementById('logoSub');
+  if (logoSub && s.logo_sub) logoSub.textContent = s.logo_sub;
+}).catch(function(){});
 </script>
 </body>
 </html>

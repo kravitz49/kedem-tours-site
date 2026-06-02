@@ -51,7 +51,7 @@
     .hdr-reviews-btn:hover { opacity: 0.88; }
 
     /* HERO */
-    .hero { background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.35)), url('https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=1400&q=80') center/cover no-repeat; min-height: 420px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 60px 24px; }
+    .hero { background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.35)) center/cover no-repeat; background-color: var(--dark); min-height: 420px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 60px 24px; }
     .hero-content { max-width: 700px; }
     .hero h1 { font-family: 'Montserrat', sans-serif; font-size: clamp(1.3rem, 3.5vw, 2rem); font-weight: 800; color: var(--white); line-height: 1.25; margin-bottom: 12px; text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
     .hero h1 span { color: var(--gold); }
@@ -66,7 +66,7 @@
 
     /* EXCURSION GRID */
     .excursion-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
-    .exc-card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); cursor: pointer; transition: transform .25s, box-shadow .25s; border: 2px solid transparent; }
+    .exc-card { display: block; background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); cursor: pointer; transition: transform .25s, box-shadow .25s; border: 2px solid transparent; text-decoration: none; color: inherit; -webkit-tap-highlight-color: transparent; }
     .exc-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,0,0,0.18); border-color: var(--gold); }
     .exc-img { width: 100%; height: 200px; object-fit: cover; display: block; }
     .exc-img-placeholder { width: 100%; height: 200px; display: flex; align-items: center; justify-content: center; font-size: 3rem; }
@@ -136,7 +136,7 @@
     .review-name { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: .95rem; color: var(--accent); }
     .review-stars { color: #f59e0b; }
     .review-exc-label { font-size: .75rem; color: var(--gold); font-weight: 600; margin: 4px 0 8px; text-transform: uppercase; letter-spacing: .5px; }
-    .review-body { font-size: .88rem; color: #555; line-height: 1.6; }
+    .review-body { font-size: .88rem; color: #555; line-height: 1.45; }
     .review-dt { font-size: .75rem; color: #bbb; margin-top: 10px; }
 
     /* FOOTER */
@@ -181,11 +181,11 @@
       .exc-desc       { font-size: 0.8rem; margin-bottom: 12px; }
 
       /* Features */
-      .features-grid  { grid-template-columns: 1fr 1fr; gap: 12px; }
-      .feature-card   { padding: 18px 12px; }
-      .feature-icon   { font-size: 1.7rem; margin-bottom: 8px; }
-      .feature-title  { font-size: 0.82rem; margin-bottom: 4px; }
-      .feature-text   { font-size: 0.72rem; }
+      .features-grid  { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .feature-card   { padding: 12px 10px; }
+      .feature-icon   { font-size: 1.4rem; margin-bottom: 6px; }
+      .feature-title  { font-size: 0.78rem; margin-bottom: 3px; }
+      .feature-text   { font-size: 0.68rem; }
 
       /* Reviews */
       .reviews-grid   { grid-template-columns: 1fr; gap: 14px; }
@@ -205,8 +205,8 @@
 
       /* FAB */
       .fab-wrap       { top: auto; bottom: 20px; right: 16px; }
-      .fab-menu       { order: 1; }
-      .fab-btn        { order: 2; height: 42px; font-size: 0.82rem; padding: 0 14px 0 12px; }
+      .fab-menu       { position: absolute; bottom: 100%; right: 0; margin-bottom: 10px; order: unset; }
+      .fab-btn        { height: 42px; font-size: 0.82rem; padding: 0 14px 0 12px; order: unset; }
       .fab-item       { font-size: 0.82rem; padding: 8px 14px 8px 10px; }
       .fab-item i     { width: 24px; height: 24px; font-size: 0.85rem; }
     }
@@ -401,8 +401,13 @@ let siteSettings = {};
 // ── SETTINGS ─────────────────────────────────────────────
 async function loadSettings() {
   try {
+    const cached = localStorage.getItem('site_settings');
+    if (cached) applySettings(JSON.parse(cached));
+  } catch(e) {}
+  try {
     const res = await fetch('/settings.php');
     siteSettings = await res.json();
+    localStorage.setItem('site_settings', JSON.stringify(siteSettings));
     applySettings(siteSettings);
   } catch(e) {}
 }
@@ -434,9 +439,10 @@ function applySettings(s) {
   setEl('footerEmailText', 'textContent', email);
 
   // Герой
-  if (s.hero_image && el('heroBlock'))
+  const heroImg = s.hero_image || 'https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=1400&q=80';
+  if (el('heroBlock'))
     el('heroBlock').style.backgroundImage =
-      'linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.35)),url(' + JSON.stringify(s.hero_image) + ')';
+      'linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.35)),url(' + JSON.stringify(heroImg) + ')';
   if (s.hero_title && el('heroTitle')) {
     var words = s.hero_title.split(' ');
     var mid   = Math.ceil(words.length / 2);
@@ -503,8 +509,11 @@ async function loadExcursions() {
     const grid = document.getElementById('excGrid');
     if (!excursions.length) { grid.innerHTML = '<p style="color:#aaa;grid-column:1/-1;text-align:center;padding:20px">Экскурсии скоро появятся</p>'; return; }
     excursions.forEach(exc => {
-      const card = document.createElement('div');
+      const url = '/excursion.php?id=' + exc.id;
+      const card = document.createElement('a');
       card.className = 'exc-card';
+      card.href = url;
+      card.style.touchAction = 'manipulation';
       const preview = exc.image
         ? `<img class="exc-img" src="${exc.image}" alt="${exc.title}" onerror="this.style.display='none';this.nextSibling.style.display='flex'">
            <div class="exc-img-placeholder" style="background:${exc.bg||'#f0f0f0'};display:none">${exc.icon||'🗺️'}</div>`
@@ -516,10 +525,9 @@ async function loadExcursions() {
           <div class="exc-desc">${exc.desc||''}</div>
           <div class="exc-meta">
             <span class="exc-info"><i class="fa fa-clock"></i> ${exc.duration||''}</span>
-            <a class="exc-btn" href="/excursion.php?id=${exc.id}">Подробнее →</a>
+            <span class="exc-btn" style="pointer-events:none">Подробнее →</span>
           </div>
         </div>`;
-      card.addEventListener('click', e => { if (!e.target.closest('.exc-btn')) window.location.href = '/excursion.php?id=' + exc.id; });
       grid.appendChild(card);
     });
   } catch(err) {
