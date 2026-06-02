@@ -46,7 +46,7 @@
     .r-name { font-family:'Montserrat',sans-serif; font-weight:700; font-size:.95rem; color:var(--accent); }
     .r-stars{ color:#f59e0b; letter-spacing:2px; }
     .r-exc  { font-size:.75rem; color:var(--gold); font-weight:600; text-transform:uppercase; letter-spacing:.5px; }
-    .r-text { font-size:.88rem; color:#444; line-height:1.65; flex:1; }
+    .r-text { font-size:.88rem; color:#444; line-height:1.45; flex:1; }
     .r-date { font-size:.75rem; color:#bbb; }
 
     .no-reviews { text-align:center; padding:60px 20px; color:#aaa; }

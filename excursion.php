@@ -59,9 +59,9 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
 
     /* CONTENT */
     .exc-content { max-width:800px; margin:0 auto; padding:48px 24px; }
-    .exc-desc-short { font-size:1.1rem; color:#444; line-height:1.7; margin-bottom:28px; padding-bottom:28px; border-bottom:2px solid #e8e0d0; font-weight:600; }
-    .exc-desc-full { font-size:1rem; color:#555; line-height:1.85; white-space:pre-line; }
-    .exc-desc-full p { margin-bottom:16px; }
+    .exc-desc-short { font-size:1.1rem; color:#444; line-height:1.5; margin-bottom:20px; padding-bottom:20px; border-bottom:2px solid #e8e0d0; font-weight:600; }
+    .exc-desc-full { font-size:1rem; color:#555; line-height:1.5; }
+    .exc-desc-full p { margin-bottom:8px; }
 
     /* BOOK BLOCK */
     .book-block {
