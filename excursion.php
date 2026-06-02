@@ -166,6 +166,7 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
 
 <footer><p>&copy; 2024 <strong>KEDEM TOURS</strong>. Все права защищены.</p></footer>
 
+<script src="/widgets.js"></script>
 <script>
 const EXCURSION_TITLE = <?= json_encode($exc['title']) ?>;
 const form     = document.getElementById('bookingForm');

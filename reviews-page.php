@@ -277,5 +277,6 @@ document.getElementById('reviewForm').addEventListener('submit', function(e) {
   });
 });
 </script>
+<script src="/widgets.js"></script>
 </body>
 </html>
