@@ -218,99 +218,152 @@
 
     /* ══ ДОСТУПНОСТЬ ═══════════════════════════════════════ */
 
-    /* Skip-link */
-    .skip-link {
-      position: absolute; top: -100%; left: 0;
-      background: var(--gold); color: var(--dark);
-      padding: 10px 18px; font-weight: 700; font-size: 0.95rem;
-      z-index: 9999; border-radius: 0 0 8px 0;
-      text-decoration: none;
-    }
-    .skip-link:focus { top: 0; }
+    .skip-link { position:absolute; top:-100%; left:0; background:var(--gold); color:var(--dark); padding:10px 18px; font-weight:700; font-size:.95rem; z-index:9999; border-radius:0 0 8px 0; text-decoration:none; }
+    .skip-link:focus { top:0; }
+    :focus-visible { outline:3px solid var(--gold); outline-offset:3px; border-radius:4px; }
+    @media (prefers-reduced-motion:reduce) { .marquee-track { animation:none; } }
 
-    /* Focus-visible — видимый фокус для клавиатуры */
-    :focus-visible {
-      outline: 3px solid var(--gold);
-      outline-offset: 3px;
-      border-radius: 4px;
+    /* ── Toggle-кнопка виджета ─────────────────────────── */
+    #a11yToggleBtn {
+      position: fixed; bottom: 80px; left: 0; z-index: 800;
+      background: var(--accent); color: #fff; border: none;
+      border-radius: 0 10px 10px 0; padding: 14px 10px;
+      cursor: pointer; display: flex; flex-direction: column;
+      align-items: center; gap: 5px;
+      box-shadow: 3px 3px 14px rgba(0,0,0,.35);
+      transition: background .2s;
     }
-
-    /* Reduced motion — уважаем системные настройки */
-    @media (prefers-reduced-motion: reduce) {
-      .marquee-track { animation: none; }
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-      }
+    #a11yToggleBtn:hover { background: #163d74; }
+    #a11yToggleBtn .a11y-ico { font-size: 1.3rem; }
+    #a11yToggleBtn .a11y-lbl {
+      writing-mode: vertical-rl; transform: rotate(180deg);
+      font-family: 'Montserrat',sans-serif; font-size: .58rem;
+      font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+      opacity: .85;
     }
 
-    /* ── Кнопка доступности ─────────────────────────────── */
-    .a11y-btn {
-      position: fixed; bottom: 80px; left: 16px; z-index: 600;
-      width: 48px; height: 48px; border-radius: 50%;
-      background: var(--accent); color: #fff;
-      border: 2px solid var(--gold-light);
-      font-size: 1.35rem; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.35);
-      transition: transform .2s;
+    /* ── Overlay ────────────────────────────────────────── */
+    #a11yOverlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.45); z-index: 799;
     }
-    .a11y-btn:hover { transform: scale(1.1); }
+    #a11yOverlay.open { display: block; }
 
-    /* ── Панель доступности ─────────────────────────────── */
-    .a11y-panel {
-      position: fixed; bottom: 136px; left: 16px; z-index: 600;
-      background: #fff; border-radius: 14px;
-      padding: 18px 16px;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.22);
-      min-width: 230px;
-      border: 1px solid #ddd;
-      display: none;
+    /* ── Панель ─────────────────────────────────────────── */
+    #a11yPanel {
+      position: fixed; top: 0; left: 0;
+      width: 310px; max-width: 96vw; height: 100vh;
+      background: #eef0f8; z-index: 800;
+      display: flex; flex-direction: column;
+      box-shadow: 5px 0 40px rgba(0,0,0,.28);
+      transform: translateX(-100%);
+      transition: transform .3s ease;
+      overflow: hidden;
     }
-    .a11y-panel.open { display: block; }
-    .a11y-panel h3 {
-      font-family: 'Montserrat', sans-serif; font-size: 0.88rem;
-      color: var(--accent); margin-bottom: 12px; font-weight: 700;
-      border-bottom: 2px solid var(--gold); padding-bottom: 8px;
-    }
-    .a11y-action {
-      width: 100%; text-align: right; direction: rtl;
-      background: none; border: 1px solid #e0e0e0;
-      border-radius: 8px; padding: 9px 12px;
-      margin-bottom: 8px; cursor: pointer;
-      font-size: 0.85rem; display: flex; align-items: center; gap: 8px;
-      color: var(--text); font-family: 'Open Sans', sans-serif;
-    }
-    .a11y-action:hover { background: var(--light-bg); }
-    .a11y-action.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .a11y-font-row { display: flex; gap: 8px; margin-bottom: 8px; }
-    .a11y-font-row button {
-      flex: 1; padding: 8px 4px; border: 1px solid #e0e0e0;
-      border-radius: 8px; background: none; cursor: pointer;
-      font-family: 'Montserrat', sans-serif; font-weight: 700;
-      color: var(--accent);
-    }
-    .a11y-font-row button:hover { background: var(--light-bg); }
-    .a11y-decl-link {
-      display: block; text-align: center; margin-top: 10px;
-      font-size: 0.82rem; color: var(--accent);
-      text-decoration: underline;
-    }
+    #a11yPanel.open { transform: translateX(0); }
 
-    /* ── Режим высокого контраста ───────────────────────── */
-    body.hc-mode {
-      --text: #000; --light-bg: #fff; --white: #fff;
-      --accent: #00008b; --gold: #b8860b; --gold-light: #b8860b;
-      --dark: #000;
+    .a11y-hdr {
+      background: var(--dark); color: #fff;
+      padding: 0 14px; min-height: 54px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-shrink: 0;
     }
-    body.hc-mode .exc-card,
-    body.hc-mode .feature-card,
-    body.hc-mode .review-card-pub {
-      border: 2px solid #000;
+    .a11y-hdr-title { font-family:'Montserrat',sans-serif; font-weight:800; font-size:1rem; letter-spacing:.5px; }
+    .a11y-hdr-close {
+      background: rgba(255,255,255,.15); border:none; color:#fff;
+      width:32px; height:32px; border-radius:50%; cursor:pointer;
+      font-size:1rem; display:flex; align-items:center; justify-content:center;
     }
-    body.hc-mode .exc-desc,
-    body.hc-mode .exc-info,
-    body.hc-mode .feature-text { color: #000; }
+    .a11y-hdr-close:hover { background:rgba(255,255,255,.3); }
+
+    .a11y-body { flex:1; overflow-y:auto; padding:10px; }
+    .a11y-body::-webkit-scrollbar { width:4px; }
+    .a11y-body::-webkit-scrollbar-thumb { background:#bbb; border-radius:2px; }
+
+    .a11y-reset-all {
+      width:100%; background:none; border:1.5px solid #d0d4e8;
+      border-radius:8px; padding:8px; font-size:.78rem; color:#595959;
+      cursor:pointer; margin-bottom:10px; font-family:'Open Sans',sans-serif;
+      display:flex; align-items:center; justify-content:center; gap:6px;
+    }
+    .a11y-reset-all:hover { background:#e4e7f5; }
+
+    /* Секции */
+    .a11y-sec { background:#fff; border-radius:10px; margin-bottom:8px; overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,.07); }
+    .a11y-sec-hdr {
+      width:100%; background:none; border:none;
+      padding:11px 14px; display:flex; align-items:center;
+      justify-content:space-between; cursor:pointer;
+      font-family:'Montserrat',sans-serif; font-weight:700;
+      font-size:.8rem; color:var(--dark); text-align:left;
+    }
+    .a11y-sec-hdr:hover { background:#f4f6fb; }
+    .a11y-sec-plus {
+      width:24px; height:24px; background:var(--accent); color:#fff;
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+      font-size:.78rem; flex-shrink:0; transition:transform .2s;
+    }
+    .a11y-sec-hdr[aria-expanded="true"] .a11y-sec-plus { transform:rotate(45deg); }
+    .a11y-sec-body { padding:4px 10px 12px; }
+    .a11y-sec-body[hidden] { display:none; }
+
+    /* Сетка кнопок */
+    .a11y-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:7px; }
+    .a11y-feat {
+      background:#f4f6fb; border:1.5px solid #dde1f0; border-radius:10px;
+      padding:11px 4px 9px; cursor:pointer;
+      display:flex; flex-direction:column; align-items:center; gap:6px;
+      transition:border-color .15s,background .15s; font-family:'Open Sans',sans-serif;
+    }
+    .a11y-feat:hover { border-color:var(--accent); background:#eaedfa; }
+    .a11y-feat.active { background:var(--accent); border-color:var(--accent); }
+    .a11y-feat-ico { font-size:1.4rem; color:var(--accent); line-height:1; }
+    .a11y-feat.active .a11y-feat-ico { color:#fff; }
+    .a11y-feat-lbl { font-size:.63rem; font-weight:600; text-align:center; color:var(--dark); line-height:1.25; }
+    .a11y-feat.active .a11y-feat-lbl { color:#fff; }
+
+    /* Слайдеры */
+    .a11y-slider-g { margin-bottom:13px; }
+    .a11y-slider-row { display:flex; justify-content:space-between; align-items:center; font-size:.76rem; font-weight:600; color:var(--dark); margin-bottom:4px; }
+    .a11y-slider-row span { color:var(--accent); font-weight:700; font-size:.78rem; }
+    input[type=range].a11y-range { width:100%; accent-color:var(--accent); cursor:pointer; }
+    .a11y-step-btns { display:flex; gap:5px; margin-top:5px; }
+    .a11y-step-btns button {
+      flex:1; padding:5px 4px; border:1.5px solid #d0d4e8;
+      border-radius:7px; background:none; cursor:pointer;
+      font-family:'Montserrat',sans-serif; font-weight:700; font-size:.72rem; color:var(--accent);
+    }
+    .a11y-step-btns button:hover { background:#eaedfa; }
+
+    /* Цвета */
+    .a11y-clr-row { display:flex; align-items:center; gap:8px; margin-bottom:9px; font-size:.78rem; }
+    .a11y-clr-row label { flex:1; font-weight:600; color:var(--dark); }
+    .a11y-clr-row input[type=color] { width:38px; height:28px; border:1px solid #ccc; border-radius:6px; cursor:pointer; padding:2px; }
+
+    /* Сброс секции */
+    .a11y-sec-reset {
+      width:100%; background:none; border:1.5px solid #dde1f0; border-radius:7px;
+      padding:7px; font-size:.73rem; color:#595959; cursor:pointer; margin-top:8px;
+      font-family:'Open Sans',sans-serif; display:flex; align-items:center; justify-content:center; gap:5px;
+    }
+    .a11y-sec-reset:hover { background:#f0f2fb; }
+
+    /* Тело-классы: эффекты */
+    body.a11y-hc-light  { filter:contrast(1.5) brightness(1.05); }
+    body.a11y-hc-dark   { filter:invert(1) hue-rotate(180deg); }
+    body.a11y-hc-dark img, body.a11y-hc-dark video { filter:invert(1) hue-rotate(180deg); }
+    body.a11y-mono      { filter:grayscale(1); }
+    body.a11y-invert    { filter:invert(1); }
+    body.a11y-high-sat  { filter:saturate(2.2); }
+    body.a11y-low-sat   { filter:saturate(.4) brightness(1.1); }
+    body.a11y-no-motion *, body.a11y-no-motion *::before, body.a11y-no-motion *::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
+    body.a11y-kbd *:focus { outline:4px solid #e65c00 !important; outline-offset:3px !important; border-radius:3px !important; }
+    body.a11y-links a { text-decoration:underline !important; font-weight:700 !important; }
+    body.a11y-titles h1,body.a11y-titles h2,body.a11y-titles h3,body.a11y-titles h4 { background:#fffde0 !important; color:#000 !important; }
+    body.a11y-dyslexia { font-family:'Open Sans',Arial,sans-serif !important; letter-spacing:.05em; word-spacing:.12em; line-height:1.9; }
+    body.a11y-cursor * { cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36'%3E%3Cpath d='M8 2l20 14-9 2 5 10-4 2-5-10-7 6z' fill='%23000' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") 8 2,auto !important; }
+
+    @media (max-width:640px) { #a11yPanel { width:100vw; max-width:100vw; } #a11yToggleBtn { bottom:70px; } }
 
     /* FAB — плавающая кнопка контактов (все экраны) */
     .fab-wrap {
@@ -618,14 +671,6 @@ function closeFab() {
   document.getElementById('fabOverlay').classList.remove('open');
 }
 
-// Закрытие FAB по Escape
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Escape') {
-    closeFab();
-    closeReviewModal();
-    closeA11yPanel();
-  }
-});
 
 // ── EXCURSIONS ───────────────────────────────────────────
 async function loadExcursions() {
@@ -759,125 +804,481 @@ async function loadMarquee() {
 </script>
 
 <!-- ══ ВИДЖЕТ ДОСТУПНОСТИ ══════════════════════════════════ -->
-<button class="a11y-btn" id="a11yBtn"
-        onclick="toggleA11yPanel()"
-        aria-expanded="false"
-        aria-controls="a11yPanel"
-        aria-label="Параметры доступности">♿</button>
+<div id="a11yOverlay" onclick="a11yClose()"></div>
 
-<div class="a11y-panel" id="a11yPanel" role="dialog"
-     aria-modal="false" aria-label="Параметры доступности">
-  <h3>Доступность</h3>
+<button id="a11yToggleBtn" onclick="a11yToggle()"
+        aria-expanded="false" aria-controls="a11yPanel"
+        aria-label="Параметры доступности">
+  <span class="a11y-ico">♿</span>
+  <span class="a11y-lbl">Доступность</span>
+</button>
 
-  <div class="a11y-font-row" aria-label="Размер текста">
-    <button onclick="a11yFontSize(1)" aria-label="Увеличить текст">A+</button>
-    <button onclick="a11yFontSize(0)" aria-label="Сбросить размер текста">A</button>
-    <button onclick="a11yFontSize(-1)" aria-label="Уменьшить текст">A−</button>
+<div id="a11yPanel" role="dialog" aria-modal="true"
+     aria-label="Настройки доступности" aria-hidden="true">
+
+  <div class="a11y-hdr">
+    <span class="a11y-hdr-title">♿ Доступность</span>
+    <button class="a11y-hdr-close" onclick="a11yClose()" aria-label="Закрыть">
+      <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
   </div>
 
-  <button class="a11y-action" id="a11yContrastBtn"
-          onclick="a11yToggleContrast()"
-          aria-pressed="false">
-    🌗 Высокий контраст
-  </button>
+  <div class="a11y-body">
 
-  <button class="a11y-action" id="a11yMotionBtn"
-          onclick="a11yToggleMotion()"
-          aria-pressed="false">
-    ⏸ Стоп анимация
-  </button>
+    <button class="a11y-reset-all" onclick="a11yResetAll()">
+      <i class="fa fa-rotate-left" aria-hidden="true"></i> Сбросить все настройки
+    </button>
 
-  <button class="a11y-action" id="a11yLinksBtn"
-          onclick="a11yToggleLinks()"
-          aria-pressed="false">
-    🔗 Выделить ссылки
-  </button>
+    <!-- ПРОФИЛИ -->
+    <div class="a11y-sec">
+      <button class="a11y-sec-hdr" onclick="a11yToggleSec(this)" aria-expanded="false">
+        Профили доступности
+        <span class="a11y-sec-plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
+      </button>
+      <div class="a11y-sec-body" hidden>
+        <div class="a11y-grid">
+          <button class="a11y-feat" onclick="a11yProfile(this,'motor')" data-feat="profile-motor" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-hand" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Нарушение моторики</span>
+          </button>
+          <button class="a11y-feat" onclick="a11yProfile(this,'blind')" data-feat="profile-blind" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-eye-slash" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Слабое зрение</span>
+          </button>
+          <button class="a11y-feat" onclick="a11yProfile(this,'dyslexia')" data-feat="profile-dyslexia" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-book-open" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Дислексия</span>
+          </button>
+          <button class="a11y-feat" onclick="a11yProfile(this,'cognitive')" data-feat="profile-cognitive" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-brain" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Когнитивные нарушения</span>
+          </button>
+          <button class="a11y-feat" onclick="a11yProfile(this,'senior')" data-feat="profile-senior" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-person-cane" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Пожилой пользователь</span>
+          </button>
+          <button class="a11y-feat" onclick="a11yProfile(this,'adhd')" data-feat="profile-adhd" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-bolt" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">СДВГ</span>
+          </button>
+        </div>
+      </div>
+    </div>
 
-  <a class="a11y-decl-link" href="/accessibility.html">
-    📄 Декларация доступности
-  </a>
+    <!-- НАВИГАЦИЯ -->
+    <div class="a11y-sec">
+      <button class="a11y-sec-hdr" onclick="a11yToggleSec(this)" aria-expanded="true">
+        Навигация
+        <span class="a11y-sec-plus" style="transform:rotate(45deg)"><i class="fa fa-plus" aria-hidden="true"></i></span>
+      </button>
+      <div class="a11y-sec-body">
+        <div class="a11y-grid">
+          <button class="a11y-feat" onclick="a11yFeat(this,'kbd')" data-feat="kbd" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-keyboard" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Навигация с клавиатуры</span>
+          </button>
+          <button class="a11y-feat" onclick="a11yFeat(this,'zones')" data-feat="zones" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-table-cells" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Навигация по зонам</span>
+          </button>
+          <button class="a11y-feat" onclick="a11yFeat(this,'speak')" data-feat="speak" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-volume-high" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Озвучивание текста</span>
+          </button>
+          <button class="a11y-feat" onclick="a11yFeat(this,'no-motion')" data-feat="no-motion" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-pause" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Стоп анимация</span>
+          </button>
+          <button class="a11y-feat" onclick="a11yFeat(this,'cursor')" data-feat="cursor" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-arrow-pointer" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Крупный курсор</span>
+          </button>
+          <button class="a11y-feat" onclick="a11yFeat(this,'screen-reader')" data-feat="screen-reader" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-ear-listen" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Для чтения с экрана</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- КОНТРАСТНОСТЬ -->
+    <div class="a11y-sec">
+      <button class="a11y-sec-hdr" onclick="a11yToggleSec(this)" aria-expanded="true">
+        Контрастность
+        <span class="a11y-sec-plus" style="transform:rotate(45deg)"><i class="fa fa-plus" aria-hidden="true"></i></span>
+      </button>
+      <div class="a11y-sec-body">
+        <div class="a11y-grid">
+          <button class="a11y-feat" onclick="a11yContrast(this,'hc-light')" data-feat="hc-light" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-sun" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Светлый контраст</span>
+          </button>
+          <button class="a11y-feat" onclick="a11yContrast(this,'hc-dark')" data-feat="hc-dark" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-moon" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Тёмный режим</span>
+          </button>
+          <button class="a11y-feat" onclick="a11yContrast(this,'mono')" data-feat="mono" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-circle-half-stroke" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Монохром</span>
+          </button>
+          <button class="a11y-feat" onclick="a11yContrast(this,'invert')" data-feat="invert" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-adjust" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Инверсия</span>
+          </button>
+          <button class="a11y-feat" onclick="a11yContrast(this,'high-sat')" data-feat="high-sat" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-droplet" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Насыщенность+</span>
+          </button>
+          <button class="a11y-feat" onclick="a11yContrast(this,'low-sat')" data-feat="low-sat" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-droplet-slash" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Насыщенность−</span>
+          </button>
+        </div>
+        <button class="a11y-sec-reset" onclick="a11yResetContrast()">
+          <i class="fa fa-rotate-left" aria-hidden="true"></i> Сбросить контраст
+        </button>
+      </div>
+    </div>
+
+    <!-- ЦВЕТА -->
+    <div class="a11y-sec">
+      <button class="a11y-sec-hdr" onclick="a11yToggleSec(this)" aria-expanded="false">
+        Настройка цветов
+        <span class="a11y-sec-plus"><i class="fa fa-plus" aria-hidden="true"></i></span>
+      </button>
+      <div class="a11y-sec-body" hidden>
+        <div class="a11y-clr-row">
+          <label for="a11yBgClr">Фон страницы</label>
+          <input type="color" id="a11yBgClr" value="#f8f5f0" oninput="a11yColor('bg',this.value)">
+        </div>
+        <div class="a11y-clr-row">
+          <label for="a11yTxtClr">Цвет текста</label>
+          <input type="color" id="a11yTxtClr" value="#2d2d2d" oninput="a11yColor('text',this.value)">
+        </div>
+        <div class="a11y-clr-row">
+          <label for="a11yLnkClr">Цвет ссылок</label>
+          <input type="color" id="a11yLnkClr" value="#0f3460" oninput="a11yColor('link',this.value)">
+        </div>
+        <button class="a11y-sec-reset" onclick="a11yResetColors()">
+          <i class="fa fa-rotate-left" aria-hidden="true"></i> Сбросить цвета
+        </button>
+      </div>
+    </div>
+
+    <!-- ТЕКСТ -->
+    <div class="a11y-sec">
+      <button class="a11y-sec-hdr" onclick="a11yToggleSec(this)" aria-expanded="true">
+        Текст и контент
+        <span class="a11y-sec-plus" style="transform:rotate(45deg)"><i class="fa fa-plus" aria-hidden="true"></i></span>
+      </button>
+      <div class="a11y-sec-body">
+
+        <div class="a11y-slider-g">
+          <div class="a11y-slider-row">Размер шрифта <span id="sFont">100%</span></div>
+          <input type="range" class="a11y-range" id="rFont" min="0" max="6" value="2" step="1" oninput="a11ySlide('font',this.value)">
+          <div class="a11y-step-btns">
+            <button onclick="a11yStep('font',-1)">A−</button>
+            <button onclick="a11yStep('font',0)">A</button>
+            <button onclick="a11yStep('font',1)">A+</button>
+          </div>
+        </div>
+
+        <div class="a11y-slider-g">
+          <div class="a11y-slider-row">Межстрочный интервал <span id="sLine">норма</span></div>
+          <input type="range" class="a11y-range" id="rLine" min="0" max="4" value="0" step="1" oninput="a11ySlide('line',this.value)">
+        </div>
+
+        <div class="a11y-slider-g">
+          <div class="a11y-slider-row">Расстояние между словами <span id="sWord">норма</span></div>
+          <input type="range" class="a11y-range" id="rWord" min="0" max="4" value="0" step="1" oninput="a11ySlide('word',this.value)">
+        </div>
+
+        <div class="a11y-slider-g">
+          <div class="a11y-slider-row">Межбуквенный интервал <span id="sLetter">норма</span></div>
+          <input type="range" class="a11y-range" id="rLetter" min="0" max="4" value="0" step="1" oninput="a11ySlide('letter',this.value)">
+        </div>
+
+        <div class="a11y-grid" style="margin-top:4px">
+          <button class="a11y-feat" onclick="a11yFeat(this,'links')" data-feat="links" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-link" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Выделить ссылки</span>
+          </button>
+          <button class="a11y-feat" onclick="a11yFeat(this,'titles')" data-feat="titles" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-heading" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Выделить заголовки</span>
+          </button>
+          <button class="a11y-feat" onclick="a11yFeat(this,'dyslexia')" data-feat="dyslexia" aria-pressed="false">
+            <span class="a11y-feat-ico"><i class="fa fa-font" aria-hidden="true"></i></span>
+            <span class="a11y-feat-lbl">Шрифт для дислексии</span>
+          </button>
+        </div>
+
+        <button class="a11y-sec-reset" onclick="a11yResetText()">
+          <i class="fa fa-rotate-left" aria-hidden="true"></i> Сбросить текст
+        </button>
+      </div>
+    </div>
+
+    <a href="/accessibility.html"
+       style="display:flex;align-items:center;justify-content:center;gap:8px;padding:10px;background:#fff;border-radius:10px;text-decoration:none;color:var(--accent);font-size:.8rem;font-weight:700;border:1.5px solid #dde1f0;margin-top:4px">
+      <i class="fa fa-file-lines" aria-hidden="true"></i> Декларация доступности
+    </a>
+
+  </div>
 </div>
 
 <script>
-/* ── Виджет доступности ─────────────────────────────────── */
-var _a11yFontLevel = 0;
+/* ══ Accessibility Widget ════════════════════════════════ */
+var _A = {
+  contrast: null, fontIdx: 2,
+  line: 0, word: 0, letter: 0,
+  feats: {}, bgClr: null, txtClr: null, lnkClr: null
+};
+var _fontSteps   = [80,90,100,110,120,140,160];
+var _lineAdds    = [0, .3, .6, .9, 1.2];
+var _wordAdds    = [0, 4, 8, 12, 16];
+var _letterAdds  = [0, 1, 2, 3, 4];
+var _contrastCls = ['a11y-hc-light','a11y-hc-dark','a11y-mono','a11y-invert','a11y-high-sat','a11y-low-sat'];
 
-function toggleA11yPanel() {
-  var panel = document.getElementById('a11yPanel');
-  var btn   = document.getElementById('a11yBtn');
-  var open  = panel.classList.toggle('open');
-  btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-  if (open) panel.querySelector('button, a').focus();
+function a11yToggle() {
+  var p = document.getElementById('a11yPanel');
+  if (p.classList.contains('open')) a11yClose(); else a11yOpen();
 }
-function closeA11yPanel() {
-  var panel = document.getElementById('a11yPanel');
-  panel.classList.remove('open');
-  document.getElementById('a11yBtn').setAttribute('aria-expanded', 'false');
+function a11yOpen() {
+  var p = document.getElementById('a11yPanel');
+  p.classList.add('open'); p.removeAttribute('aria-hidden');
+  document.getElementById('a11yToggleBtn').setAttribute('aria-expanded','true');
+  document.getElementById('a11yOverlay').classList.add('open');
+  p.querySelector('button').focus();
+}
+function a11yClose() {
+  var p = document.getElementById('a11yPanel');
+  p.classList.remove('open'); p.setAttribute('aria-hidden','true');
+  document.getElementById('a11yToggleBtn').setAttribute('aria-expanded','false');
+  document.getElementById('a11yOverlay').classList.remove('open');
+  document.getElementById('a11yToggleBtn').focus();
 }
 
-function a11yFontSize(dir) {
-  if (dir === 0) { _a11yFontLevel = 0; }
-  else { _a11yFontLevel = Math.max(-2, Math.min(4, _a11yFontLevel + dir)); }
-  document.documentElement.style.fontSize = (100 + _a11yFontLevel * 10) + '%';
-  try { localStorage.setItem('a11y_font', _a11yFontLevel); } catch(e){}
+function a11yToggleSec(hdr) {
+  var body = hdr.nextElementSibling;
+  var plus = hdr.querySelector('.a11y-sec-plus');
+  var open = hdr.getAttribute('aria-expanded') === 'true';
+  hdr.setAttribute('aria-expanded', open ? 'false' : 'true');
+  body.hidden = open;
+  plus.style.transform = open ? '' : 'rotate(45deg)';
 }
 
-function a11yToggleContrast() {
-  var on = document.body.classList.toggle('hc-mode');
-  var btn = document.getElementById('a11yContrastBtn');
-  btn.classList.toggle('active', on);
+/* Feature toggle */
+function a11yFeat(btn, feat) {
+  var on = btn.classList.toggle('active');
   btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-  try { localStorage.setItem('a11y_contrast', on ? '1' : '0'); } catch(e){}
+  _A.feats[feat] = on;
+  _applyFeat(feat, on);
+  a11ySave();
 }
-
-function a11yToggleMotion() {
-  var on = document.body.classList.toggle('no-motion');
-  var btn = document.getElementById('a11yMotionBtn');
-  btn.classList.toggle('active', on);
-  btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-  var style = document.getElementById('a11yMotionStyle');
-  if (!style) {
-    style = document.createElement('style');
-    style.id = 'a11yMotionStyle';
-    document.head.appendChild(style);
+function _applyFeat(feat, on) {
+  var map = { 'kbd':'a11y-kbd', 'no-motion':'a11y-no-motion', 'links':'a11y-links',
+              'titles':'a11y-titles', 'dyslexia':'a11y-dyslexia', 'cursor':'a11y-cursor',
+              'speak':'a11y-speak', 'zones':'a11y-zones', 'screen-reader':'a11y-sr' };
+  var cls = map[feat];
+  if (cls) document.body.classList.toggle(cls, on);
+  if (feat === 'speak') {
+    if (on) document.addEventListener('click', _speakClick);
+    else { document.removeEventListener('click', _speakClick); window.speechSynthesis && speechSynthesis.cancel(); }
   }
-  style.textContent = on
-    ? '*, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }'
-    : '';
-  try { localStorage.setItem('a11y_motion', on ? '1' : '0'); } catch(e){}
+  if (feat === 'zones' && on) _buildZoneNav();
+  if (feat === 'zones' && !on) { var z = document.getElementById('a11yZoneBar'); if(z) z.remove(); }
+}
+function _speakClick(e) {
+  var txt = (e.target.textContent || e.target.alt || e.target.getAttribute('aria-label') || '').trim().slice(0,300);
+  if (!txt || !window.speechSynthesis) return;
+  speechSynthesis.cancel();
+  var u = new SpeechSynthesisUtterance(txt); u.lang = 'ru-RU'; speechSynthesis.speak(u);
+}
+function _buildZoneNav() {
+  if (document.getElementById('a11yZoneBar')) return;
+  var bar = document.createElement('div');
+  bar.id = 'a11yZoneBar';
+  bar.setAttribute('role','navigation'); bar.setAttribute('aria-label','Быстрая навигация по зонам');
+  bar.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:9000;background:#0f3460;display:flex;gap:8px;padding:8px 16px;flex-wrap:wrap';
+  var zones = [{id:'main-content',lbl:'Главное'},{id:'heroBlock',lbl:'Главная страница'},{id:'footerSocial',lbl:'Подвал'}];
+  zones.forEach(function(z) {
+    if (!document.getElementById(z.id)) return;
+    var a = document.createElement('a'); a.href = '#' + z.id;
+    a.textContent = z.lbl;
+    a.style.cssText = 'color:#fff;font-size:.78rem;font-weight:700;text-decoration:none;background:rgba(255,255,255,.15);padding:4px 10px;border-radius:20px';
+    bar.appendChild(a);
+  });
+  var close = document.createElement('button');
+  close.textContent = '×'; close.setAttribute('aria-label','Закрыть навигацию по зонам');
+  close.style.cssText = 'margin-left:auto;background:none;border:none;color:#fff;font-size:1.2rem;cursor:pointer';
+  close.onclick = function() {
+    bar.remove();
+    var btn = document.querySelector('[data-feat="zones"]');
+    if (btn) { btn.classList.remove('active'); btn.setAttribute('aria-pressed','false'); }
+    _A.feats['zones'] = false; a11ySave();
+  };
+  bar.appendChild(close);
+  document.body.prepend(bar);
 }
 
-function a11yToggleLinks() {
-  var on = document.body.classList.toggle('a11y-links');
-  var btn = document.getElementById('a11yLinksBtn');
-  btn.classList.toggle('active', on);
-  btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-  var style = document.getElementById('a11yLinksStyle');
-  if (!style) {
-    style = document.createElement('style');
-    style.id = 'a11yLinksStyle';
-    document.head.appendChild(style);
+/* Contrast */
+function a11yContrast(btn, mode) {
+  var wasActive = btn.classList.contains('active');
+  _clearContrast();
+  if (!wasActive) {
+    btn.classList.add('active'); btn.setAttribute('aria-pressed','true');
+    var map = {'hc-light':'a11y-hc-light','hc-dark':'a11y-hc-dark','mono':'a11y-mono','invert':'a11y-invert','high-sat':'a11y-high-sat','low-sat':'a11y-low-sat'};
+    document.body.classList.add(map[mode]); _A.contrast = mode;
   }
-  style.textContent = on
-    ? 'a { text-decoration: underline !important; outline: 2px dashed currentColor; outline-offset: 2px; }'
-    : '';
-  try { localStorage.setItem('a11y_links', on ? '1' : '0'); } catch(e){}
+  a11ySave();
+}
+function _clearContrast() {
+  _contrastCls.forEach(function(c){ document.body.classList.remove(c); });
+  document.querySelectorAll('[data-feat="hc-light"],[data-feat="hc-dark"],[data-feat="mono"],[data-feat="invert"],[data-feat="high-sat"],[data-feat="low-sat"]').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
+  _A.contrast = null;
+}
+function a11yResetContrast() { _clearContrast(); a11ySave(); }
+
+/* Colors */
+function a11yColor(type, val) {
+  if (type==='bg') _A.bgClr=val; if (type==='text') _A.txtClr=val; if (type==='link') _A.lnkClr=val;
+  _applyColorStyle(); a11ySave();
+}
+function _applyColorStyle() {
+  var s = document.getElementById('a11yCss') || (function(){ var x=document.createElement('style'); x.id='a11yCss'; document.head.appendChild(x); return x; })();
+  var css = '';
+  if (_A.bgClr) css += 'body,section,div.section{background:' + _A.bgClr + ' !important}';
+  if (_A.txtClr) css += 'body,p,li,div,span{color:' + _A.txtClr + ' !important}';
+  if (_A.lnkClr) css += 'a{color:' + _A.lnkClr + ' !important}';
+  s.textContent = css;
+}
+function a11yResetColors() {
+  _A.bgClr=null; _A.txtClr=null; _A.lnkClr=null;
+  var s = document.getElementById('a11yCss'); if(s) s.textContent='';
+  document.getElementById('a11yBgClr').value='#f8f5f0';
+  document.getElementById('a11yTxtClr').value='#2d2d2d';
+  document.getElementById('a11yLnkClr').value='#0f3460';
+  a11ySave();
 }
 
-// Восстанавливаем настройки из localStorage
-(function() {
+/* Sliders */
+function a11ySlide(type, rawVal) {
+  var idx = parseInt(rawVal);
+  if (type==='font') {
+    var pct = _fontSteps[idx]; _A.fontIdx = idx;
+    document.documentElement.style.fontSize = pct + '%';
+    document.getElementById('sFont').textContent = pct + '%';
+  } else {
+    var adds = {line:_lineAdds, word:_wordAdds, letter:_letterAdds};
+    if (type==='line') _A.line=idx; if (type==='word') _A.word=idx; if (type==='letter') _A.letter=idx;
+    var labels = {sLine:'sLine',sWord:'sWord',sLetter:'sLetter'};
+    var lId = {line:'sLine',word:'sWord',letter:'sLetter'}[type];
+    document.getElementById(lId).textContent = idx===0 ? 'норма' : '+'+idx;
+    _applyTextStyle();
+  }
+  a11ySave();
+}
+function _applyTextStyle() {
+  var s = document.getElementById('a11yTxtCss') || (function(){ var x=document.createElement('style'); x.id='a11yTxtCss'; document.head.appendChild(x); return x; })();
+  var css = '';
+  if (_A.line) css += 'body,p,li,div{line-height:calc(1.6em + ' + _lineAdds[_A.line] + 'em) !important}';
+  if (_A.word) css += 'body,p,li,span{word-spacing:' + _wordAdds[_A.word] + 'px !important}';
+  if (_A.letter) css += 'body,p,li,h1,h2,h3,span{letter-spacing:' + _letterAdds[_A.letter] + 'px !important}';
+  s.textContent = css;
+}
+function a11yStep(type, dir) {
+  var el = document.getElementById('rFont');
+  if (!el) return;
+  if (dir===0) el.value=2; else el.value = Math.max(0, Math.min(6, parseInt(el.value)+dir));
+  a11ySlide('font', el.value);
+}
+function a11yResetText() {
+  _A.fontIdx=2; _A.line=0; _A.word=0; _A.letter=0;
+  document.documentElement.style.fontSize='';
+  ['a11yTxtCss'].forEach(function(id){ var s=document.getElementById(id); if(s) s.textContent=''; });
+  ['rFont','rLine','rWord','rLetter'].forEach(function(id,i){ var el=document.getElementById(id); if(el) el.value=(id==='rFont'?2:0); });
+  ['sFont','sLine','sWord','sLetter'].forEach(function(id,i){ var el=document.getElementById(id); if(el) el.textContent=(id==='sFont'?'100%':'норма'); });
+  ['links','titles','dyslexia'].forEach(function(f){ var b=document.querySelector('[data-feat="'+f+'"]'); if(b){b.classList.remove('active');b.setAttribute('aria-pressed','false');} _applyFeat(f,false); delete _A.feats[f]; });
+  a11ySave();
+}
+
+/* Profiles */
+var _profiles = {
+  motor:    { feats:['kbd','cursor'] },
+  blind:    { feats:['screen-reader','kbd','speak'], fontIdx:4 },
+  dyslexia: { feats:['dyslexia','links'], fontIdx:3, line:2, word:1 },
+  cognitive:{ feats:['links','titles','no-motion'], fontIdx:3 },
+  senior:   { feats:['links'], fontIdx:4, line:1 },
+  adhd:     { feats:['no-motion','links'] }
+};
+function a11yProfile(btn, name) {
+  var wasActive = btn.classList.contains('active');
+  a11yResetAll(true);
+  if (wasActive) return;
+  btn.classList.add('active'); btn.setAttribute('aria-pressed','true');
+  var cfg = _profiles[name] || {};
+  (cfg.feats||[]).forEach(function(f){
+    var b = document.querySelector('[data-feat="'+f+'"]');
+    if (b){ b.classList.add('active'); b.setAttribute('aria-pressed','true'); }
+    _A.feats[f]=true; _applyFeat(f,true);
+  });
+  if (cfg.fontIdx !== undefined) {
+    _A.fontIdx = cfg.fontIdx;
+    var rF = document.getElementById('rFont'); if(rF) rF.value = cfg.fontIdx;
+    document.documentElement.style.fontSize = _fontSteps[cfg.fontIdx]+'%';
+    var sF = document.getElementById('sFont'); if(sF) sF.textContent = _fontSteps[cfg.fontIdx]+'%';
+  }
+  if (cfg.line) { _A.line=cfg.line; var rL=document.getElementById('rLine'); if(rL) rL.value=cfg.line; var sL=document.getElementById('sLine'); if(sL) sL.textContent='+'+cfg.line; }
+  if (cfg.word) { _A.word=cfg.word; var rW=document.getElementById('rWord'); if(rW) rW.value=cfg.word; var sW=document.getElementById('sWord'); if(sW) sW.textContent='+'+cfg.word; }
+  _applyTextStyle();
+  a11ySave();
+}
+
+/* Reset all */
+function a11yResetAll(silent) {
+  _clearContrast();
+  var allCls = ['a11y-kbd','a11y-no-motion','a11y-links','a11y-titles','a11y-dyslexia','a11y-cursor','a11y-speak','a11y-zones','a11y-sr'];
+  allCls.forEach(function(c){ document.body.classList.remove(c); });
+  document.removeEventListener('click',_speakClick);
+  window.speechSynthesis && speechSynthesis.cancel();
+  var zb = document.getElementById('a11yZoneBar'); if(zb) zb.remove();
+  document.documentElement.style.fontSize='';
+  ['a11yCss','a11yTxtCss'].forEach(function(id){ var s=document.getElementById(id); if(s) s.textContent=''; });
+  document.querySelectorAll('.a11y-feat').forEach(function(b){ b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
+  ['rFont','rLine','rWord','rLetter'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=(id==='rFont'?2:0); });
+  ['sFont','sLine','sWord','sLetter'].forEach(function(id){ var el=document.getElementById(id); if(el) el.textContent=(id==='sFont'?'100%':'норма'); });
+  document.getElementById('a11yBgClr') && (document.getElementById('a11yBgClr').value='#f8f5f0');
+  document.getElementById('a11yTxtClr') && (document.getElementById('a11yTxtClr').value='#2d2d2d');
+  document.getElementById('a11yLnkClr') && (document.getElementById('a11yLnkClr').value='#0f3460');
+  _A = { contrast:null, fontIdx:2, line:0, word:0, letter:0, feats:{}, bgClr:null, txtClr:null, lnkClr:null };
+  if (!silent) try { localStorage.removeItem('a11yData'); } catch(e){}
+}
+
+/* Save / Restore */
+function a11ySave() {
+  try { localStorage.setItem('a11yData', JSON.stringify({ contrast:_A.contrast, fontIdx:_A.fontIdx, line:_A.line, word:_A.word, letter:_A.letter, feats:_A.feats, bgClr:_A.bgClr, txtClr:_A.txtClr, lnkClr:_A.lnkClr })); } catch(e){}
+}
+(function a11yRestore() {
   try {
-    var font = parseInt(localStorage.getItem('a11y_font') || '0');
-    if (font) { _a11yFontLevel = font; document.documentElement.style.fontSize = (100 + font * 10) + '%'; }
-    if (localStorage.getItem('a11y_contrast') === '1') {
-      document.body.classList.add('hc-mode');
-      var b = document.getElementById('a11yContrastBtn');
-      if (b) { b.classList.add('active'); b.setAttribute('aria-pressed','true'); }
-    }
-    if (localStorage.getItem('a11y_motion') === '1') { a11yToggleMotion(); }
-    if (localStorage.getItem('a11y_links') === '1') { a11yToggleLinks(); }
+    var d = JSON.parse(localStorage.getItem('a11yData') || 'null'); if (!d) return;
+    Object.keys(d.feats||{}).forEach(function(f){ if(d.feats[f]){ var b=document.querySelector('[data-feat="'+f+'"]'); if(b){b.classList.add('active');b.setAttribute('aria-pressed','true');} _A.feats[f]=true; _applyFeat(f,true); } });
+    if (d.contrast) { var cb=document.querySelector('[data-feat="'+d.contrast+'"]'); if(cb) a11yContrast(cb,d.contrast); }
+    if (d.fontIdx !== undefined && d.fontIdx !== 2) { _A.fontIdx=d.fontIdx; document.documentElement.style.fontSize=_fontSteps[d.fontIdx]+'%'; var rF=document.getElementById('rFont'); if(rF) rF.value=d.fontIdx; var sF=document.getElementById('sFont'); if(sF) sF.textContent=_fontSteps[d.fontIdx]+'%'; }
+    if (d.line){ _A.line=d.line; var rL=document.getElementById('rLine'); if(rL) rL.value=d.line; var sL=document.getElementById('sLine'); if(sL) sL.textContent='+'+d.line; }
+    if (d.word){ _A.word=d.word; var rW=document.getElementById('rWord'); if(rW) rW.value=d.word; var sW=document.getElementById('sWord'); if(sW) sW.textContent='+'+d.word; }
+    if (d.letter){ _A.letter=d.letter; var rLt=document.getElementById('rLetter'); if(rLt) rLt.value=d.letter; var sLt=document.getElementById('sLetter'); if(sLt) sLt.textContent='+'+d.letter; }
+    if (d.line||d.word||d.letter) _applyTextStyle();
+    if (d.bgClr){ _A.bgClr=d.bgClr; document.getElementById('a11yBgClr').value=d.bgClr; }
+    if (d.txtClr){ _A.txtClr=d.txtClr; document.getElementById('a11yTxtClr').value=d.txtClr; }
+    if (d.lnkClr){ _A.lnkClr=d.lnkClr; document.getElementById('a11yLnkClr').value=d.lnkClr; }
+    if (d.bgClr||d.txtClr||d.lnkClr) _applyColorStyle();
   } catch(e){}
 })();
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') { a11yClose(); closeFab(); closeReviewModal(); }
+});
 </script>
 
 <!-- PWA: Баннер установки + Service Worker -->
