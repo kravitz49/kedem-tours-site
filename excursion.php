@@ -108,6 +108,31 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
     .form-msg.success { background:#d4edda; color:#155724; display:block; }
     .form-msg.error { background:#f8d7da; color:#721c24; display:block; }
 
+    /* FLOATING ORDER BUTTON */
+    .order-fab {
+      position:fixed; bottom:24px; left:50%;
+      transform:translateX(-50%) translateY(20px);
+      z-index:300;
+      background:linear-gradient(135deg,var(--gold),var(--gold-light));
+      color:var(--dark); border:none;
+      padding:14px 30px; border-radius:30px;
+      font-family:'Montserrat',sans-serif; font-weight:700; font-size:.95rem;
+      cursor:pointer; white-space:nowrap;
+      display:flex; align-items:center; gap:9px;
+      box-shadow:0 6px 24px rgba(201,168,76,.55);
+      opacity:0; pointer-events:none;
+      transition:opacity .3s, transform .3s, box-shadow .2s;
+    }
+    .order-fab.visible {
+      opacity:1; pointer-events:auto;
+      transform:translateX(-50%) translateY(0);
+    }
+    .order-fab:hover { box-shadow:0 8px 32px rgba(201,168,76,.7); }
+    .order-fab:active { transform:translateX(-50%) scale(.95); }
+    @media (max-width:640px) {
+      .order-fab { bottom:80px; padding:12px 22px; font-size:.88rem; }
+    }
+
     footer { background:var(--dark); color:rgba(255,255,255,.7); text-align:center; padding:24px; font-size:.85rem; margin-top:60px; }
     footer strong { color:var(--gold); }
 
@@ -196,7 +221,7 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
   <?php if ($descFull): ?><div class="exc-desc-full"><?= $descFull ?></div><?php endif; ?>
 
   <!-- BOOKING FORM -->
-  <div class="book-block">
+  <div class="book-block" id="bookBlock">
     <div class="book-title">Записаться на экскурсию</div>
     <div class="book-sub">Заполните форму — мы свяжемся с вами для подтверждения</div>
     <form id="bookingForm" novalidate>
@@ -246,6 +271,11 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
     </form>
   </div>
 </div>
+
+<!-- FLOATING ORDER BUTTON -->
+<button class="order-fab" id="orderFab" aria-label="Перейти к форме записи">
+  <i class="fa fa-calendar-check" aria-hidden="true"></i> Заказать сейчас
+</button>
 
 <footer><p>&copy; 2024 <strong>KEDEM TOURS</strong>. Все права защищены.</p></footer>
 
@@ -409,6 +439,23 @@ form.addEventListener('submit', async e => {
 });
 
 function showMsg(text, type) { formMsg.textContent = text; formMsg.className = 'form-msg ' + type; }
+
+// Floating order button
+(function() {
+  var fab = document.getElementById('orderFab');
+  var hero = document.querySelector('.exc-hero');
+  var book = document.getElementById('bookBlock');
+  function update() {
+    var heroGone = hero.getBoundingClientRect().bottom < 0;
+    var formVisible = book.getBoundingClientRect().top < window.innerHeight;
+    fab.classList.toggle('visible', heroGone && !formVisible);
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  fab.addEventListener('click', function() {
+    book.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  update();
+})();
 </script>
 </body>
 </html>
