@@ -20,11 +20,11 @@
   }
   .fab-menu {
     display:flex; flex-direction:column; align-items:flex-end; gap:8px;
-    transition:opacity .25s,transform .25s;
+    transition:opacity .25s,transform .25s,visibility .25s;
     opacity:0; transform:translateY(-10px) scale(.95);
-    pointer-events:none; order:2;
+    pointer-events:none; visibility:hidden; order:2;
   }
-  .fab-menu.open { opacity:1; transform:none; pointer-events:all; }
+  .fab-menu.open { opacity:1; transform:none; pointer-events:all; visibility:visible; }
   .fab-item {
     display:flex; align-items:center; gap:10px;
     text-decoration:none; background:#fff;
