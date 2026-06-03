@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#0f3460"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0d878"/>
+      <stop offset="100%" style="stop-color:#b8942a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Фон круг -->
+  <circle cx="50" cy="50" r="50" fill="url(#bg)"/>
+
+  <!-- Внешний золотой круг -->
+  <circle cx="50" cy="50" r="44" fill="none" stroke="url(#gold)" stroke-width="2" opacity="0.7"/>
+
+  <!-- Компас — стрелки -->
+  <!-- Север золотой -->
+  <polygon points="50,10 43,42 50,37 57,42" fill="url(#gold)"/>
+  <!-- Юг белый -->
+  <polygon points="50,90 43,58 50,63 57,58" fill="rgba(255,255,255,0.65)"/>
+  <!-- Восток -->
+  <polygon points="90,50 58,43 63,50 58,57" fill="rgba(255,255,255,0.45)"/>
+  <!-- Запад -->
+  <polygon points="10,50 42,43 37,50 42,57" fill="rgba(255,255,255,0.45)"/>
+
+  <!-- Центр -->
+  <circle cx="50" cy="50" r="9" fill="url(#bg)" stroke="url(#gold)" stroke-width="1.8"/>
+  <circle cx="50" cy="50" r="3.5" fill="url(#gold)"/>
+
+  <!-- Точки сторон -->
+  <circle cx="50" cy="7"  r="2.5" fill="url(#gold)"/>
+  <circle cx="50" cy="93" r="2"   fill="rgba(255,255,255,0.4)"/>
+  <circle cx="93" cy="50" r="2"   fill="rgba(255,255,255,0.4)"/>
+  <circle cx="7"  cy="50" r="2"   fill="rgba(255,255,255,0.4)"/>
+
+  <!-- Буква К в центре (маленькая подсказка) -->
+</svg>

@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#0f3460"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0d878"/>
+      <stop offset="100%" style="stop-color:#b8942a"/>
+    </linearGradient>
+  </defs>
+  <!-- Фон -->
+  <rect width="512" height="512" rx="100" fill="url(#bg)"/>
+  <!-- Золотая рамка -->
+  <rect x="20" y="20" width="472" height="472" rx="85" fill="none" stroke="url(#gold)" stroke-width="8" opacity="0.4"/>
+  <!-- Компас внешний круг -->
+  <circle cx="256" cy="220" r="130" fill="none" stroke="url(#gold)" stroke-width="6" opacity="0.6"/>
+  <circle cx="256" cy="220" r="118" fill="rgba(201,168,76,0.08)"/>
+  <!-- Север золотой -->
+  <polygon points="256,92 238,180 256,165 274,180" fill="url(#gold)"/>
+  <!-- Юг -->
+  <polygon points="256,348 238,260 256,275 274,260" fill="rgba(255,255,255,0.5)"/>
+  <!-- Восток -->
+  <polygon points="384,220 296,202 311,220 296,238" fill="rgba(255,255,255,0.35)"/>
+  <!-- Запад -->
+  <polygon points="128,220 216,202 201,220 216,238" fill="rgba(255,255,255,0.35)"/>
+  <!-- Центр -->
+  <circle cx="256" cy="220" r="22" fill="url(#bg)" stroke="url(#gold)" stroke-width="4"/>
+  <circle cx="256" cy="220" r="8" fill="url(#gold)"/>
+  <!-- Точки -->
+  <circle cx="256" cy="80" r="6" fill="url(#gold)"/>
+  <!-- Текст KT -->
+  <text x="256" y="430" text-anchor="middle"
+    font-family="Georgia, serif" font-size="64" font-weight="bold"
+    letter-spacing="8" fill="url(#gold)">KT</text>
+  <text x="256" y="470" text-anchor="middle"
+    font-family="Arial, sans-serif" font-size="22"
+    letter-spacing="5" fill="rgba(201,168,76,0.7)">TOURS</text>
+</svg>

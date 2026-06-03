@@ -1,0 +1,640 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Kedem Tours — Экскурсии по Израилю</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json"/>
+  <meta name="theme-color" content="#c9a84c"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Kedem Tours"/>
+  <link rel="apple-touch-icon" href="/icons/icon-192.png"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png"/>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #c9a84c; --gold-light: #e8c96a;
+      --dark: #1a1a2e; --accent: #0f3460;
+      --text: #2d2d2d; --light-bg: #f8f5f0;
+      --white: #ffffff; --radius: 14px;
+      --shadow: 0 8px 32px rgba(0,0,0,0.13);
+    }
+    body { font-family: 'Open Sans', sans-serif; color: var(--text); background: var(--light-bg); }
+
+    /* HEADER */
+    header { background: linear-gradient(135deg, var(--dark) 0%, var(--accent) 100%); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,0.3); }
+    .header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; gap: 12px; }
+    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
+    .logo-icon { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-light)); display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--dark); overflow: hidden; flex-shrink: 0; }
+    .logo-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .logo-name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.3rem; color: var(--white); letter-spacing: 1px; }
+    .logo-sub { font-size: 0.65rem; color: var(--gold-light); letter-spacing: 2px; text-transform: uppercase; }
+
+    /* HEADER RIGHT */
+    .header-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+    .hdr-phone { color: var(--white); text-decoration: none; font-size: 0.88rem; font-weight: 600; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .hdr-phone i { color: var(--gold); }
+    .hdr-phone:hover { color: var(--gold-light); }
+    .hdr-wa { background: #25d366; color: #fff; border-radius: 50%; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; text-decoration: none; font-size: 1.1rem; transition: transform .2s; flex-shrink: 0; }
+    .hdr-wa:hover { transform: scale(1.1); }
+    .hdr-social { display: flex; gap: 6px; align-items: center; }
+    .hdr-social a { color: rgba(255,255,255,0.75); font-size: 1rem; text-decoration: none; transition: color .2s; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 6px; }
+    .hdr-social a:hover { color: var(--gold); background: rgba(255,255,255,0.1); }
+    .hdr-reviews-btn { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--dark); border: none; padding: 8px 16px; border-radius: 20px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.78rem; cursor: pointer; white-space: nowrap; transition: opacity .2s; letter-spacing: 0.3px; flex-shrink: 0; }
+    .hdr-reviews-btn:hover { opacity: 0.88; }
+
+    /* HERO */
+    .hero { background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.35)), url('https://images.unsplash.com/photo-1544928147-79a2dbc1f389?w=1400&q=80') center/cover no-repeat; min-height: 420px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 60px 24px; }
+    .hero-content { max-width: 700px; }
+    .hero h1 { font-family: 'Montserrat', sans-serif; font-size: clamp(1.3rem, 3.5vw, 2rem); font-weight: 800; color: var(--white); line-height: 1.25; margin-bottom: 12px; text-shadow: 0 2px 8px rgba(0,0,0,0.5); }
+    .hero h1 span { color: var(--gold); }
+    .hero p { color: rgba(255,255,255,0.92); font-size: 0.95rem; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+
+    /* SECTION */
+    .section { max-width: 1100px; margin: 0 auto; padding: 36px 24px; }
+    .section-title { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.4rem; color: var(--accent); margin-bottom: 6px; }
+    .section-title span { color: var(--gold); }
+    .section-sub { color: #666; margin-bottom: 20px; font-size: 0.88rem; }
+    .divider { width: 48px; height: 3px; background: var(--gold); border-radius: 2px; margin: 8px 0 16px; }
+
+    /* EXCURSION GRID — overlay design */
+    .excursion-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .exc-card {
+      position: relative; overflow: hidden; border-radius: 10px;
+      box-shadow: var(--shadow); cursor: pointer;
+      transition: transform .2s, box-shadow .2s, border-color .2s;
+      border: 2px solid transparent; height: 200px;
+    }
+    .exc-card:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(0,0,0,0.22); border-color: var(--gold); }
+    .exc-card:hover .exc-img { transform: scale(1.06); }
+    .exc-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .35s; }
+    .exc-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; }
+    .exc-tag {
+      position: absolute; top: 8px; left: 8px; z-index: 2;
+      background: var(--gold); color: var(--dark);
+      font-size: 0.58rem; font-weight: 700; padding: 2px 8px;
+      border-radius: 20px; text-transform: uppercase; letter-spacing: .5px;
+    }
+    .exc-body {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 1;
+      background: linear-gradient(transparent, rgba(10,20,50,0.92) 60%);
+      padding: 32px 10px 10px;
+    }
+    .exc-desc { display: none; }
+    .exc-title {
+      font-family: 'Montserrat', sans-serif; font-weight: 700;
+      font-size: 0.8rem; color: #fff; line-height: 1.3; margin-bottom: 6px;
+    }
+    .exc-meta { display: flex; align-items: center; justify-content: space-between; gap: 4px; }
+    .exc-info { display: flex; align-items: center; gap: 3px; font-size: 0.66rem; color: rgba(255,255,255,0.8); white-space: nowrap; }
+    .exc-info i { color: var(--gold-light); font-size: 0.62rem; }
+    .exc-btn {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: var(--dark); text-decoration: none; padding: 4px 10px;
+      border-radius: 20px; font-family: 'Montserrat', sans-serif;
+      font-weight: 700; font-size: 0.62rem; white-space: nowrap; display: inline-block;
+    }
+    .exc-btn:hover { opacity: 0.88; }
+
+    /* MODAL */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,52,96,0.65); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.active { display: flex; }
+    .modal { background: var(--white); border-radius: 20px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 80px rgba(0,0,0,0.3); animation: slideUp .3s ease; }
+    @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-header { background: linear-gradient(135deg, var(--accent), var(--dark)); padding: 24px 28px; border-radius: 20px 20px 0 0; position: relative; }
+    .modal-title { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--white); margin-bottom: 4px; }
+    .modal-excursion { color: var(--gold-light); font-size: 0.9rem; }
+    .modal-close { position: absolute; top: 16px; right: 20px; background: rgba(255,255,255,0.15); border: none; color: var(--white); width: 32px; height: 32px; border-radius: 50%; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .modal-close:hover { background: rgba(255,255,255,0.3); }
+    .modal-body { padding: 28px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 18px; }
+    .form-group label { display: block; font-weight: 600; font-size: 0.85rem; color: var(--accent); margin-bottom: 6px; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 11px 14px; border: 2px solid #e0e0e0; border-radius: 10px; font-family: 'Open Sans', sans-serif; font-size: 0.9rem; transition: border-color .2s; outline: none; background: #fafafa; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--gold); background: var(--white); }
+    .form-group input.error, .form-group select.error, .form-group textarea.error { border-color: #e74c3c; }
+    .submit-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--dark); border: none; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; transition: opacity .2s, transform .15s; margin-top: 8px; }
+    .submit-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .form-msg { text-align: center; padding: 12px; border-radius: 10px; font-weight: 600; font-size: 0.9rem; margin-top: 14px; display: none; }
+    .form-msg.success { background: #d4edda; color: #155724; display: block; }
+    .form-msg.error { background: #f8d7da; color: #721c24; display: block; }
+
+    /* FEATURES */
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+    .feature-card { background: var(--white); border-radius: 10px; padding: 18px 14px; text-align: center; box-shadow: var(--shadow); }
+    .feature-icon { font-size: 1.7rem; margin-bottom: 8px; }
+    .feature-title { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.85rem; color: var(--accent); margin-bottom: 5px; }
+    .feature-text { font-size: 0.72rem; color: #595959; line-height: 1.45; }
+
+    /* MARQUEE */
+    .marquee-wrap {
+      background: var(--dark); overflow: hidden;
+      padding: 14px 0; border-top: 2px solid var(--gold); border-bottom: 2px solid var(--gold);
+    }
+    .marquee-track {
+      display: flex; gap: 60px; width: max-content;
+      animation: marqueeScroll 35s linear infinite;
+    }
+    .marquee-wrap:hover .marquee-track { animation-play-state: paused; }
+    @keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .marquee-item {
+      display: flex; align-items: center; gap: 12px; white-space: nowrap;
+      color: rgba(255,255,255,.85); font-size: .85rem;
+    }
+    .marquee-item .m-stars { color: #f59e0b; font-size: .9rem; }
+    .marquee-item .m-name  { color: var(--gold); font-weight: 600; }
+    .marquee-item .m-sep   { color: rgba(255,255,255,.25); }
+
+    /* REVIEWS */
+    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin-bottom: 20px; }
+    .review-card-pub { background: var(--white); border-radius: 10px; padding: 14px 16px; box-shadow: var(--shadow); }
+    .review-name { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: .85rem; color: var(--accent); }
+    .review-stars { color: #f59e0b; font-size: .85rem; }
+    .review-exc-label { font-size: .7rem; color: var(--gold); font-weight: 600; margin: 3px 0 6px; text-transform: uppercase; letter-spacing: .5px; }
+    .review-body { font-size: .82rem; color: #555; line-height: 1.5; }
+    .review-dt { font-size: .7rem; color: #767676; margin-top: 8px; }
+
+    /* FOOTER */
+    footer { background: var(--dark); color: rgba(255,255,255,0.7); padding: 20px 24px; font-size: 0.8rem; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .footer-social { display: flex; gap: 10px; }
+    .footer-social a { color: rgba(255,255,255,0.6); font-size: 1rem; text-decoration: none; transition: color .2s; }
+    .footer-social a:hover { color: var(--gold); }
+    .footer-contacts { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; font-size: 0.8rem; }
+    .footer-contacts a { color: rgba(255,255,255,0.7); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+    .footer-contacts a:hover { color: var(--gold-light); }
+    .footer-contacts i { color: var(--gold); }
+    footer strong { color: var(--gold); }
+
+    /* ══ MOBILE ══════════════════════════════════════════════ */
+    @media (max-width: 640px) {
+
+      /* Header */
+      .header-inner  { padding: 10px 16px; }
+      .logo-icon     { width: 36px; height: 36px; font-size: 16px; }
+      .logo-name     { font-size: 1.1rem; }
+      .logo-sub      { display: none; }
+      .hdr-reviews-btn { padding: 7px 12px; font-size: 0.74rem; }
+
+      /* Hero */
+      .hero          { min-height: 220px; padding: 28px 16px; }
+      .hero h1       { font-size: 1.3rem; margin-bottom: 8px; }
+      .hero p        { font-size: 0.82rem; }
+
+      /* Sections */
+      .section       { padding: 20px 16px; }
+      .section-title { font-size: 1.15rem; }
+      .section-sub   { font-size: 0.8rem; margin-bottom: 14px; }
+      .divider       { margin: 6px 0 12px; }
+
+      /* Excursion cards — 2 колонки на мобильном */
+      .excursion-grid { grid-template-columns: repeat(2, 1fr); gap: 6px; }
+      .exc-card       { height: 150px; }
+      .exc-img-placeholder { font-size: 2rem; }
+      .exc-body       { padding: 24px 8px 8px; }
+      .exc-title      { font-size: 0.7rem; margin-bottom: 4px; }
+      .exc-info       { font-size: 0.6rem; }
+      .exc-btn        { font-size: 0.6rem; padding: 3px 7px; }
+
+      /* Features */
+      .features-grid  { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .feature-card   { padding: 12px 10px; }
+      .feature-icon   { font-size: 1.4rem; margin-bottom: 6px; }
+      .feature-title  { font-size: 0.76rem; margin-bottom: 3px; }
+      .feature-text   { font-size: 0.68rem; }
+
+      /* Reviews */
+      .reviews-grid   { grid-template-columns: 1fr; gap: 8px; }
+      .review-card-pub { padding: 12px 14px; }
+
+      /* Modal/form */
+      .modal          { border-radius: 16px 16px 0 0; position: fixed; bottom: 0; left: 0; right: 0; max-width: 100%; max-height: 92vh; }
+      .modal-overlay  { align-items: flex-end; padding: 0; }
+      .modal-body     { padding: 16px 14px; }
+      .modal-header   { padding: 14px 16px; }
+      .form-row       { grid-template-columns: 1fr; gap: 0; }
+      .form-group     { margin-bottom: 11px; }
+
+      /* Footer */
+      footer          { padding: 14px 16px; }
+      .footer-contacts { gap: 10px; font-size: 0.78rem; }
+
+      /* Отступ снизу чтобы FAB не перекрывал контент */
+      body            { padding-bottom: 72px; }
+    }
+
+    @media (max-width: 380px) {
+      .features-grid  { grid-template-columns: 1fr; }
+      .logo-name      { font-size: 0.95rem; }
+    }
+
+    /* ══ ДОСТУПНОСТЬ / скип-линк ════════════════════════════ */
+    .skip-link { position:absolute; top:-100%; left:0; background:var(--gold); color:var(--dark); padding:10px 18px; font-weight:700; font-size:.95rem; z-index:9999; border-radius:0 0 8px 0; text-decoration:none; }
+    .skip-link:focus { top:0; }
+    :focus-visible { outline:3px solid var(--gold); outline-offset:3px; border-radius:4px; }
+    @media (prefers-reduced-motion:reduce) { .marquee-track { animation:none; } }
+    @media (max-width: 640px) { .hdr-phone span { display: none; } }
+  </style>
+</head>
+<body>
+
+<a class="skip-link" href="#main-content">Перейти к содержимому</a>
+
+<header role="banner">
+  <div class="header-inner">
+    <a class="logo" href="/" id="logoLink">
+      <div class="logo-icon" id="logoIcon"><i class="fa fa-compass"></i></div>
+      <div>
+        <div class="logo-name" id="logoName">KEDEM TOURS</div>
+        <div class="logo-sub" id="logoSub">Экскурсии по Израилю</div>
+      </div>
+    </a>
+    <div class="header-right">
+      <a class="hdr-reviews-btn" href="/reviews-page.php"><i class="fa fa-star"></i> Отзывы</a>
+    </div>
+  </div>
+</header>
+
+<div class="hero" id="heroBlock" role="img" aria-label="Фоновое изображение — Израиль">
+  <div class="hero-content">
+    <h1 id="heroTitle">Откройте <span>Израиль</span><br>вместе с нами</h1>
+    <p id="heroSubtitle">Незабываемые экскурсии с профессиональными гидами.<br>Комфорт, безопасность, яркие впечатления.</p>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap" id="marqueeWrap" style="display:none">
+  <div class="marquee-track" id="marqueeTrack"></div>
+</div>
+
+<div class="section" id="main-content" role="main">
+  <div class="section-title">Наши <span>экскурсии</span></div>
+  <div class="divider" role="presentation"></div>
+  <p class="section-sub">Выберите экскурсию и запишитесь онлайн — это займёт меньше минуты</p>
+  <div class="excursion-grid" id="excGrid" aria-label="Список экскурсий" aria-live="polite"></div>
+</div>
+
+<div style="background: var(--white);">
+  <div class="section">
+    <div class="section-title">Почему <span>KEDEM TOURS?</span></div>
+    <div class="divider"></div>
+    <div class="features-grid">
+      <div class="feature-card"><div class="feature-icon">🧭</div><div class="feature-title">Опытные гиды</div><div class="feature-text">Профессиональные лицензированные гиды с многолетним опытом</div></div>
+      <div class="feature-card"><div class="feature-icon">🚌</div><div class="feature-title">Удобные маршруты</div><div class="feature-text">7 мест посадки по всему городу — садитесь рядом с домом</div></div>
+      <div class="feature-card"><div class="feature-icon">👥</div><div class="feature-title">Групповые и индивидуальные туры</div><div class="feature-text">Небольшие группы или персональный тур — выбирайте формат</div></div>
+      <div class="feature-card"><div class="feature-icon">📱</div><div class="feature-title">Онлайн-запись</div><div class="feature-text">Запись за пару минут прямо на сайте без звонков</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<div style="background: var(--light-bg);">
+  <div class="section">
+    <div class="section-title">Отзывы <span>клиентов</span></div>
+    <div class="divider"></div>
+    <div class="reviews-grid" id="reviewsGrid"></div>
+    <div style="text-align:center">
+      <button onclick="openReviewModal()" aria-haspopup="dialog" style="background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);border:none;padding:13px 32px;border-radius:30px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:1rem;cursor:pointer">
+        <i class="fa fa-star" aria-hidden="true"></i>&nbsp; Оставить отзыв
+      </button>
+    </div>
+  </div>
+</div>
+
+<footer role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-social" id="footerSocial" aria-label="Социальные сети"></div>
+    <div class="footer-contacts">
+      <a id="footerPhone" href="#"><i class="fa fa-phone" aria-hidden="true"></i><span id="footerPhoneText"></span></a>
+      <a id="footerWa" href="#" target="_blank" rel="noopener" aria-label="Написать в WhatsApp"><i class="fab fa-whatsapp" style="color:#25d366" aria-hidden="true"></i> WhatsApp</a>
+      <a id="footerEmail" href="#"><i class="fa fa-envelope" aria-hidden="true"></i><span id="footerEmailText"></span></a>
+    </div>
+    <p>&copy; 2024 <strong id="footerName">KEDEM TOURS</strong>. Все права защищены.</p>
+    <p><a href="/accessibility.html" style="color:var(--gold-light);font-size:0.82rem;text-decoration:underline">Декларация доступности</a></p>
+  </div>
+</footer>
+
+<!-- FAB — плавающая кнопка -->
+<!-- REVIEW MODAL -->
+<div class="modal-overlay" id="reviewOverlay" role="presentation">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="reviewModalTitle">
+    <div class="modal-header">
+      <div class="modal-title" id="reviewModalTitle">Оставить отзыв</div>
+      <div class="modal-excursion">Ваше мнение важно для нас</div>
+      <button class="modal-close" onclick="closeReviewModal()" aria-label="Закрыть форму отзыва">
+        <i class="fa fa-times" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form id="reviewForm" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="rName">Ваше имя *</label>
+            <input type="text" id="rName" name="name" placeholder="Иван Иванов"
+                   autocomplete="name" required aria-required="true"/>
+          </div>
+          <div class="form-group">
+            <label for="rRating">Оценка *</label>
+            <select id="rRating" name="rating" required aria-required="true">
+              <option value="5">⭐⭐⭐⭐⭐ Отлично</option>
+              <option value="4">⭐⭐⭐⭐ Хорошо</option>
+              <option value="3">⭐⭐⭐ Нормально</option>
+              <option value="2">⭐⭐ Плохо</option>
+              <option value="1">⭐ Очень плохо</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="rExcursion">Экскурсия</label>
+          <select id="rExcursion" name="excursion"><option value="">— не выбрана —</option></select>
+        </div>
+        <div class="form-group">
+          <label for="rText">Ваш отзыв *</label>
+          <textarea id="rText" name="text" rows="4"
+                    placeholder="Расскажите о вашем впечатлении..."
+                    required aria-required="true"></textarea>
+        </div>
+        <button type="submit" class="submit-btn" id="reviewSubmitBtn">
+          <i class="fa fa-paper-plane" aria-hidden="true"></i>&nbsp; Отправить отзыв
+        </button>
+        <div class="form-msg" id="reviewMsg" role="alert" aria-live="assertive"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+let siteSettings = {};
+
+// ── SETTINGS ─────────────────────────────────────────────
+// Немедленно применяем закешированные настройки — нет мигания при обновлении
+(function() {
+  try {
+    var c = localStorage.getItem('siteSettings');
+    if (c) applySettings(JSON.parse(c));
+  } catch(e) {}
+})();
+
+async function loadSettings() {
+  try {
+    const res = await fetch('/settings.php');
+    siteSettings = await res.json();
+    applySettings(siteSettings);
+    try { localStorage.setItem('siteSettings', JSON.stringify(siteSettings)); } catch(e) {}
+  } catch(e) {}
+}
+
+function el(id) { return document.getElementById(id); }
+function setEl(id, prop, val) { var e = el(id); if (e) e[prop] = val; }
+
+function applySettings(s) {
+  // Логотип
+  if (s.logo_image && el('logoIcon')) el('logoIcon').innerHTML = '<img src="' + s.logo_image + '" alt="' + (s.logo_text || 'Логотип') + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+  setEl('logoName',   'textContent', s.logo_text || '');
+  setEl('logoSub',    'textContent', s.logo_sub  || '');
+  setEl('footerName', 'textContent', s.logo_text || '');
+
+  // Телефон
+  var phone   = s.phone || '';
+  var telHref = phone ? 'tel:' + phone.replace(/[\s\-]/g,'') : '#';
+  setEl('footerPhone',     'href',        telHref);
+  setEl('footerPhoneText', 'textContent', phone);
+
+  // WhatsApp
+  var wa     = s.whatsapp ? s.whatsapp.replace(/\D/g,'') : '';
+  var waHref = wa ? 'https://wa.me/' + wa : '#';
+  setEl('footerWa', 'href', waHref);
+
+  // Email
+  var email = s.email || '';
+  setEl('footerEmail',     'href',        email ? 'mailto:' + email : '#');
+  setEl('footerEmailText', 'textContent', email);
+
+  // Герой
+  if (s.hero_image && el('heroBlock'))
+    el('heroBlock').style.backgroundImage =
+      'linear-gradient(rgba(0,0,0,0.25),rgba(0,0,0,0.35)),url(' + JSON.stringify(s.hero_image) + ')';
+  if (s.hero_title && el('heroTitle')) {
+    var words = s.hero_title.split(' ');
+    var mid   = Math.ceil(words.length / 2);
+    el('heroTitle').innerHTML = words.slice(0,mid).join(' ') + ' <span>' + words.slice(mid).join(' ') + '</span>';
+  }
+  setEl('heroSubtitle', 'textContent', s.hero_subtitle || '');
+
+  // Соцсети + FAB
+  var socials = [
+    { key:'facebook',  icon:'fab fa-facebook-f',     cls:'fi-fb', label:'Facebook',  base:'https://facebook.com/' },
+    { key:'instagram', icon:'fab fa-instagram',      cls:'fi-ig', label:'Instagram', base:'https://instagram.com/' },
+    { key:'telegram',  icon:'fab fa-telegram-plane', cls:'fi-tg', label:'Telegram',  base:'https://t.me/' },
+    { key:'youtube',   icon:'fab fa-youtube',        cls:'fi-yt', label:'YouTube',   base:'https://youtube.com/' },
+    { key:'tiktok',    icon:'fab fa-tiktok',         cls:'fi-tt', label:'TikTok',    base:'https://tiktok.com/@' },
+  ];
+
+  var footerSocial = el('footerSocial');
+  if (footerSocial) footerSocial.innerHTML = '';
+
+  socials.forEach(function(soc) {
+    var val = s[soc.key];
+    if (!val) return;
+    var href = val.startsWith('http') ? val : soc.base + val;
+    if (footerSocial) footerSocial.innerHTML +=
+      '<a href="' + href + '" target="_blank" rel="noopener" title="' + soc.label + '"><i class="' + soc.icon + '"></i></a>';
+  });
+
+  // Передаём настройки в виджет (FAB-меню)
+  if (window._widgetBuildFab) window._widgetBuildFab(s);
+}
+
+
+// ── EXCURSIONS ───────────────────────────────────────────
+async function loadExcursions() {
+  try {
+    const res = await fetch('/api/excursions.php');
+    const excursions = await res.json();
+    const grid = document.getElementById('excGrid');
+    if (!excursions.length) { grid.innerHTML = '<p style="color:#aaa;grid-column:1/-1;text-align:center;padding:20px">Экскурсии скоро появятся</p>'; return; }
+    excursions.forEach(exc => {
+      const card = document.createElement('div');
+      card.className = 'exc-card';
+      const preview = exc.image
+        ? `<img class="exc-img" src="${exc.image}" alt="${exc.title}" onerror="this.style.display='none';this.nextSibling.style.display='flex'">
+           <div class="exc-img-placeholder" style="background:${exc.bg||'#f0f0f0'};display:none">${exc.icon||'🗺️'}</div>`
+        : `<div class="exc-img-placeholder" style="background:${exc.bg||'#f0f0f0'}">${exc.icon||'🗺️'}</div>`;
+      card.innerHTML = `${preview}
+        <div class="exc-body">
+          <span class="exc-tag">${exc.tag||''}</span>
+          <div class="exc-title">${exc.title}</div>
+          <div class="exc-desc">${exc.desc||''}</div>
+          <div class="exc-meta">
+            <span class="exc-info"><i class="fa fa-clock"></i> ${exc.duration||''}</span>
+            <a class="exc-btn" href="/excursion.php?id=${exc.id}">Подробнее →</a>
+          </div>
+        </div>`;
+      card.addEventListener('click', e => { if (!e.target.closest('.exc-btn')) window.location.href = '/excursion.php?id=' + exc.id; });
+      grid.appendChild(card);
+    });
+  } catch(err) {
+    document.getElementById('excGrid').innerHTML = '<p style="color:#e74c3c;grid-column:1/-1;text-align:center;padding:20px">Ошибка: ' + err.message + '</p>';
+  }
+}
+
+// ── REVIEWS ──────────────────────────────────────────────
+async function loadReviews() {
+  try {
+    const res = await fetch('/reviews.php');
+    const reviews = await res.json();
+    const grid = document.getElementById('reviewsGrid');
+    if (!reviews.length) {
+      grid.innerHTML = '<p style="color:#aaa;grid-column:1/-1;text-align:center;padding:20px">Отзывов пока нет. Будьте первым!</p>';
+      return;
+    }
+    grid.innerHTML = reviews.slice(0,6).map(r => `
+      <div class="review-card-pub">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+          <div class="review-name">${r.name}</div>
+          <div class="review-stars">${'⭐'.repeat(r.rating)}</div>
+        </div>
+        ${r.excursion ? `<div class="review-exc-label">${r.excursion}</div>` : ''}
+        <div class="review-body">${r.text}</div>
+        <div class="review-dt">${new Date(r.date).toLocaleDateString('ru-RU')}</div>
+      </div>`).join('');
+  } catch(e) {}
+}
+
+var _reviewOpener = null;
+function openReviewModal() {
+  _reviewOpener = document.activeElement;
+  document.getElementById('reviewForm').reset();
+  document.getElementById('reviewMsg').className = 'form-msg';
+  document.getElementById('reviewOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+  setTimeout(function() {
+    var first = document.getElementById('rName');
+    if (first) first.focus();
+  }, 50);
+  fetch('/api/excursions.php').then(r=>r.json()).then(list => {
+    const sel = document.getElementById('rExcursion');
+    sel.innerHTML = '<option value="">— не выбрана —</option>' + list.map(e=>`<option>${e.title}</option>`).join('');
+  }).catch(()=>{});
+}
+function closeReviewModal() {
+  document.getElementById('reviewOverlay').classList.remove('active');
+  document.body.style.overflow = '';
+  if (_reviewOpener) { _reviewOpener.focus(); _reviewOpener = null; }
+}
+document.getElementById('reviewOverlay').addEventListener('click', e => { if(e.target===document.getElementById('reviewOverlay')) closeReviewModal(); });
+
+document.getElementById('reviewForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const name = document.getElementById('rName').value.trim();
+  const text = document.getElementById('rText').value.trim();
+  const msg  = document.getElementById('reviewMsg');
+  const btn  = document.getElementById('reviewSubmitBtn');
+  if (!name || !text) { msg.textContent='Заполните имя и текст'; msg.className='form-msg error'; return; }
+  btn.disabled = true; btn.textContent = 'Отправляем...';
+  try {
+    const res = await fetch('/reviews.php', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ name, text, rating: document.getElementById('rRating').value, excursion: document.getElementById('rExcursion').value })
+    });
+    const data = await res.json();
+    if (data.success) {
+      msg.textContent = '✅ Спасибо! Ваш отзыв отправлен на модерацию и появится на сайте после проверки.';
+      msg.className = 'form-msg success';
+      document.getElementById('reviewForm').reset();
+    } else { msg.textContent = data.error||'Ошибка'; msg.className='form-msg error'; }
+  } catch { msg.textContent='Ошибка соединения'; msg.className='form-msg error'; }
+  btn.disabled=false; btn.innerHTML='<i class="fa fa-paper-plane"></i>&nbsp; Отправить отзыв';
+});
+
+// init
+loadSettings();
+loadExcursions();
+loadReviews();
+loadMarquee();
+
+async function loadMarquee() {
+  try {
+    const res = await fetch('/reviews.php');
+    const reviews = await res.json();
+    if (!reviews.length) return;
+    const wrap  = document.getElementById('marqueeWrap');
+    const track = document.getElementById('marqueeTrack');
+    // дублируем для бесконечной прокрутки
+    var items = reviews.concat(reviews);
+    track.innerHTML = items.map(function(r) {
+      var stars = '★'.repeat(r.rating) + '☆'.repeat(5 - r.rating);
+      var exc = r.excursion ? ' &bull; ' + r.excursion : '';
+      return '<div class="marquee-item">' +
+        '<span class="m-stars">' + stars + '</span>' +
+        '<span class="m-name">' + r.name + '</span>' +
+        '<span>' + r.text.substring(0, 60) + (r.text.length > 60 ? '…' : '') + '</span>' +
+        '<span class="m-sep">|</span>' +
+      '</div>';
+    }).join('');
+    wrap.style.display = 'block';
+  } catch(e) {}
+}
+</script>
+
+<script src="/widgets.js"></script>
+
+<!-- PWA: Баннер установки + Service Worker -->
+<div id="pwaBar" role="banner" aria-label="Установить приложение Kedem Tours"
+     style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:500;background:var(--dark);padding:12px 16px;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 -4px 20px rgba(0,0,0,.4)">
+  <div style="display:flex;align-items:center;gap:10px">
+    <img src="/icons/icon-72.png" alt="Kedem Tours" style="width:40px;height:40px;border-radius:10px">
+    <div>
+      <div style="color:#fff;font-family:'Montserrat',sans-serif;font-weight:700;font-size:.85rem">Kedem Tours</div>
+      <div style="color:rgba(255,255,255,.6);font-size:.75rem">Установить как приложение</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;flex-shrink:0">
+    <button onclick="document.getElementById('pwaBar').style.display='none'" aria-label="Установить позже" style="background:rgba(255,255,255,.15);color:#fff;border:none;padding:7px 12px;border-radius:8px;font-size:.8rem;cursor:pointer">Позже</button>
+    <button onclick="installPWA()" aria-label="Установить приложение" style="background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--dark);border:none;padding:7px 14px;border-radius:8px;font-family:'Montserrat',sans-serif;font-weight:700;font-size:.8rem;cursor:pointer">Установить</button>
+  </div>
+</div>
+
+<script>
+var _pwaPrompt = null;
+
+// Service Worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(function(){});
+}
+
+// Показываем баннер установки
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  _pwaPrompt = e;
+  setTimeout(function() {
+    var bar = document.getElementById('pwaBar');
+    if (bar) bar.style.display = 'flex';
+  }, 3000); // показываем через 3 сек
+});
+
+function installPWA() {
+  if (!_pwaPrompt) return;
+  _pwaPrompt.prompt();
+  _pwaPrompt.userChoice.then(function() {
+    _pwaPrompt = null;
+    document.getElementById('pwaBar').style.display = 'none';
+  });
+}
+
+window.addEventListener('appinstalled', function() {
+  var bar = document.getElementById('pwaBar');
+  if (bar) bar.style.display = 'none';
+  _pwaPrompt = null;
+});
+</script>
+</body>
+</html>

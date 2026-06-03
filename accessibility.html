@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Декларация доступности — Kedem Tours</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --gold: #c9a84c; --gold-light: #e8c96a;
+      --dark: #1a1a2e; --accent: #0f3460;
+      --text: #2d2d2d; --light-bg: #f8f5f0;
+      --white: #ffffff;
+    }
+    body { font-family: 'Open Sans', Arial, sans-serif; color: var(--text); background: var(--light-bg); line-height: 1.75; }
+
+    :focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; border-radius: 4px; }
+
+    /* HEADER */
+    header { background: linear-gradient(135deg, var(--dark) 0%, var(--accent) 100%); box-shadow: 0 2px 20px rgba(0,0,0,.3); position: sticky; top: 0; z-index: 100; }
+    .header-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 12px 24px; gap: 12px; }
+    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
+    .logo-icon { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-light)); display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--dark); overflow: hidden; flex-shrink: 0; }
+    .logo-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .logo-name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.3rem; color: var(--white); letter-spacing: 1px; }
+    .logo-sub { font-size: .65rem; color: var(--gold-light); letter-spacing: 2px; text-transform: uppercase; }
+    .back-link { color: rgba(255,255,255,.85); text-decoration: none; font-size: .9rem; display: flex; align-items: center; gap: 6px; transition: color .2s; white-space: nowrap; }
+    .back-link:hover { color: var(--gold-light); }
+    @media (max-width: 640px) {
+      .header-inner { padding: 10px 16px; }
+      .logo-icon { width: 36px; height: 36px; font-size: 16px; }
+      .logo-name { font-size: 1.1rem; }
+      .logo-sub { display: none; }
+    }
+
+    /* HERO-полоска */
+    .page-hero { background: linear-gradient(135deg, var(--accent), var(--dark)); padding: 36px 24px 32px; text-align: center; }
+    .page-hero h1 { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.9rem; color: var(--white); margin-bottom: 6px; }
+
+    /* MAIN */
+    main { max-width: 860px; margin: 0 auto; padding: 48px 24px 72px; }
+
+    /* Секции */
+    section { margin-bottom: 44px; }
+    h2 { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1.1rem; color: var(--accent); margin-bottom: 14px; padding-bottom: 8px; border-bottom: 2px solid var(--gold); display: flex; align-items: center; gap: 10px; }
+    h2 i { color: var(--gold); font-size: 1rem; }
+    p { margin-bottom: 12px; font-size: .95rem; }
+
+    /* Бейдж */
+    .badge { display: inline-flex; align-items: center; gap: 8px; background: #d4edda; color: #155724; padding: 6px 16px; border-radius: 30px; font-size: .83rem; font-weight: 700; margin-bottom: 16px; }
+
+    /* Списки */
+    ul { padding-left: 22px; margin-bottom: 12px; }
+    ul li { margin-bottom: 7px; font-size: .93rem; }
+    ul li::marker { color: var(--gold); font-size: 1.1em; }
+
+    /* Таблица клавиш */
+    .keys-table { width: 100%; border-collapse: collapse; font-size: .88rem; margin-top: 8px; }
+    .keys-table th { background: var(--accent); color: var(--white); padding: 9px 14px; text-align: right; font-weight: 600; }
+    .keys-table td { padding: 8px 14px; border-bottom: 1px solid #e8e8e8; background: var(--white); }
+    .keys-table tr:last-child td { border-bottom: none; }
+    .key { display: inline-block; background: #f0f0f0; border: 1px solid #ccc; border-radius: 5px; padding: 1px 7px; font-family: monospace; font-size: .85rem; }
+
+    /* Карточка контакта */
+    .contact-card { background: var(--white); border-radius: 14px; padding: 24px 28px; box-shadow: 0 4px 24px rgba(0,0,0,.1); border-left: 4px solid var(--gold); margin-top: 12px; }
+    .contact-card p { margin: 0 0 10px; font-size: .93rem; }
+    .contact-card p:last-child { margin: 0; }
+    .contact-card a { color: var(--accent); font-weight: 600; }
+    .contact-card strong { color: var(--dark); }
+
+    /* Примечание */
+    .note { background: #fff8e1; border-left: 4px solid var(--gold); border-radius: 0 8px 8px 0; padding: 12px 16px; font-size: .88rem; color: #595959; margin-top: 10px; }
+
+    /* Дата */
+    .update-date { font-size: .83rem; color: #767676; margin-top: 8px; }
+
+    footer { background: var(--dark); color: rgba(255,255,255,.65); text-align: center; padding: 28px 24px; font-size: .85rem; }
+    footer a { color: var(--gold-light); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 640px) {
+      .page-hero h1 { font-size: 1.4rem; }
+      main { padding: 32px 16px 56px; }
+      .contact-card { padding: 18px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<a href="#main-content"
+   style="position:absolute;top:-100%;left:0;background:var(--gold);color:var(--dark);padding:10px 16px;font-weight:700;z-index:9999;border-radius:0 0 8px 0;text-decoration:none"
+   onfocus="this.style.top='0'" onblur="this.style.top='-100%'">Перейти к содержимому</a>
+
+<header role="banner">
+  <div class="header-inner">
+    <a class="logo" href="/" id="logoLink">
+      <div class="logo-icon" id="logoIcon"><i class="fa fa-compass" aria-hidden="true"></i></div>
+      <div>
+        <div class="logo-name" id="logoName">KEDEM TOURS</div>
+        <div class="logo-sub" id="logoSub">Экскурсии по Израилю</div>
+      </div>
+    </a>
+    <a class="back-link" href="/"><i class="fa fa-arrow-left" aria-hidden="true"></i> На главную</a>
+  </div>
+</header>
+<script>
+(function(){
+  try {
+    var s=JSON.parse(localStorage.getItem('siteSettings')||'null');
+    if(!s) return;
+    var li=document.getElementById('logoIcon');
+    if(li&&s.logo_image) li.innerHTML='<img src="'+s.logo_image+'" alt="'+(s.logo_text||'Логотип')+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+    var ln=document.getElementById('logoName'); if(ln&&s.logo_text) ln.textContent=s.logo_text;
+    var ls=document.getElementById('logoSub');  if(ls&&s.logo_sub)  ls.textContent=s.logo_sub;
+  } catch(e){}
+})();
+</script>
+
+<div class="page-hero">
+  <h1>Декларация доступности</h1>
+</div>
+
+<main id="main-content" role="main">
+
+  <!-- 1. Общие положения -->
+  <section aria-labelledby="s1">
+    <h2 id="s1"><i class="fa fa-universal-access" aria-hidden="true"></i> Общие положения</h2>
+    <span class="badge"><i class="fa fa-check-circle" aria-hidden="true"></i> Соответствие стандарту ТИ 5568 (AA)</span>
+    <p>
+      Компания <strong>Kedem Tours</strong> придаёт большое значение равному доступу к своим услугам для всех пользователей, включая людей с ограниченными возможностями. Мы прилагаем значительные усилия, чтобы сделать сайт максимально удобным и доступным.
+    </p>
+    <p>
+      Сайт соответствует требованиям <strong>израильского стандарта № 5568</strong> («Руководство по обеспечению доступности контента в интернете») и международным рекомендациям <strong>WCAG 2.1 уровня AA</strong> (Web Content Accessibility Guidelines).
+    </p>
+    <p class="update-date">Декларация последний раз обновлена: <strong>июнь 2025 г.</strong></p>
+  </section>
+
+  <!-- 2. Что реализовано -->
+  <section aria-labelledby="s2">
+    <h2 id="s2"><i class="fa fa-list-check" aria-hidden="true"></i> Меры по обеспечению доступности</h2>
+    <p>На сайте реализованы следующие меры для обеспечения доступности:</p>
+    <ul>
+      <li>Контрастность цветов соответствует требованиям WCAG 2.1 AA (соотношение не менее 4,5:1 для обычного текста)</li>
+      <li>Все изображения снабжены альтернативным описанием (атрибут <code>alt</code>)</li>
+      <li>Полноценная навигация с клавиатуры — доступны все интерактивные элементы</li>
+      <li>Ссылка «Перейти к содержимому» в начале каждой страницы</li>
+      <li>Семантическая HTML-разметка с ARIA-ориентирами (banner, main, contentinfo)</li>
+      <li>Все поля форм связаны с метками (label), указаны обязательные поля</li>
+      <li>Кнопки и ссылки имеют понятные текстовые описания</li>
+      <li>Ошибки и подтверждения в формах объявляются программами чтения с экрана (aria-live)</li>
+      <li>Поддержка системной настройки «уменьшить движение» — анимации отключаются автоматически</li>
+      <li>Язык страницы задан в коде (атрибут <code>lang</code>)</li>
+      <li>Текст можно увеличить до 200% без потери контента и функциональности</li>
+      <li>Диалоговые окна управляются с клавиатуры, фокус возвращается после закрытия</li>
+    </ul>
+  </section>
+
+  <!-- 3. Виджет доступности -->
+  <section aria-labelledby="s3">
+    <h2 id="s3"><i class="fa fa-sliders" aria-hidden="true"></i> Виджет доступности</h2>
+    <p>
+      На каждой странице сайта в левом нижнем углу расположена кнопка <strong>♿</strong>.
+      Нажмите её, чтобы открыть меню настроек доступности:
+    </p>
+    <ul>
+      <li><strong>Размер текста</strong> — увеличение (A+) или уменьшение (A−) шрифта</li>
+      <li><strong>Высокий контраст</strong> — усиленный режим контрастности для слабовидящих</li>
+      <li><strong>Остановить анимацию</strong> — отключение всех движущихся элементов</li>
+      <li><strong>Выделить ссылки</strong> — подчёркивание и обводка всех ссылок на странице</li>
+    </ul>
+    <div class="note">
+      Настройки сохраняются в памяти браузера и применяются при каждом посещении сайта.
+    </div>
+  </section>
+
+  <!-- 4. Навигация с клавиатуры -->
+  <section aria-labelledby="s4">
+    <h2 id="s4"><i class="fa fa-keyboard" aria-hidden="true"></i> Навигация с клавиатуры</h2>
+    <p>Сайт полностью доступен без использования мыши:</p>
+    <table class="keys-table" aria-label="Горячие клавиши">
+      <thead>
+        <tr>
+          <th scope="col">Клавиша</th>
+          <th scope="col">Действие</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="key">Tab</span></td><td>Переход к следующему интерактивному элементу</td></tr>
+        <tr><td><span class="key">Shift</span> + <span class="key">Tab</span></td><td>Переход к предыдущему интерактивному элементу</td></tr>
+        <tr><td><span class="key">Enter</span> / <span class="key">Пробел</span></td><td>Активация кнопки или ссылки</td></tr>
+        <tr><td><span class="key">Esc</span></td><td>Закрытие диалогового окна или меню</td></tr>
+        <tr><td><span class="key">Ctrl</span> + <span class="key">+</span> / <span class="key">−</span></td><td>Увеличение / уменьшение масштаба страницы</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 5. Поддержка программ чтения с экрана -->
+  <section aria-labelledby="s5">
+    <h2 id="s5"><i class="fa fa-eye" aria-hidden="true"></i> Программы чтения с экрана</h2>
+    <p>Сайт проверен на совместимость со следующими программами чтения с экрана:</p>
+    <ul>
+      <li><strong>NVDA</strong> (Windows) — бесплатная, рекомендуется с браузером Firefox или Chrome</li>
+      <li><strong>JAWS</strong> (Windows) — профессиональная программа для незрячих пользователей</li>
+      <li><strong>VoiceOver</strong> (iOS / macOS) — встроенная в устройства Apple</li>
+      <li><strong>TalkBack</strong> (Android) — встроенная в устройства Android</li>
+    </ul>
+    <p>Рекомендуемые браузеры: <strong>Google Chrome</strong>, <strong>Mozilla Firefox</strong>, <strong>Microsoft Edge</strong>.</p>
+  </section>
+
+  <!-- 6. Известные ограничения -->
+  <section aria-labelledby="s6">
+    <h2 id="s6"><i class="fa fa-triangle-exclamation" aria-hidden="true"></i> Известные ограничения</h2>
+    <p>Несмотря на прилагаемые усилия, на сайте могут существовать следующие ограничения:</p>
+    <ul>
+      <li>Часть изображений, загружаемых динамически из внешних источников, может не иметь подробного альтернативного описания</li>
+      <li>Встроенные виджеты сторонних сервисов (отзывы Google, Facebook) находятся вне нашего контроля</li>
+      <li>Видеоматериалы в будущем будут снабжены субтитрами</li>
+    </ul>
+    <p>Мы работаем над устранением имеющихся ограничений и регулярно обновляем сайт.</p>
+  </section>
+
+  <!-- 7. Контакты координатора -->
+  <section aria-labelledby="s7">
+    <h2 id="s7"><i class="fa fa-envelope" aria-hidden="true"></i> Обратная связь по вопросам доступности</h2>
+    <p>
+      Если вы столкнулись с затруднениями при пользовании сайтом или хотите сообщить о проблеме доступности,
+      пожалуйста, свяжитесь с ответственным координатором. Мы постараемся ответить в течение <strong>5 рабочих дней</strong>.
+    </p>
+    <div class="contact-card">
+      <p><strong>Координатор по вопросам доступности:</strong> Kedem Tours</p>
+      <p><strong>Телефон:</strong> <a href="tel:+972500000000" id="acc-phone-link">+972-50-000-0000</a></p>
+      <p><strong>WhatsApp:</strong> <a href="https://wa.me/972500000000" id="acc-wa-link" target="_blank" rel="noopener">Написать в WhatsApp</a></p>
+      <p><strong>Электронная почта:</strong> <a href="mailto:amtguide@gmail.com" id="acc-email-link">amtguide@gmail.com</a></p>
+    </div>
+    <div class="note" style="margin-top:16px">
+      Вы также можете воспользоваться <strong>кнопкой «Свяжитесь с нами»</strong> на главной странице сайта.
+    </div>
+  </section>
+
+</main>
+
+<footer role="contentinfo">
+  <p>
+    &copy; 2025 <strong style="color:var(--gold)">Kedem Tours</strong>
+    &nbsp;|&nbsp;
+    <a href="/">Вернуться на главную страницу</a>
+  </p>
+</footer>
+
+<script>
+fetch('/settings.php').then(function(r) { return r.json(); }).then(function(s) {
+  if (s.phone) {
+    var clean = s.phone.replace(/[\s\-]/g, '');
+    document.getElementById('acc-phone-link').href = 'tel:' + clean;
+    document.getElementById('acc-phone-link').textContent = s.phone;
+  }
+  if (s.whatsapp) {
+    var wa = s.whatsapp.replace(/\D/g, '');
+    document.getElementById('acc-wa-link').href = 'https://wa.me/' + wa;
+  }
+  if (s.email) {
+    document.getElementById('acc-email-link').href = 'mailto:' + s.email;
+    document.getElementById('acc-email-link').textContent = s.email;
+  }
+}).catch(function() {});
+</script>
+<script src="/widgets.js"></script>
+</body>
+</html>

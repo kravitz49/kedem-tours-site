@@ -1,0 +1,4 @@
+.claude/
+Новая папка/
+*.log
+__pycache__/
