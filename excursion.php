@@ -110,28 +110,25 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
 
     /* FLOATING ORDER BUTTON */
     .order-fab {
-      position:fixed; bottom:24px; left:50%;
-      transform:translateX(-50%) translateY(20px);
+      position:fixed; bottom:16px; left:12px;
+      transform:translateY(20px);
       z-index:300;
       background:linear-gradient(135deg,var(--gold),var(--gold-light));
       color:var(--dark); border:none;
-      padding:14px 30px; border-radius:30px;
-      font-family:'Montserrat',sans-serif; font-weight:700; font-size:.95rem;
+      padding:0 18px; height:44px; border-radius:30px;
+      font-family:'Montserrat',sans-serif; font-weight:700; font-size:.88rem;
       cursor:pointer; white-space:nowrap;
-      display:flex; align-items:center; gap:9px;
+      display:flex; align-items:center; gap:8px;
       box-shadow:0 6px 24px rgba(201,168,76,.55);
       opacity:0; pointer-events:none;
       transition:opacity .3s, transform .3s, box-shadow .2s;
     }
     .order-fab.visible {
       opacity:1; pointer-events:auto;
-      transform:translateX(-50%) translateY(0);
+      transform:translateY(0);
     }
     .order-fab:hover { box-shadow:0 8px 32px rgba(201,168,76,.7); }
-    .order-fab:active { transform:translateX(-50%) scale(.95); }
-    @media (max-width:640px) {
-      .order-fab { bottom:80px; padding:12px 22px; font-size:.88rem; }
-    }
+    .order-fab:active { transform:scale(.95); }
 
     footer { background:var(--dark); color:rgba(255,255,255,.7); text-align:center; padding:24px; font-size:.85rem; margin-top:60px; }
     footer strong { color:var(--gold); }
