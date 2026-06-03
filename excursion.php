@@ -110,8 +110,8 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
 
     /* FLOATING ORDER BUTTON */
     .order-fab {
-      position:fixed; bottom:16px; left:12px;
-      transform:translateY(20px);
+      position:fixed; bottom:16px; left:50%;
+      transform:translateX(-50%) translateY(20px);
       z-index:300;
       background:linear-gradient(135deg,var(--gold),var(--gold-light));
       color:var(--dark); border:none;
@@ -125,10 +125,10 @@ $bg       = htmlspecialchars($exc['bg'] ?? '#e8f4f8');
     }
     .order-fab.visible {
       opacity:1; pointer-events:auto;
-      transform:translateY(0);
+      transform:translateX(-50%) translateY(0);
     }
     .order-fab:hover { box-shadow:0 8px 32px rgba(201,168,76,.7); }
-    .order-fab:active { transform:scale(.95); }
+    .order-fab:active { transform:translateX(-50%) scale(.95); }
 
     footer { background:var(--dark); color:rgba(255,255,255,.7); text-align:center; padding:24px; font-size:.85rem; margin-top:60px; }
     footer strong { color:var(--gold); }
