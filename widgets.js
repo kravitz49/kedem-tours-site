@@ -19,12 +19,16 @@
     pointer-events:none;
   }
   .fab-menu {
-    display:flex; flex-direction:column; align-items:flex-end; gap:8px;
-    transition:opacity .25s,transform .25s,visibility .25s;
-    opacity:0; transform:translateY(-10px) scale(.95);
-    pointer-events:none; visibility:hidden; order:2;
+    display:none; flex-direction:column; align-items:flex-end; gap:8px; order:2;
   }
-  .fab-menu.open { opacity:1; transform:none; pointer-events:all; visibility:visible; }
+  .fab-menu.open {
+    display:flex; pointer-events:all;
+    animation:fabMenuIn .22s ease both;
+  }
+  @keyframes fabMenuIn {
+    from { opacity:0; transform:translateY(-10px) scale(.95); }
+    to   { opacity:1; transform:none; }
+  }
   .fab-item {
     display:flex; align-items:center; gap:10px;
     text-decoration:none; background:#fff;
