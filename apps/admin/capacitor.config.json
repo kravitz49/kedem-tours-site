@@ -1,0 +1,15 @@
+{
+  "appId": "com.kedemtours.admin",
+  "appName": "Kedem Кабинет",
+  "webDir": "www",
+  "server": {
+    "url": "https://kedem-tours.com/kabinet.html",
+    "cleartext": false,
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  }
+}

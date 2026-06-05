@@ -1,0 +1,15 @@
+{
+  "appId": "com.kedemtours.client",
+  "appName": "Kedem Tours",
+  "webDir": "www",
+  "server": {
+    "url": "https://kedem-tours.com",
+    "cleartext": false,
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  }
+}
