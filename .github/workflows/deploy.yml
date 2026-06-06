@@ -21,9 +21,8 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          # Каталог на сервере, куда заливать. Часто это "public_html/" или "/".
-          # При необходимости поменяйте под структуру хостинга.
-          server-dir: ./
+          # Каталог на сервере, куда заливать сайт.
+          server-dir: domains/kedem-tours.com/public_html/
           # Что НЕ заливать на хостинг (служебные файлы и dev-инструменты):
           exclude: |
             **/.git*
